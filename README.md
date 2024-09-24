@@ -1,5 +1,9 @@
-# My First Site
+# Project JumpStart
 
-This is the most barebones of a website I have at the moment. It's made specifically to practice interfacing with Vercel.
+Project JumpStart is a website to assist current and incoming UNO students
+connect with other current and former UNO students to share resources and advice
+that can help newer students navigate their college experience.
 
-pls don't judge
+<!-- The contents at the time of this commit currently only exist because I'm still -->
+<!-- learning React. Feel free to remove/change them as needed. - Seth J. -->
+
