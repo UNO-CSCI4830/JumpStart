@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html lang="us">
+    <head>
+        <title>Project: JumpStart</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset = "utf-8">
+        
+        <link rel="icon" type="image/x-icon" src="uno_O.jpg">
+
+        <style>
+            * {
+                box-sizing: border-box;
+                font-family: Arial;
+               /* border: 2px solid black; /* just in case you need to identify element boundaries */ */
+            }
+
+            body {
+                background-image: url('images/GreenLandscape.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed;
+                color: black;
+            }
+
+            h1, h2 {
+                text-align: center;
+            }
+
+            @media only screen and (max-width: 620px) {
+                /* For mobile phones: */
+                .bits {
+                    width: 100%;
+                }
+            }
+
+            .bits {
+                display: inline-block;
+                text-align: center;
+                overflow: auto;
+                width: 30%;
+                padding: 8px;
+            }
+            .announce {
+                color: black;
+                font-size: 20px;
+                overflow: auto;
+                padding: 10px;
+                border: 5px solid red;
+                background-color: CadetBlue;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1 style="font-size:10vw;">Project: JumpStart</h1>
+
+        <!-- Menu for links
+        This was supposed to be me flexing how I can dynamically re-orient this
+        for mobile and desktop screens.... 
+        -->
+        <nav>
+            <h2>Navigation</h2>
+            <div class="bits">
+                <a href="#">links to UNO proper</a> 
+            </div>
+
+            <div class="bits">
+                <a href="#">Search</a> 
+            </div>
+
+            <div class="bits">
+                <a href="#">Submitted resources</a>
+            </div>
+        </nav>
+
+        <br>
+
+        <div class="announce">
+            This website is just me playing around with the user-entry
+            mechanics (and trying to work on some HTML/CSS styling too). It
+            consists of two submit forms that are <em>supposed to</em> interact
+            with a server.
+            <br>
+            <br>
+            Right now, I'm just trying to get them to update an element with
+            their contents so I know how these requests work.
+        </div>
+
+         <!-- TODO: PLEASE SEE TODO.txt
+         - The following query/response exchange doesn't work!
+         - That's because I'm an amatuer! And I'm not even close to
+           understanding Node.js yet!
+         --> 
+        <!-- This for the search box and button to instigate a search -->
+        <div id="query"> <!-- method="Post" -->
+            <form id="queryForm" style="text-align: center;" formtarget="response"> 
+                <fieldset>
+                    <legend>Query</legend>
+                    <label name="queryLabel">Search me!</label> <br>
+                    <input type="text" id="entry" value="">
+                    <input type="submit" id="queryButton" value="Search">
+                    <!-- Submissions SHOW UP IN URL!!
+                        - Plan on using a submit form since we will need to
+                        interact with a database in some way!
+                    -->
+                    <input type="reset" name="clearButton" value="Clear">
+                </fieldset>
+            </form>
+        </div>
+
+        <!-- This is for the responses. 
+            - I'm guessing we'd want them to be interactable with links and via
+              the feedback mechanic
+        -->
+        <div>
+            <h2>Responses</h2>
+            <p id="response">This element <em>should</em> to be replaced with
+                the contents in the "search" text input element</p>
+        </div>
+
+        <!-- Some trash JS to make sure the query and response elements
+            interact properly -->
+        <script type="text/javascript">
+        function boogaboo() {
+            var query = document.getElementByID("#queryForm"); // assigns the element id="query" to var query
+            query.addEventListener("submit", (e)) => { // listens for a submit event
+                // Assuming this prevents default action upon a submit event.
+                // Not sure what, exactly, it's preventing. My guess is the
+                // "action" event that can defined inline for the form element,
+                // though since that's not defined, I'm no longer sure
+                e.preventDefault();
+
+                // handle submit
+                var content = document.getElementByID("queryEntry");
+                if (content == "") { // THIS IS NOT SANITIZATION !!!
+                    alert("Query entry was null!");
+                } else {
+                    document.getElementByID("response").innerHTML = content;
+                }
+            };
+            return true;
+        }
+        </script>
+
+        <br>
+
+        <!-- very rudementary element for user-entry for the email
+             authentication, posting and clearing buttons, etc. -->
+        <div id="uEntry">
+            <form id="entryForm" style="text-align: center;">
+                <fieldset>
+                    <legend>User Entry</legend>
+                    <input type="text" name="postEmail" value="Enter Email here." style="text-align: center;">
+                    <br>
+                    <textarea name="postContents" rows="5" cols="30">
+                    Write your post here!
+                    </textarea>
+                    <br>
+                    <input type="date" name="postDate" value="Enter post date here.">
+                    <br>
+                    <input type="submit" value="Post">
+                    <!-- Submissions STILL SHOW UP IN URL!! this is for a test-->
+                    <input type="reset" name="clear" value="Clear">
+                </fieldset>
+            </form>
+        </div>
+
+        <footer>
+            <nav style="text-align: center;">
+                <a href="#c99">Jump to top</a>
+            </nav>
+            <address style="text-align: center;">
+                Written by John Doe.<br>
+                Visit us at:<br>
+                University of Nebraska at Omaha<br>
+                USA <br>
+                <a href="mailto:joemama@urmoms.place">Email me!</a>
+            </address>
+        </footer>
+    </body>
+
+</html>
