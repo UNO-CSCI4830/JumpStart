@@ -16,53 +16,53 @@ You may also see any lint errors in the console.
 
 ### A brief overview of `./src` elements
 
-# robots.txt
+### robots.txt
 - Exculdes all robots
 
-# App.js 
+### App.js 
 - came with the npm package
 - Loads the interactable features of the webapp
 
-# App.css
+### App.css
 - came with the npm package
 - CSS elements for App.js
 
-# Footer.js
+### Footer.js
 - footer information such as contact information, about page, etc
 
-# Header.js
+### Header.js
 - Consists of NavBar element for navigation buttons
 
-# index.js
+### index.js
 - came with the npm package
 - Loads React Elements in the root node
 
-# index.css
+### index.css
 - came with the npm package
 - CSS elements for index.js
 
-# MyCustom.css
+### MyCustom.css
 - where I'm putting all of my custom CSS elements
 
-# Post.js
+### Post.js
 - Handles displaying data representing resources and community posts
 
-# reportWebVitals.js
+### reportWebVitals.js
 - came with the npm package
 
-# Search.js
+### Search.js
 - Handles search entries provided by user
 
-# setupTests.js
+### setupTests.js
 - came with the npm package
 
-# tasks.js
+### tasks.js
 - Tasks list details that is listed in Todo element
 
-# TODO.js
+### TODO.js
 - Todo announcement element
 
-# utils.js
+### utils.js
 - Universal Components
 
 ### `npm test`
