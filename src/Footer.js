@@ -11,8 +11,6 @@ function AboutPage() {
                     My name is Seth and I have no React experience lol<br/>
                     Let me insert this custom React element here to play around
                     with React stuff.<br/>
-                    I'm declared in <code>src/App.js</code> and called as an 
-                    element in <code>App()</code>
                 </p>
             </div>
         </>

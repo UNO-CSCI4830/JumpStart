@@ -1,6 +1,10 @@
 import './App.css';
 import './MyCustom.css';
 
+/* TODO:
+ * - Format Compoment to take details and display them to the webpage!
+ */
+
 function Post() {
     return (
         <>

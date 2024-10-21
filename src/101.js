@@ -2,7 +2,7 @@
 
 /* Class component can be used to create custom React elements that inheriet 
  * the React Component interface and respective functions
- * Much more complex, but I think it'S worth exploring. TODO?
+ * Much more complex, but I think it's worth exploring. TODO?
  *
  * Could be how we manage posts appearing for searches, with individual posts
  * their own class component
