@@ -1,50 +1,23 @@
-import './MyCustom.css';
-import './App.css';
-import {Button} from './utils.js';
+// import "./MyCustom.css";
+import "../styles/Content.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import logoImage from "../images/uno_O.png";
 
-/*
- * TODO:
- * - Button function!
- *   - That button should change what Components are displayed in App!
- *
- * NOTE:
- * - How about the title option?
- * - Button layout is NOT ideal
- */
-
-export default function NavBar() {
-    /* Utilizes arrow function to demo button event handling. Wanna update it to
-    update other Components... */
-    const toggle = (a) => {
-        alert(a);
-    }
-
-    // Displays a navbar for the webapp
-    return (
-        <>
-            <div>
-                <nav className="AppNav">
-                    <div className="NavLink">
-                        <a 
-                            href="https://reactjs.org"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <button>Learn React</button> 
-                        </a>
-                        <a
-                            href="https://www.w3schools.com/REACT/react_getstarted.asp"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <button>W3 schools</button> 
-                        </a>
-
-                        <button onClick={(event) => toggle("You clicked me!")}>Click me!</button>
-                        <Button prompt="I'm a button :)" />
-                    </div>
-                </nav>
-            </div>
-        </>
-    )
+export default function Header() {
+  return (
+    <header>
+      <nav>
+        <div className="nav-left">
+          <img src={logoImage} alt="Logo" className="logo" />
+          <Link to="/">Home</Link>
+          <Link to="/resources">Resources</Link>
+        </div>
+        <div className="nav-right">
+          <button className="btn btn-primary">Login</button>
+          <button className="btn btn-outline">Sign Up</button>
+        </div>
+      </nav>
+    </header>
+  );
 }
