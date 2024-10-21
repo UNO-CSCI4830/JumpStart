@@ -1,0 +1,26 @@
+// import "./MyCustom.css";
+import "../styles/Content.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import logoImage from "../images/uno_O.png";
+
+export default function Header() {
+  return (
+    <header>
+      <nav>
+        <div className="nav-left">
+          <img src={logoImage} alt="Logo" className="logo" />
+          <Link to="/resources">Resources</Link>
+          <Link to="/advice">Advice</Link>
+          <Link to="/donate">Donate</Link>
+          <Link to="/discord">Discord</Link>
+          <Link to="/about">About</Link>
+        </div>
+        <div className="nav-right">
+          <button className="btn btn-outline">Sign in</button>
+          <button className="btn btn-primary">Register</button>
+        </div>
+      </nav>
+    </header>
+  );
+}
