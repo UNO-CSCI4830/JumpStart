@@ -65,9 +65,7 @@ root.render(
 
 // ### TODO
 // - Figure out how to include the JumpStart html
-//   - Either port the HTML over to a React app, use react app and integrate it
-//     into HTML, or what, just DO IT
-// 
+//   - Translate jumpstart1.html submission/search features into React components!
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

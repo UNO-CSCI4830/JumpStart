@@ -32,7 +32,7 @@ function App() {
     /* Cannot define components inside other components */
     let content;
 
-   // Using an arrow function to handle a React event that is clicking a button
+    // Using an arrow function to handle a React event that is clicking a button
     const toggle = (a) => {
         alert(a);
         if (isClicked) {
@@ -98,7 +98,6 @@ function App() {
     );
 }
 
-// I can only call functions declared here IN here. If I try importing any outside the one function designated to be exported, it treats that as if I just call the exported function again.
 export default App; /* Only ONE can be exported as DEFAULT. I can export MULTIPLE (see utils.js)*/
 
 

@@ -2,30 +2,12 @@ import './MyCustom.css';
 import {tasks} from './tasks.js'
 /*
  * TODO:
- * - Build TODO Component
- * - Re-fromat what I have Into the following structure:
- *
- *     <Navigation /> 
- *     <TODO />
- *
- *     <App />
- *       <Intro /> 
- *       <Search />
- *       <Post />
- *       <Results />
- *
- *     <Footer />
- *       <AboutUs />
- *       <ContactUs />
- *
  * - Build Search and Post demo
  *   - Basically, whatever's entered gets re-printed to screen in Results component
+ *
  * - Figure out how to structure data that will be searched, related, and stored
  *   - SQL???
  *   - data.js??
- *
- * - What about a utils.js?
- *   - Guessing this is where I put my custom functions that are wholly Universal
  *
  */
 
@@ -41,14 +23,13 @@ function ItemList({things, emptyHeading}) {
     * Otherwise, one line is implicit and does not NEED a return
     *
     * how I can filter complex lists:
-    *  list.filter(item => item.subItem == "match")
+    *  list.filter(item => item.subItem == "match")
     *
     * - Must specify a unique key if I want to refer to elements
     *   - This benefits because orders of list, items to be listed, etc. is assumed random
     *   - keys must be unique, non-changing
     *   - key items aren't typically props. Must be passed as a seperate prop:
     *     <Profile key={id} userID={id} />
-    *
     */
     return (
         <div>

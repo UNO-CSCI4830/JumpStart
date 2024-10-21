@@ -1,3 +1,8 @@
+/* ### NOTE:
+ * - Edit me to update TODO list!
+ * - I'm not comprehensive, just stuff thought on a whim
+ *
+ */
 export  const tasks = [{
         id: 1,
         name: "Build Search Demo",
@@ -26,5 +31,13 @@ export  const tasks = [{
         id: 7,
         name: "Feedback feature",
         desc: "Implement interactable button that incraments/decraments a feedback score for posts on our site."
+    }, {
+        id: 8,
+        name: "Email confirmation",
+        desc: "Implement feature where user can enter an email, and they will receive an automated email from our service."
+    }, {
+        id: 9,
+        name: "Authenticate emails",
+        desc: "Automated emails sent to provided email addresses will provide a randomly generates string that will be compared to user input, and upon match, verifies emails.
     }
 ];
