@@ -1,0 +1,36 @@
+# App.js 
+- came with the npm package
+- Loads the interactable features of the webapp
+
+# App.css
+- came with the npm package
+- CSS elements for App.js
+
+# index.js
+- came with the npm package
+- Loads React Elements in the root node
+
+# index.css
+- came with the npm package
+- CSS elements for index.js
+
+# Header.js
+- Consists of Navbar element for navigation buttons
+
+# Footer.js
+- footer information such as contact information, about page, etc
+
+# MyCustom.css
+- where I'm putting all of my custom CSS elements
+
+# reportWebVitals.js
+- came with the npm package
+
+# setupTests.js
+- came with the npm package
+
+# tasks.js
+- Tasks list details that is listed in Todo element
+
+# TODO.js
+- Todo announcement element
