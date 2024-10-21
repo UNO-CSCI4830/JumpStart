@@ -1,5 +1,7 @@
 # Project JumpStart
 
+Project JumpStart is a website to assist current and incoming UNO students connect with other current and former UNO students to share resources and advice that can help newer students navigate their college experience.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
