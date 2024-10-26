@@ -6,7 +6,6 @@ import Advice from "./components/AdvicePage";
 import Donate from "./components/Donate";
 import Discord from "./components/Discord";
 import ResourcePage from "./components/ResourcePage";
-import ShareAdviceModal from "./components/AdviceShareModal";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
             <Route path="/discord" element={<Discord />} />
           </Routes>
         </main>
-        <ShareAdviceModal />
       </div>
     </Router>
   );

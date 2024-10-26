@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function AdviceSidebar() {
+export default function AdviceSidebar({ onShareClick }) {
   return (
     <aside>
       <h2>Filter</h2>
@@ -61,7 +61,9 @@ export default function AdviceSidebar() {
           <Link to="/advice?tag=Networking">Networking</Link>
         </li>
       </ul>
-      <button className="btn btn-primary btn-block">Share Advice</button>
+      <button className="btn btn-primary btn-block" onClick={onShareClick}>
+        Share Advice
+      </button>
     </aside>
   );
 }
