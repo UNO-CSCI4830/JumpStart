@@ -1,4 +1,4 @@
-import "../styles/Content.css";
+import "../styles/Layout.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../images/uno_O.png";
