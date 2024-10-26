@@ -2,12 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import Advice from "./components/Advice";
+import Advice from "./components/AdvicePage";
 import Donate from "./components/Donate";
 import Discord from "./components/Discord";
-import Resources from "./components/Resources";
-import ShareAdviceModal from "./components/ShareAdviceModal";
-import "./styles/App.css";
+import ResourcePage from "./components/ResourcePage";
+import ShareAdviceModal from "./components/AdviceShareModal";
 
 function App() {
   return (
@@ -18,7 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Home" element={<Home />} />
-            <Route path="/resources" element={<Resources />} />
+            <Route path="/resources" element={<ResourcePage />} />
             <Route path="/advice" element={<Advice />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/discord" element={<Discord />} />
