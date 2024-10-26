@@ -15,7 +15,7 @@ Project JumpStart is a website to assist current and incoming UNO students conne
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/main/jumpstart.git
+   git clone https://github.com/UNO-CSCI4830/JumpStart.git
    cd jumpstart
    ```
 
