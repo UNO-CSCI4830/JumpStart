@@ -1,9 +1,20 @@
 import "../styles/Layout.css";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../images/uno_O.png";
+import AuthenticationModal from "./AuthenticationModal";
 
 export default function Header() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <header>
       <nav>
@@ -19,10 +30,12 @@ export default function Header() {
           <Link to="/admin"></Link>
         </div>
         <div className="nav-right">
-          <button className="btn btn-outline">Sign in</button>
-          <button className="btn btn-primary">Register</button>
+          <button className="btn btn-primary" onClick={handleOpenModal}>
+            Sign in
+          </button>
         </div>
       </nav>
+      {isModalOpen && <AuthenticationModal onClose={handleCloseModal} />}
     </header>
   );
 }

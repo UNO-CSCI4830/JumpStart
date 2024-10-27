@@ -6,7 +6,7 @@ export default function ResourceSubmitModal({ onClose }) {
     title: "",
     description: "",
     category: "",
-    link: "", // Changed from items to link
+    link: "",
   });
 
   const handleChange = (e) => {

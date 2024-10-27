@@ -6,7 +6,7 @@ const categories = [
   "Career",
   "Health",
   "Social",
-  "Student Submitted",
+  "Student Submission",
 ];
 
 export default function ResourceCategories({
