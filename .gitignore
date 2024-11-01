@@ -2,3 +2,4 @@ TODO.txt
 *.docx
 node_modules/
 package*.json
+WorkNotes*.txt
