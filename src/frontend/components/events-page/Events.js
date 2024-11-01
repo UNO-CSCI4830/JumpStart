@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import "../../styles/EventsList.css";
 
@@ -13,3 +14,6 @@ const EventsHeader = () => {
 };
 
 export default EventsHeader;
+=======
+// So empty
+>>>>>>> e69af340451c6e97daef36bbaaca9c43e9cafce1
