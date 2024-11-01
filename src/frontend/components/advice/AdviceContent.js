@@ -1,6 +1,6 @@
 import React from "react";
 import AdviceCard from "./AdviceCard";
-import "../styles/Content.css";
+import "../../styles/Content.css";
 
 export default function Content({ posts, onSortChange }) {
   return (

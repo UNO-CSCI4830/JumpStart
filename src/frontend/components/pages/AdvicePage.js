@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "./AdviceSidebar";
-import Content from "./AdviceContent";
-import AdviceShareModal from "./AdviceShareModal";
-import { advicePosts } from "../utils/advicePosts";
-import "../styles/Content.css";
+import Sidebar from "../../components/advice/AdviceSidebar";
+import Content from "../advice/AdviceContent";
+import AdviceShareModal from "../advice/AdviceShareModal";
+import { advicePosts } from "../../utils/advicePosts";
+import "../../styles/Content.css";
 
 export default function Advice() {
   const [isModalOpen, setIsModalOpen] = useState(false);
