@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import "../../styles/Connect.css";
 
@@ -78,6 +77,3 @@ const Connect = () => {
 };
 
 export default Connect;
-=======
-// So empty
->>>>>>> e69af340451c6e97daef36bbaaca9c43e9cafce1
