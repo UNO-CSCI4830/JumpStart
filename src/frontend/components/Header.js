@@ -23,8 +23,8 @@ export default function Header() {
           <Link to="/home">Home</Link>
           <Link to="/resources">Resources</Link>
           <Link to="/advice">Advice</Link>
-          <Link to="/donate">Donate</Link>
-          <Link to="/discord">Discord</Link>
+          <Link to="/events">Events</Link>
+          <Link to="/connect">Connect</Link>
 
           {/* admin dashboard coming soon :) */}
           <Link to="/admin"></Link>

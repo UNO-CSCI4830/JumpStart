@@ -1,0 +1,117 @@
+.h1-Community {
+  font-size: large;
+}
+
+.p-Community {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #4a5568;
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+.community-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.community-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.community-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.community-header p {
+  color: #666;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.feature-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1 1 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-content i {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
+.badges {
+  margin-top: 10px;
+}
+
+.badge {
+  background: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.join-button {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.join-button i {
+  margin-right: 5px;
+}
+
+.guidelines-section {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.guidelines-grid {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.guideline {
+  flex: 1;
+  margin: 0 10px;
+}
+
+.guideline h3 {
+  font-weight: bold;
+}
+
+.guideline p {
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .guidelines-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
