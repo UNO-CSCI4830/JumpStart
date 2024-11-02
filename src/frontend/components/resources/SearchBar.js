@@ -1,14 +1,16 @@
 import React from "react";
 
-export default function ResourceSearch({ searchTerm, setSearchTerm }) {
+const SearchBar = ({ searchTerm, onSearchChange }) => {
   return (
     <div className="search-container">
       <input
         type="text"
         placeholder="Search resources..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={onSearchChange}
       />
     </div>
   );
-}
+};
+
+export default SearchBar;

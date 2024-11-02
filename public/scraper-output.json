@@ -1,130 +1,166 @@
 {
-  "event_count": 21,
-  "events": [
-    {
-      "title": "Spring 2025 Early Enrollment for Currently Enrolled Freshmen Students",
-      "url": "https://events.unomaha.edu/event/copy-of-academic-calendar-spring-2025-early-enrollment-for-currently-enrolled-sophomore-students",
-      "datetime": "Fri, Nov 1, 2024",
-      "tags": ["Academic Calendar"]
-    },
-    {
-      "title": "Take Your Time Exhibit",
-      "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
-      "datetime": "Fri, Nov 1, 2024",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Transits Exhibition",
-      "url": "https://events.unomaha.edu/event/transits-exhibition",
-      "datetime": "Fri, Nov 1, 2024 10am to 4pm",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Golden Circle Lunch Bunch: Julie Masters, Ph.D.",
-      "url": "https://events.unomaha.edu/event/golden-circle-lunch-bunch-4175",
-      "datetime": "Fri, Nov 1, 2024 11:30am to 1pm",
-      "tags": ["Lecture/Conference"]
-    },
-    {
-      "title": "The DEAI Symposium Series",
-      "url": "https://events.unomaha.edu/event/deai-symposium",
-      "datetime": "Fri, Nov 1, 2024 12pm to 1pm",
-      "tags": ["Lecture/Conference"]
-    },
-    {
-      "title": "Graduate Student Campus Tour",
-      "url": "https://events.unomaha.edu/event/graduate_student_campus_tours",
-      "datetime": "Fri, Nov 1, 2024 3pm to 5pm",
-      "tags": ["Maverick Life"]
-    },
-    {
-      "title": "Take Your Time Exhibit",
-      "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
-      "datetime": "Sat, Nov 2, 2024",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Native American Heritage Month: NUIHC Hoops 4 Life Basketball Tournament",
-      "url": "https://events.unomaha.edu/event/native-american-heritage-month-hoops-4-life-basketball-2024",
-      "datetime": "Sat, Nov 2, 2024 9am to 5pm",
-      "tags": []
-    },
-    {
-      "title": "OPS All-City Middle School Jazz Band Concert",
-      "url": "https://events.unomaha.edu/event/ops-all-city-middle-school-jazz-band-concert",
-      "datetime": "Sat, Nov 2, 2024 4:30pm to 6pm",
-      "tags": ["Concert/Performance"]
-    },
-    {
-      "title": "Take Your Time Exhibit",
-      "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
-      "datetime": "Sun, Nov 3, 2024",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Gallery 1516 Student Recital - Percussion",
-      "url": "https://events.unomaha.edu/event/gallery-1516-student-recital-2",
-      "datetime": "Sun, Nov 3, 2024 11:30am to 12:30pm",
-      "tags": ["Concert/Performance"]
-    },
-    {
-      "title": "Take Your Time Exhibit",
-      "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
-      "datetime": "Mon, Nov 4, 2024",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Transits Exhibition",
-      "url": "https://events.unomaha.edu/event/transits-exhibition",
-      "datetime": "Mon, Nov 4, 2024 10am to 4pm",
-      "tags": ["Exhibit"]
-    },
-    {
-      "title": "Homecoming: Banner Voting",
-      "url": "https://events.unomaha.edu/event/homecoming-banner-voting",
-      "datetime": "Mon, Nov 4, 2024 10:30am to 1:30pm",
-      "tags": ["Maverick Life"]
-    },
-    {
-      "title": "Melanated Queerations",
-      "url": "https://events.unomaha.edu/event/melanated-queerations-5538",
-      "datetime": "Mon, Nov 4, 2024 12pm to 1pm"
-    },
-    {
-      "title": "Native American Heritage Month: Kick-Off Event",
-      "url": "https://events.unomaha.edu/event/native-american-heritage-month-kick-off-event-2024",
-      "datetime": "Mon, Nov 4, 2024 12pm to 1pm",
-      "tags": []
-    },
-    {
-      "title": "Office of Engagement Open House",
-      "url": "https://events.unomaha.edu/event/cec-open-house",
-      "datetime": "Mon, Nov 4, 2024 2pm to 4pm",
-      "tags": ["Ceremony/Reception"]
-    },
-    {
-      "title": "Homecoming: Drag Show",
-      "url": "https://events.unomaha.edu/event/homecoming-drag-show",
-      "datetime": "Mon, Nov 4, 2024 6pm to 8pm",
-      "tags": ["Maverick Life"]
-    },
-    {
-      "title": "Open Enrollment for Spring 2025 Begins",
-      "url": "https://events.unomaha.edu/event/open-enrollment-for-spring-2025-begins",
-      "datetime": "Mon, Nov 4, 2024 6pm to 6pm",
-      "tags": ["Academic Calendar"]
-    },
-    {
-      "title": "Homecoming: UNO Men\u2019s Basketball vs Mid-America Christian",
-      "url": "https://events.unomaha.edu/event/homecoming-uno-mens-basketball-vs-mid-america-christian",
-      "datetime": "Mon, Nov 4, 2024 7:05pm",
-      "tags": ["Maverick Life"]
-    },
-    {
-      "title": "Homecoming: Late Night at PepperJax Grill",
-      "url": "https://events.unomaha.edu/event/homecoming-late-night-at-pepperjax-grill",
-      "datetime": "Mon, Nov 4, 2024 9pm to 10:30pm",
-      "tags": ["Maverick Life"]
-    }
-  ]
+    "event_count": 21,
+    "events": [
+        {
+            "title": "Spring 2025 Early Enrollment for Currently Enrolled Freshmen Students",
+            "url": "https://events.unomaha.edu/event/copy-of-academic-calendar-spring-2025-early-enrollment-for-currently-enrolled-sophomore-students",
+            "datetime": "Fri, Nov 1, 2024",
+            "tags": [
+                "Academic Calendar"
+            ]
+        },
+        {
+            "title": "Take Your Time Exhibit",
+            "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
+            "datetime": "Fri, Nov 1, 2024",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Transits Exhibition",
+            "url": "https://events.unomaha.edu/event/transits-exhibition",
+            "datetime": "Fri, Nov 1, 2024 10am to 4pm",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Golden Circle Lunch Bunch: Julie Masters, Ph.D.",
+            "url": "https://events.unomaha.edu/event/golden-circle-lunch-bunch-4175",
+            "datetime": "Fri, Nov 1, 2024 11:30am to 1pm",
+            "tags": [
+                "Lecture/Conference"
+            ]
+        },
+        {
+            "title": "The DEAI Symposium Series",
+            "url": "https://events.unomaha.edu/event/deai-symposium",
+            "datetime": "Fri, Nov 1, 2024 12pm to 1pm",
+            "tags": [
+                "Lecture/Conference"
+            ]
+        },
+        {
+            "title": "Graduate Student Campus Tour",
+            "url": "https://events.unomaha.edu/event/graduate_student_campus_tours",
+            "datetime": "Fri, Nov 1, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "Take Your Time Exhibit",
+            "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
+            "datetime": "Sat, Nov 2, 2024",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Native American Heritage Month: NUIHC Hoops 4 Life Basketball Tournament",
+            "url": "https://events.unomaha.edu/event/native-american-heritage-month-hoops-4-life-basketball-2024",
+            "datetime": "Sat, Nov 2, 2024 9am to 5pm",
+            "tags": []
+        },
+        {
+            "title": "OPS All-City Middle School Jazz Band Concert",
+            "url": "https://events.unomaha.edu/event/ops-all-city-middle-school-jazz-band-concert",
+            "datetime": "Sat, Nov 2, 2024 4:30pm to 6pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "Take Your Time Exhibit",
+            "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
+            "datetime": "Sun, Nov 3, 2024",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Gallery 1516 Student Recital - Percussion",
+            "url": "https://events.unomaha.edu/event/gallery-1516-student-recital-2",
+            "datetime": "Sun, Nov 3, 2024 11:30am to 12:30pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "Take Your Time Exhibit",
+            "url": "https://events.unomaha.edu/event/take-your-time-exhibit",
+            "datetime": "Mon, Nov 4, 2024",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Transits Exhibition",
+            "url": "https://events.unomaha.edu/event/transits-exhibition",
+            "datetime": "Mon, Nov 4, 2024 10am to 4pm",
+            "tags": [
+                "Exhibit"
+            ]
+        },
+        {
+            "title": "Homecoming: Banner Voting",
+            "url": "https://events.unomaha.edu/event/homecoming-banner-voting",
+            "datetime": "Mon, Nov 4, 2024 10:30am to 1:30pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "Melanated Queerations",
+            "url": "https://events.unomaha.edu/event/melanated-queerations-5538",
+            "datetime": "Mon, Nov 4, 2024 12pm to 1pm"
+        },
+        {
+            "title": "Native American Heritage Month: Kick-Off Event",
+            "url": "https://events.unomaha.edu/event/native-american-heritage-month-kick-off-event-2024",
+            "datetime": "Mon, Nov 4, 2024 12pm to 1pm",
+            "tags": []
+        },
+        {
+            "title": "Office of Engagement Open House",
+            "url": "https://events.unomaha.edu/event/cec-open-house",
+            "datetime": "Mon, Nov 4, 2024 2pm to 4pm",
+            "tags": [
+                "Ceremony/Reception"
+            ]
+        },
+        {
+            "title": "Homecoming: Drag Show",
+            "url": "https://events.unomaha.edu/event/homecoming-drag-show",
+            "datetime": "Mon, Nov 4, 2024 6pm to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "Open Enrollment for Spring 2025 Begins",
+            "url": "https://events.unomaha.edu/event/open-enrollment-for-spring-2025-begins",
+            "datetime": "Mon, Nov 4, 2024 6pm to 6pm",
+            "tags": [
+                "Academic Calendar"
+            ]
+        },
+        {
+            "title": "Homecoming: UNO Men\u2019s Basketball vs Mid-America Christian",
+            "url": "https://events.unomaha.edu/event/homecoming-uno-mens-basketball-vs-mid-america-christian",
+            "datetime": "Mon, Nov 4, 2024 7:05pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "Homecoming: Late Night at PepperJax Grill",
+            "url": "https://events.unomaha.edu/event/homecoming-late-night-at-pepperjax-grill",
+            "datetime": "Mon, Nov 4, 2024 9pm to 10:30pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        }
+    ]
 }
