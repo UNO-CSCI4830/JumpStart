@@ -31,17 +31,9 @@ export default function Content({ posts, onSortChange }) {
 
       <div className="advice-posts">
         {posts.length > 0 ? (
-          posts.map((post, index) => (
-            <AdviceCard
-              key={index}
-              title={post.title}
-              author={post.author}
-              time={post.timeAgo}
-              tag={post.tag}
-              content={post.content}
-              likes={post.likes}
-              hearts={post.hearts}
-            />
+	  /* For Each post, at each index, map to AdviceCard component */
+          posts.map((post, index) => ( 
+            <AdviceCard {...post} key={0} />
           ))
         ) : (
           <p>No advice is available for the selected filter.</p>

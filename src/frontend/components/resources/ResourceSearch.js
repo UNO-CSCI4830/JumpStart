@@ -7,7 +7,7 @@ export default function ResourceSearch({ searchTerm, setSearchTerm }) {
         type="text"
         placeholder="Search resources..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchTerm(e.target.value)} /* updating passed searchTerm with setSearchTerm */
       />
     </div>
   );
