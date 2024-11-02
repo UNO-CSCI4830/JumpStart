@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 export default function AdviceShareModal({ onClose }) {
+  /* Starting state of fields in form */
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -9,16 +10,18 @@ export default function AdviceShareModal({ onClose }) {
     advice: "",
   });
 
+  /* Guessing handleChange stores the data provided by a user? */
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
+    const { name, value, type, checked } = e.target; /* Field names for form */
+    /* Determine which data to update */
+    if (type === "checkbox") { /* type "checkbox", so update tags */
       setFormData((prev) => ({
         ...prev,
         tags: checked
           ? [...prev.tags, value]
           : prev.tags.filter((tag) => tag !== value),
       }));
-    } else {
+    } else { /* They're not updating a tag */
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -26,15 +29,19 @@ export default function AdviceShareModal({ onClose }) {
     }
   };
 
+  /* Upon form submission, handle data */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log(formData); /* !! Here we handle our new data !! */
+    /* formData is an object! No need to create a new one!! */
+    /* TODO: append submission time */
+    /* TODO: SUBMIT NEW DATA TO DB */
     if (onClose) {
       onClose();
     }
   };
 
-  return (
+  return ( /* HTML */
     <div className="modal">
       <div className="modal-content">
         <h2>Share Your Advice</h2>

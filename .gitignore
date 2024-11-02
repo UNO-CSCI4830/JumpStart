@@ -1,5 +1,6 @@
 TODO.txt
 *.docx
+*.swp
 node_modules/
 package*.json
 WorkNotes*.txt

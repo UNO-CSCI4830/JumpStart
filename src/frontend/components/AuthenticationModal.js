@@ -2,22 +2,25 @@ import React, { useState } from "react";
 import "../styles/AuthenticationModal.css";
 
 export default function AuthenticationModal({ onClose }) {
+  /* Starting state of form: Empty */
   const [email, setEmail] = useState("");
 
+  /* Upon state change, save email */
   const handleChange = (e) => {
     setEmail(e.target.value);
   };
 
+  /* Upon submission, send email verification code */
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Sending verification code to:", email);
-    // Add logic to send verification code here
+    // TODO: Add logic to send verification code here
     if (onClose) {
       onClose();
     }
   };
 
-  return (
+  return ( /* HTML time! */
     <div className="modal">
       <div className="modal-content">
         <h2 className="modal-title">UNO Student Access</h2>

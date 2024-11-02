@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
+/* Behavior is similar to AdviceShareModal */
+
 export default function ResourceSubmitModal({ onClose }) {
+  /* Starting state of fields in form */
   const [formData, setFormData] = useState({
     email: "",
     title: "",
@@ -9,6 +12,7 @@ export default function ResourceSubmitModal({ onClose }) {
     link: "",
   });
 
+  /* When values are updated, store them */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -17,15 +21,18 @@ export default function ResourceSubmitModal({ onClose }) {
     }));
   };
 
+  /* upon submission, handle formData */
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    /* TODO: append submission time */
+    /* TODO: Submit data to DB */
     if (onClose) {
       onClose();
     }
   };
 
-  return (
+  return ( /* HTML time */
     <div className="modal">
       <div className="modal-content">
         <h2>Submit a New Resource</h2>
