@@ -1,9 +1,9 @@
 import React from "react";
 import {useState} from "react";
-import {advicePosts} from "../utils/advicePosts";
-import {resourcePosts} from "../utils/resourcePosts";
+import {advicePosts} from "../../utils/advicePosts";
+import {resourcePosts} from "../../utils/resourcePosts";
 
-import AdviceCard from "./AdviceCard";
+import AdviceCard from "./../AdviceCard";
 
 
 export default function HomePage() {

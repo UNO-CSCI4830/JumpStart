@@ -1,21 +1,26 @@
 import React, { useState } from "react";
-import "../../styles/ResourcePage.css";
-import ResourceSearch from "../resources/ResourceSearch";
-import ResourceCategories from "../resources/ResourceCategories";
-import ResourceCard from "../resources/ResourceCard";
-import ResourceSubmitModal from "../resources/ResourceSubmitModal";
-import { initialResources } from "../../utils/resources";
+import "../styles/ResourcePage.css";
+import ResourceSearch from "./ResourceSearch";
+import ResourceCategories from "./ResourceCategories";
+import ResourceCard from "./ResourceCard";
+import ResourceSubmitModal from "./ResourceSubmitModal";
+import {resourcePosts} from "../utils/resourcePosts";
+
+/* JSON of Resource content */
 
 export default function ResourcePage() {
   const [activeCategory, setActiveCategory] = useState("Academic");
+  /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
   const [searchTerm, setSearchTerm] = useState("");
-  const [resources] = useState(initialResources);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resources] = useState(resourcePosts);
+  const [isModalOpen, setIsModalOpen] = useState(false); /* State of ResourceSubmitModal component, initially False */
 
+  /* More behavior constants that are set to determine state on ResourceSubmitModal component */
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const filteredResources = resources.filter(
+  /* Arrow function updating resources displayed based on searchTerm value */
+  const filteredResources = resources.filter( 
     (resource) =>
       resource.category === activeCategory &&
       (resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -31,6 +36,7 @@ export default function ResourcePage() {
         your academic and personal goals.
       </p>
 
+      {/* Calling ResoruceSearch Component,  which does similar stuff to the arrow func filteredResources */}
       <ResourceSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <ResourceCategories
         activeCategory={activeCategory}
@@ -38,6 +44,7 @@ export default function ResourcePage() {
       />
 
       <div className="resources">
+	{/* Display list of filteredResources with ResourceCard component */}
         {filteredResources.map((resource) => (
           <ResourceCard
             key={resource.id}
@@ -47,6 +54,7 @@ export default function ResourcePage() {
           />
         ))}
       </div>
+      {/* Submit a Resource button that toggles ResourceSubmitModal state btwn T or F */}
       <button className="submit-resource-btn" onClick={handleOpenModal}>
         <svg
           viewBox="0 0 24 24"
@@ -62,3 +70,4 @@ export default function ResourcePage() {
     </div>
   );
 }
+
