@@ -44,8 +44,14 @@ function EditAdviceModal({ advice, onSave, onClose }) {
             placeholder="Enter tags separated by commas"
           />
         </label>
-        <button onClick={() => onSave(editedAdvice)}>Save changes</button>
-        <button onClick={onClose}>Cancel</button>
+        <div class="form-actions">
+          <button class="btn-save" onClick={() => onSave(editedAdvice)}>
+            Save Changes
+          </button>
+          <button class="btn-cancel" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

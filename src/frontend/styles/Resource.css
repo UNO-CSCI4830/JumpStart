@@ -2,7 +2,6 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  font-family: Arial, sans-serif;
 }
 
 h1 {
@@ -145,6 +144,7 @@ h1 {
   height: 16px;
 }
 
+/* Modal Styles */
 .modal {
   position: fixed;
   top: 0;
@@ -159,7 +159,7 @@ h1 {
 
 .modal-content {
   background-color: white;
-  padding: 40px;
+  padding: 30px;
   border-radius: 10px;
   max-width: 500px;
   width: 100%;
@@ -171,7 +171,7 @@ h1 {
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 

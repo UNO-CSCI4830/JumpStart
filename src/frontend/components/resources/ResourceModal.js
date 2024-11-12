@@ -20,7 +20,7 @@ const ResourceModal = ({
         </p>
         <form onSubmit={onSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
@@ -31,7 +31,7 @@ const ResourceModal = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="title">Resource Title</label>
+            <label htmlFor="title">Resource Title:</label>
             <input
               type="text"
               id="title"
@@ -42,7 +42,7 @@ const ResourceModal = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Description:</label>
             <textarea
               id="description"
               name="description"
@@ -52,7 +52,7 @@ const ResourceModal = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="link">Resource Link</label>
+            <label htmlFor="link">Resource Link:</label>
             <input
               type="url"
               id="link"
@@ -63,7 +63,7 @@ const ResourceModal = ({
             />
           </div>
           <div className="form-group">
-            <label htmlFor="category">Category</label>
+            <label htmlFor="category">Category:</label>
             <select
               id="category"
               name="category"
