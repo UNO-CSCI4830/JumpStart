@@ -6,6 +6,7 @@ import AdvicePage from "./components/pages/AdvicePage";
 import EventsPage from "./components/pages/EventsPage";
 import ConnectPage from "./components/pages/ConnectPage";
 import ResourcePage from "./components/pages/ResourcePage";
+import AdminDashboardPage from "./components/pages/AdminDashboardPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/advice" element={<AdvicePage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/connect" element={<ConnectPage />} />
+            <Route path="/admin" element={<AdminDashboardPage />} />
           </Routes>
         </main>
       </div>
