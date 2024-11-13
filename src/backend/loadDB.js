@@ -21,8 +21,6 @@ async function getEntries(collection, query={}, proj={}) { // retrieves all entr
 
 async function addEntries(collection, arr=[]) { // takes elements of arr and adds them as entries into specified collection
     console.log(await collection.insertMany(arr));
-    // var entries = await db_client.find().toArray();
-    // console.log(entries);
 }
 
 /* ========== MAIN ========== */
