@@ -1,13 +1,13 @@
 import React from "react";
 
 /* Take title given to resource, description of resource, and link to resource and makes it look presentable */
-export default function ResourceCard({ title, description, link }) {
+const ResourceCard = ({ resource }) => {
   return (
     <div className="resource-card">
-      <h2>{title}</h2>
-      <p>{description}</p>
+      <h2>{resource.title}</h2>
+      <p>{resource.description}</p>
       <a
-        href={link}
+        href={resource.link}
         target="_blank"
         rel="noopener noreferrer"
         className="learn-more-btn"
@@ -16,4 +16,6 @@ export default function ResourceCard({ title, description, link }) {
       </a>
     </div>
   );
-}
+};
+
+export default ResourceCard;
