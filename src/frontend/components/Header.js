@@ -6,6 +6,7 @@ import AuthenticationModal from "./AuthenticationModal";
 
 export default function Header() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [username, setUsername] = useState(null);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -13,6 +14,10 @@ export default function Header() {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleVerification = (username) => {
+    setUsername(username);
   };
 
   return (
@@ -28,12 +33,24 @@ export default function Header() {
           <Link to="/admin">Admin</Link>
         </div>
         <div className="nav-right">
-          <button className="btn btn-primary" onClick={handleOpenModal}>
-            Sign in
-          </button>
+          {/* Conditional rendering based on authentication state */}
+          {username ? (
+            // If user is authenticated, show welcome message with their username
+            <span className="welcome-text">Hi, {username}!</span>
+          ) : (
+            // If user is not authenticated, show sign in button
+            <button className="btn btn-primary" onClick={handleOpenModal}>
+              Sign in
+            </button>
+          )}
         </div>
       </nav>
-      {isModalOpen && <AuthenticationModal onClose={handleCloseModal} />}
+      {isModalOpen && (
+        <AuthenticationModal
+          onClose={handleCloseModal}
+          onVerification={handleVerification}
+        />
+      )}
     </header>
   );
 }
