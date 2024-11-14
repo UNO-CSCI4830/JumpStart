@@ -25,9 +25,7 @@ export default function Header() {
           <Link to="/advice">Advice</Link>
           <Link to="/events">Events</Link>
           <Link to="/connect">Connect</Link>
-
-          {/* admin dashboard coming soon :) */}
-          <Link to="/admin"></Link>
+          <Link to="/admin">Admin</Link>
         </div>
         <div className="nav-right">
           <button className="btn btn-primary" onClick={handleOpenModal}>
