@@ -6,9 +6,8 @@ import ResourceCard from "./ResourceCard";
 import ResourceSubmitModal from "./ResourceSubmitModal";
 import {resourcePosts} from "../utils/resourcePosts";
 
-/* JSON of Resource content */
-
 export default function ResourcePage() {
+  /* Use state and state-changer duo */
   const [activeCategory, setActiveCategory] = useState("Academic");
   /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,7 +53,7 @@ export default function ResourcePage() {
           />
         ))}
       </div>
-      {/* Submit a Resource button that toggles ResourceSubmitModal state btwn T or F */}
+      {/* Submit a Resource button that toggles ResourceSubmitModal state between T or F */}
       <button className="submit-resource-btn" onClick={handleOpenModal}>
         <svg
           viewBox="0 0 24 24"
