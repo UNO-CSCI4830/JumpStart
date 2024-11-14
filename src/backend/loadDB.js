@@ -4,6 +4,7 @@
 
 const resourcePosts = require("./resourcePosts.js").resourcePosts;
 const advicePosts = require("./advicePosts.js").advicePosts;
+const pendingPosts = require("./AdminData.js").pendingPosts;
 
 const {MongoClient} = require('mongodb');
 
@@ -41,40 +42,58 @@ async function configurePostsDB() {
         console.log(`DBs on ${uri}:`);
         await listDBs(client);
 
-        /* ### Building Resources collection in posts DB ### */
-        // Defining Resources collection
-        const resources = postsDB.collection("resources");
+        // /* ### Building Resources collection in posts DB ### */
+        // // Defining Resources collection
+        // const resources = postsDB.collection("resources");
 
-        // adding entries
-        console.log("\nAdding documents to resource collection...");
-        await addEntries(resources, resourcePosts);
-        const resourceColl = await getEntries(resources);
+        // // adding entries
+        // console.log("\nAdding documents to resource collection...");
+        // await addEntries(resources, resourcePosts);
+        // const resourceColl = await getEntries(resources);
 
-        // Verify creating resource collection
-        if (resourceColl.length === resourcePosts.length) {
-            console.log("All resource posts were added to \"Resource\" collection");
-        } else if (resourceColl.length > resourcePosts.length) {
-            console.log("There might be dupicate items from `resourcePosts` in \"Resource\" collection");
-        }  else if (resourceColl.length < resourcePosts.length) {
-            console.log("Some items from `resourcePosts` were not added to \"Resource\" collection");
-        }
-        
-        /* ### Building Advice collection in posts DB ### */
+        // // Verify creating resource collection
+        // if (resourceColl.length === resourcePosts.length) {
+        //     console.log("All resource posts were added to \"Resource\" collection");
+        // } else if (resourceColl.length > resourcePosts.length) {
+        //     console.log("There might be dupicate items from `resourcePosts` in \"Resource\" collection");
+        // }  else if (resourceColl.length < resourcePosts.length) {
+        //     console.log("Some items from `resourcePosts` were not added to \"Resource\" collection");
+        // }
+        // 
+        // /* ### Building Advice collection in posts DB ### */
+        // // Defining Advice collection
+        // const advice = postsDB.collection("advice");
+
+        // // adding entries
+        // console.log("\nAdding documents to advice collection...");
+        // await addEntries(advice, advicePosts);
+        // const adviceColl = await getEntries(advice);
+
+        // // Verify creating advice collection
+        // if (adviceColl.length === advicePosts.length) {
+        //     console.log("All advice posts were added to \"Advice\" collection");
+        // } else if (adviceColl.length > advicePosts.length) {
+        //     console.log("There might be dupicate items from `advicePosts` in \"Advice\" collection");
+        // }  else if (adviceColl.length < advicePosts.length) {
+        //     console.log("Some items from `advicePosts` were not added to \"Advice\" collection");
+        // }
+
+        /* ### Building Limbo collection in posts DB ### */
         // Defining Advice collection
-        const advice = postsDB.collection("advice");
+        const limbo = postsDB.collection("limbo");
 
         // adding entries
-        console.log("\nAdding documents to advice collection...");
-        await addEntries(advice, advicePosts);
-        const adviceColl = await getEntries(advice);
+        console.log("\nAdding documents to limbo collection...");
+        await addEntries(limbo, pendingPosts);
+        const limboColl = await getEntries(limbo);
 
         // Verify creating advice collection
-        if (adviceColl.length === advicePosts.length) {
+        if (limboColl.length === pendingPosts.length) {
             console.log("All advice posts were added to \"Advice\" collection");
-        } else if (adviceColl.length > advicePosts.length) {
-            console.log("There might be dupicate items from `advicePosts` in \"Advice\" collection");
-        }  else if (adviceColl.length < advicePosts.length) {
-            console.log("Some items from `advicePosts` were not added to \"Advice\" collection");
+        } else if (limboColl.length > pendingPosts.length) {
+            console.log("There might be dupicate items from `pendingPosts` in \"Advice\" collection");
+        }  else if (limboColl.length < pendingPosts.length) {
+            console.log("Some items from `pendingPosts` were not added to \"Advice\" collection");
         }
 
     } catch (e) { // If something went wrong, say so
@@ -86,4 +105,3 @@ async function configurePostsDB() {
 
 configurePostsDB().catch(console.error);
 
-export{configurePostsDB};
