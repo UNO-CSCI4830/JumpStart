@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
+/* Launches submit form for the user to create a new entry */
 export default function AdviceShareModal({ onClose }) {
+  /*
+   * @ properties
+   * onClose: function to handle data when form closes
+   */
   /* Starting state of fields in form */
   const [formData, setFormData] = useState({
     email: "",

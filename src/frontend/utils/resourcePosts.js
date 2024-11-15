@@ -1,12 +1,5 @@
 export const resourcePosts = [
   {
-    id: 0,
-    category: "Academic",
-    title: "Title",
-    description: "Lorem ipsum",
-    link: "https://havibeenpwnd.com",
-  },
-  {
     id: 1,
     category: "Academic",
     title: "Library Services",

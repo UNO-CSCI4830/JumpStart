@@ -5,7 +5,7 @@ export default function AuthenticationModal({ onClose }) {
   /* Starting state of form: Empty */
   const [email, setEmail] = useState("");
 
-  /* Upon state change, save email */
+  /* Upon state change, save new value to email */
   const handleChange = (e) => {
     setEmail(e.target.value);
   };

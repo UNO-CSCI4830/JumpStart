@@ -24,6 +24,7 @@ const ConnectPage = () => {
               Dedicated channels for different subjects and interests
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <div className="badge-container">
               <span className="badge">#placeholder</span>
@@ -45,6 +46,7 @@ const ConnectPage = () => {
               Everything you need to connect and collaborate
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <ul className="feature-list">
               <li>• Placeholder</li>
@@ -66,6 +68,7 @@ const ConnectPage = () => {
               Join our Discord server in three easy steps
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <ol className="steps-list">
               <li>

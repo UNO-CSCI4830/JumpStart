@@ -2,6 +2,10 @@ import React from "react";
 
 /* Take title given to resource, description of resource, and link to resource and makes it look presentable */
 const ResourceCard = ({ resource }) => {
+/*
+ * @ properties
+ * resource: document that will be formatted for display
+ */
   return (
     <div className="resource-card">
       <h2>{resource.title}</h2>
