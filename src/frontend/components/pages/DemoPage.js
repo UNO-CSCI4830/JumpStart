@@ -5,6 +5,7 @@ import {resourcePosts} from "../../utils/resourcePosts";
 
 import AdviceCard from "./../AdviceCard";
 
+/* =========== DEMO PAGE =========== */
 
 export default function HomePage() {
   const advice = advicePosts[0];
@@ -15,7 +16,7 @@ export default function HomePage() {
       <p>This is where you can find the latest updates and information.</p>
 	  <div>
 	  	<h3>Advice Data</h3>
-		<AdviceCard {...advice} />
+		<AdviceCard {...advice} /> {/* I CLEARLY knew what this was, wtf */}
 		{/* TODO: 
 		  * Okay... but now how do I save updated values back to advicePosts[0]? 
 		  * I can't pass the new value from AdviceCard back here, so either

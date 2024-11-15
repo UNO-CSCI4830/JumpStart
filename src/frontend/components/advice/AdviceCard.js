@@ -10,7 +10,12 @@ import {useState} from "react";
 
 /* Take Advice components and makes it look presentable */
 export default function AdviceCard( data, key) {
-  /* Incramenters */
+    /*
+     * @ properties
+     * data: entry object
+     * key: does nothing rn
+     */
+  /* state tuple */
   const [likes, newLike] = useState(data.likes);
   const [hearts, newHeart] = useState(data.hearts);
   
@@ -36,7 +41,8 @@ export default function AdviceCard( data, key) {
       <p>{data.content}</p>
       <div className="post-actions">
         <button className="btn btn-icon"
-	  onClick={() => newLike(likes => likes + 1)}
+	  onClick={() => newLike(likes => likes + 1)} /* incraments displayed like
+      value */
 	  onChange={handleClick} 
 	  >
           <i className="icon-thumbs-up"></i>
@@ -44,8 +50,9 @@ export default function AdviceCard( data, key) {
         </button>
         <button 
 	  className="btn btn-icon"
-	  onClick={() => newHeart(hearts => hearts + 1)}
-	  onChange={handleClick} 
+	  onClick={() => newHeart(hearts => hearts + 1)} /* incraments displayed
+      heart value */
+	  onChange={handleClick} /* calls handleClick arrow func. Does nothing rn */
 	  >
           <i className="icon-heart"></i>
           {hearts}
@@ -54,3 +61,15 @@ export default function AdviceCard( data, key) {
    </article>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+

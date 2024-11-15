@@ -3,6 +3,12 @@ import AdviceCard from "./AdviceCard";
 import "../../styles/Content.css";
 
 export default function Content({ posts, onSortChange }) {
+/*
+ * @ properties
+ * posts: array of entries to be displayed
+ * onSortChange: function that updates order of posts displayed. Called by 
+ * button events
+ */
   return (
     <section className="content">
       <div className="order-by">

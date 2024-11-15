@@ -1,12 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+/* The list on the left of the page 
+ * enables posts filtering based off the posts's tags
+ */
 export default function AdviceSidebar({
   onShareClick,
   onFilterChange,
   activeTag,
 }) {
-  const tags = [
+/*
+ * @ properties
+ * onShareClick: guessing this is the function that launches the 
+ * AdviceShareModal
+ * onFilterChange: guessing this function updates what posts are displayed based
+ * on what is selected
+ * activeTag: string that helps decide which filter to be set with active CSS
+ */
+  const tags = [ /* array of tags */
     "All",
     "Study tips",
     "Professors",
