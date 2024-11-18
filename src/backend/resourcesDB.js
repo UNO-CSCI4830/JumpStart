@@ -28,9 +28,15 @@ async function runResources() {
         var query = {};
         var proj = {};
 
-        // array of entries pulled from collections
-        const resourcePosts = await resources.find(query,proj).toArray();
+        // Retrieves all the docs from the resource collection
+        const resourcePosts = await retryOperation(() => resources.find(query, proj).toArray(), maxRetries, retryDelay);
+        console.log(`Current size of resources: ${resourcePosts.length}`);
 
+        // Filterig resources by catergory(working progress)
+        const categoryQuery = { category: 'Technology' }; // Example query
+        const categoryPosts = await retryOperation(() => resources.find(categoryQuery, proj).toArray(), maxRetries, retryDelay);
+        console.log(`Resources in 'Technology' category: ${categoryPosts.length}`);
+        
         // doing some quick confirmations
         console.log(`Current size of resources: ${resourcePosts.length}`);
         /*
@@ -49,5 +55,24 @@ async function runResources() {
         await client.close();
     }
 }
+
+// Function for retrying operations
+async function retryOperation(operation, retries, delay) {
+    let attempt = 0;
+    while (attempt < retries) {
+        try {
+            return await operation();
+        } catch (error) {
+            attempt++;
+            console.error(`Attempt ${attempt} failed: ${error.message}`);
+            if (attempt >= retries) {
+                throw new Error(`Operation failed after ${retries} attempts: ${error.message}`);
+            }
+            console.log(`Retrying in ${delay}ms...`);
+            await new Promise(res => setTimeout(res, delay)); // Wait before retrying
+        }
+    }
+}
+
 
 runResources().catch(console.error);
