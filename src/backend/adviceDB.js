@@ -9,7 +9,12 @@ async function runAdvice() {
 
     // URI connection details for client to communicate with DB
     const uri = "mongodb://localhost:27017/";
-    const client = new MongoClient(uri); // creates MongoClient instance
+    const client = new MongoClient(uri, {
+        serverSelectionTimeoutMS: 5000, //Time out for server - set for 5 seconds
+    }); // creates MongoClient instance
+
+    const maxRetries = 3; // Maximum number of retry attemps for reading and writing
+    const retryDelay = 1000; // Delay inbetween retries (counts in milliseconds)
 
     try { // attempt to establish a connection
 
@@ -25,14 +30,36 @@ async function runAdvice() {
         const advice = await postsDB.collection("advice");
 
         // defining rw parameter documents
+        //Retrive all documents from the advice collection
         var query = {};
         var proj = {};
+        const advicePosts = await retryOperation(() => advice.find(query, proj).toArray(), maxRetries, retryDelay);
+        console.log(`Current size of advice: ${advicePosts.length}`);
 
-        // array of entries pulled from collections
-        const advicePosts = await advice.find(query,proj).toArray();
+        // Update document
+        const updateQuery = {id: 1};
+        const updateOperation = {$inc: {likes:1} };
+        const updateResult = await retryOperation(() => advice.updateOne(updateQuery, updateOperation), maxRetries, retryDelay);
+        console.log(`Update result: ${updateResult.modifiedCount} document(s) modified`);
+
+        // New Advice Document
+        const newAdvice = {
+            id: advicePosts.length+1,
+            title: "Stay consisten",
+            author: "Alex",
+            date: new Date().toISOString(),
+            tags: ["motivation", "consistency"],
+            content: "Consistancy is key to success",
+            likes: 0,
+            hearts: 0,
+        };
+        const insertResult = await retryOperation(() => advice.insertOne(newAdvice), maxRetries, retryDelay);
+        console.log(`Inserted new advice with ID: ${insertResult.insertedId}`);
+
+
 
         // doing some quick confirmations
-        console.log(`Current size of advice: ${advicePosts.length}`);
+        // ***console.log(`Current size of advice: ${advicePosts.length}`);
         /*
          * Contents of an advice document:
          * _id -> new ObjectId
@@ -51,10 +78,30 @@ async function runAdvice() {
          */
 
     } catch (e) { // print out what went wrong
-        console.error(e);
+        console.error("An error occurred: ", e.message);
     } finally { // close connection
         await client.close();
+        console.log("Connection is closed");
     }
 }
+// Function to help retying operations
+async function retryOperation(operation, retries, delay) {
+    let attempt = 0;
+    while (attempt < retries){
+        try{
+            return await operation();
+        } catch (error){
+            attempt++;
+            console.error(`Attempt ${attempt} failed: ${error.message}`);
+            if (attemtp >= retries){
+                throw new Error(`Operation failed after ${retries} attempts: ${error.message}`);
+            }
+            console.log(`Retrying in ${delay}ms...`);
+            await new Promise(res => setTimeout(res, delay)); //wait befor trying again
+        }
+    }
+    
+}
+
 
 runAdvice().catch(console.error);
