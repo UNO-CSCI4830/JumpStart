@@ -1,5 +1,6 @@
 import React from "react";
 
+// TabButton component for navigation tabs
 function TabButton({ label, isActive, onClick }) {
   return (
     <button

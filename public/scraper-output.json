@@ -1,127 +1,6 @@
 {
-    "event_count": 197,
+    "event_count": 189,
     "events": [
-        {
-            "title": "Salute to Veterans: Lunch on Us (Nov. 11-15)",
-            "url": "https://events.unomaha.edu/event/salute-to-veterans-lunch-on-us",
-            "datetime": "Thu, Nov 14, 2024",
-            "tags": []
-        },
-        {
-            "title": "AI\u2013Powered Teaching: Preparing Students for the AI-Driven Future with Real-World Applications",
-            "url": "https://events.unomaha.edu/event/aipowered-teaching-preparing-students-for-the-ai-driven-future-with-real-world-applications",
-            "datetime": "Thu, Nov 14, 2024 10am to 11am",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "IS&T Research Seminars: Dr. Predrag Radivojac",
-            "url": "https://events.unomaha.edu/event/ist-research-seminars-dr-predrag-radivojac",
-            "datetime": "Thu, Nov 14, 2024 11am to 12pm",
-            "tags": [
-                "Lecture/Conference"
-            ]
-        },
-        {
-            "title": "Shakespeare, Sir Thomas More, and the Dangerous Politics of Renaissance England",
-            "url": "https://events.unomaha.edu/event/shakespeare-sir-thomas-more-and-the-dangerous-politics-of-renaissance-england",
-            "datetime": "Thu, Nov 14, 2024 6pm to 7:15pm",
-            "tags": [
-                "Lecture/Conference"
-            ]
-        },
-        {
-            "title": "Salute to Veterans: Lunch on Us (Nov. 11-15)",
-            "url": "https://events.unomaha.edu/event/salute-to-veterans-lunch-on-us",
-            "datetime": "Fri, Nov 15, 2024",
-            "tags": []
-        },
-        {
-            "title": "Adolescents, Technology, and Mental Health",
-            "url": "https://events.unomaha.edu/event/adolescents-technology-and-mental-health",
-            "datetime": "Fri, Nov 15, 2024 9am to 12pm",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "Biomechanics Seminar Series: Dr. Abhay Ramachandra",
-            "url": "https://events.unomaha.edu/event/biomechanics-seminar-series-dr-abhay-ramachandra",
-            "datetime": "Fri, Nov 15, 2024 10am to 11:15am",
-            "tags": [
-                "Lecture/Conference"
-            ]
-        },
-        {
-            "title": "Paul Hanstedt Keynote Address",
-            "url": "https://events.unomaha.edu/event/paul-hanstedt-keynote",
-            "datetime": "Fri, Nov 15, 2024 10am to 11:30am",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "The DEAI Symposium Series",
-            "url": "https://events.unomaha.edu/event/deai-symposium",
-            "datetime": "Fri, Nov 15, 2024 12pm to 1pm",
-            "tags": [
-                "Lecture/Conference"
-            ]
-        },
-        {
-            "title": "Adolescents, Technology, and Mental Health",
-            "url": "https://events.unomaha.edu/event/adolescents-technology-and-mental-health",
-            "datetime": "Fri, Nov 15, 2024 1pm to 4pm",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "Faculty Self-Care Workshop with Maida Avdic MPA, LCSW, LMHP",
-            "url": "https://events.unomaha.edu/event/maida-avdic",
-            "datetime": "Fri, Nov 15, 2024 1pm to 2pm",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "Student Recital: Sophie Larson",
-            "url": "https://events.unomaha.edu/event/student-recital-sophie-larson",
-            "datetime": "Fri, Nov 15, 2024 6:15pm to 6:45pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "Student Recital: Will Keller",
-            "url": "https://events.unomaha.edu/event/student-recital-will-keller",
-            "datetime": "Fri, Nov 15, 2024 7pm to 7:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "Native American Heritage Month: Healing Ribbons Fashion Show",
-            "url": "https://events.unomaha.edu/event/native-american-heritage-month-healing-ribbons-fashion-show-2024",
-            "datetime": "Sun, Nov 17, 2024 3pm to 6pm"
-        },
-        {
-            "title": "OAYO Youth Concert Strings",
-            "url": "https://events.unomaha.edu/event/oayo-youth-concert-strings",
-            "datetime": "Sun, Nov 17, 2024 3pm to 3:45pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "OAYO Youth Philharmonic",
-            "url": "https://events.unomaha.edu/event/oayo-youth-philharmonic",
-            "datetime": "Sun, Nov 17, 2024 5:30pm to 6:15pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
         {
             "title": "Nebraska Career Catalyst",
             "url": "https://events.unomaha.edu/event/nebraska-career-catalyst",
@@ -431,6 +310,14 @@
             ]
         },
         {
+            "title": "Student Recital - Noah Edwards",
+            "url": "https://events.unomaha.edu/event/student-recital-noah-edwards",
+            "datetime": "Sat, Nov 23, 2024 6pm to 6:45pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
             "title": "Salute to Veterans: Military Appreciation Night at Omaha Hockey",
             "url": "https://events.unomaha.edu/event/salute-to-veterans-military-appreciation-night-hockey",
             "datetime": "Sat, Nov 23, 2024 7pm",
@@ -519,6 +406,14 @@
             ]
         },
         {
+            "title": "Library Stitchcraft",
+            "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
+            "datetime": "Wed, Nov 27, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Thanksgiving Vacation",
             "url": "https://events.unomaha.edu/event/thanksgiving-vacation",
             "datetime": "Thu, Nov 28, 2024",
@@ -591,6 +486,14 @@
             ]
         },
         {
+            "title": "January Session & Spring 2025 Textbooks Available",
+            "url": "https://events.unomaha.edu/event/january_session_and_spring_2025_textbooks_available",
+            "datetime": "Mon, Dec 2, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Library Friends Book Sale",
             "url": "https://events.unomaha.edu/event/library_friends_book_sale",
             "datetime": "Mon, Dec 2, 2024 9am to 10pm",
@@ -660,6 +563,14 @@
             "title": "TRANScend",
             "url": "https://events.unomaha.edu/event/transcend-9354",
             "datetime": "Wed, Dec 4, 2024 12pm to 1pm"
+        },
+        {
+            "title": "Library Stitchcraft",
+            "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
+            "datetime": "Wed, Dec 4, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
         },
         {
             "title": "Nebraska Medical Orchestra & Choir Holiday Concert",
@@ -893,6 +804,14 @@
             "datetime": "Wed, Dec 11, 2024 12pm to 1pm"
         },
         {
+            "title": "Library Stitchcraft",
+            "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
+            "datetime": "Wed, Dec 11, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Prep Week",
             "url": "https://events.unomaha.edu/event/prep-week",
             "datetime": "Thu, Dec 12, 2024",
@@ -917,9 +836,9 @@
             ]
         },
         {
-            "title": "Chancellor Li's Winter Fest",
+            "title": "Chancellor Li's Winter Fest for Faculty & Staff",
             "url": "https://events.unomaha.edu/event/chancellor-lis-winter-fest",
-            "datetime": "Fri, Dec 13, 2024 1pm",
+            "datetime": "Fri, Dec 13, 2024 1pm to 3pm",
             "tags": [
                 "Ceremony/Reception"
             ]
@@ -986,6 +905,14 @@
             "datetime": "Wed, Dec 18, 2024",
             "tags": [
                 "Academic Calendar"
+            ]
+        },
+        {
+            "title": "Library Stitchcraft",
+            "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
+            "datetime": "Wed, Dec 18, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -1141,6 +1068,12 @@
             ]
         },
         {
+            "title": "UNO FAST: Empathetic Leadership",
+            "url": "https://events.unomaha.edu/event/uno-fast-empathetic-leadership",
+            "datetime": "Wed, Feb 5, 2025 1pm to 2pm",
+            "tags": []
+        },
+        {
             "title": "TABS - Spring Semester",
             "url": "https://events.unomaha.edu/event/registration-for-tabs",
             "datetime": "Mon, Feb 10, 2025",
@@ -1250,6 +1183,14 @@
             "datetime": "Sun, Mar 2, 2025 7:30pm",
             "tags": [
                 "Concert/Performance"
+            ]
+        },
+        {
+            "title": "UNO FAST: Time Management",
+            "url": "https://events.unomaha.edu/event/uno-fast-time-management",
+            "datetime": "Wed, Mar 5, 2025 1pm to 2pm",
+            "tags": [
+                "Education/Training"
             ]
         },
         {
@@ -1517,6 +1458,6 @@
             ]
         }
     ],
-    "pages_scraped": 10,
-    "last_updated": "2024-11-14T17:13:34.784496"
+    "pages_scraped": 9,
+    "last_updated": "2024-11-18T19:56:40.172525"
 }

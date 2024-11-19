@@ -1,5 +1,13 @@
 import React from "react";
 
+// ResourceModal component for submitting new resources
+// Props:
+// - isOpen: Boolean to control modal visibility
+// - onClose: Function to close the modal
+// - onSubmit: Function to handle form submission
+// - newResource: Object containing new resource data
+// - handleInputChange: Function to handle input changes
+// - categories: Array of available resource categories
 const ResourceModal = ({
   isOpen,
   onClose,
@@ -8,6 +16,7 @@ const ResourceModal = ({
   handleInputChange,
   categories = [],
 }) => {
+  // If modal is not open, don't render anything
   if (!isOpen) return null;
 
   return (
@@ -19,6 +28,7 @@ const ResourceModal = ({
           accurate information.
         </p>
         <form onSubmit={onSubmit}>
+          {/* Email input field */}
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
@@ -30,6 +40,7 @@ const ResourceModal = ({
               required
             />
           </div>
+          {/* Resource title input field */}
           <div className="form-group">
             <label htmlFor="title">Resource Title:</label>
             <input
@@ -41,6 +52,7 @@ const ResourceModal = ({
               required
             />
           </div>
+          {/* Resource description textarea */}
           <div className="form-group">
             <label htmlFor="description">Description:</label>
             <textarea
@@ -51,6 +63,7 @@ const ResourceModal = ({
               required
             />
           </div>
+          {/* Resource link input field */}
           <div className="form-group">
             <label htmlFor="link">Resource Link:</label>
             <input
@@ -62,6 +75,7 @@ const ResourceModal = ({
               required
             />
           </div>
+          {/* Category selection dropdown */}
           <div className="form-group">
             <label htmlFor="category">Category:</label>
             <select
@@ -79,6 +93,7 @@ const ResourceModal = ({
               ))}
             </select>
           </div>
+          {/* Form action buttons */}
           <div className="form-actions">
             <button type="submit" className="btn btn-primary">
               Submit Resource

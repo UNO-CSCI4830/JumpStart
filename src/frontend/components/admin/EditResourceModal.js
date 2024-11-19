@@ -9,9 +9,12 @@ const categories = [
   "Student Submission",
 ];
 
+// EditResourceModal component for editing resource details
 function EditResourceModal({ resource, onSave, onClose }) {
+  // State to hold the edited resource data
   const [editedResource, setEditedResource] = useState(resource);
 
+  // Handler for form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedResource((prev) => ({ ...prev, [name]: value }));
@@ -21,6 +24,7 @@ function EditResourceModal({ resource, onSave, onClose }) {
     <div className="modal">
       <div className="modal-content">
         <h2>Edit Resource</h2>
+        {/* Form fields for editing resource details */}
         <label>
           Title:
           <input
@@ -54,6 +58,7 @@ function EditResourceModal({ resource, onSave, onClose }) {
             value={editedResource.category}
             onChange={handleChange}
           >
+            {/* Render options for each category */}
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -61,6 +66,7 @@ function EditResourceModal({ resource, onSave, onClose }) {
             ))}
           </select>
         </label>
+        {/* Action buttons */}
         <div class="form-actions">
           <button class="btn-save" onClick={() => onSave(editedResource)}>
             Save Changes

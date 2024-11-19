@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 
+// EditAdviceModal component for editing advice details
 function EditAdviceModal({ advice, onSave, onClose }) {
+  // State to hold the edited advice data
   const [editedAdvice, setEditedAdvice] = useState(advice);
 
+  // Handle changes in form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedAdvice((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle changes in tags input
   const handleTagsChange = (e) => {
+    // Split tags by comma and trim whitespace
     const tags = e.target.value.split(",").map((tag) => tag.trim());
     setEditedAdvice((prev) => ({ ...prev, tags }));
   };
@@ -17,6 +22,7 @@ function EditAdviceModal({ advice, onSave, onClose }) {
     <div className="modal">
       <div className="modal-content">
         <h2>Edit Advice</h2>
+        {/* Form fields for editing advice details */}
         <label>
           Title:
           <input
@@ -44,6 +50,7 @@ function EditAdviceModal({ advice, onSave, onClose }) {
             placeholder="Enter tags separated by commas"
           />
         </label>
+        {/* Action buttons */}
         <div class="form-actions">
           <button class="btn-save" onClick={() => onSave(editedAdvice)}>
             Save Changes

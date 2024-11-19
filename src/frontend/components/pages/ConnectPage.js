@@ -1,19 +1,22 @@
 import React from "react";
 import "../../styles/Connect.css";
 
+// ConnectPage component displays community connection features
 const ConnectPage = () => {
   return (
     <div className="container">
+      {/* Header section */}
       <div className="header">
         <h1>Connect with the Community</h1>
         <p className="subtitle">
-          Join the UNO Student Hub to connect, collaborate, and
-          <br />
-          explore community channels with fellow students!
+          Join the UNO Student Hub to connect, collaborate, and explore
+          community channels with fellow students!
         </p>
       </div>
 
+      {/* Feature cards grid */}
       <div className="card-grid">
+        {/* Chat channels card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -35,6 +38,7 @@ const ConnectPage = () => {
           </div>
         </div>
 
+        {/* Community features card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -56,6 +60,7 @@ const ConnectPage = () => {
           </div>
         </div>
 
+        {/* Get started card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -89,6 +94,7 @@ const ConnectPage = () => {
         </div>
       </div>
 
+      {/* Community guidelines section */}
       <div className="guidelines-section">
         <h2>Community Guidelines</h2>
         <p className="guidelines-description">

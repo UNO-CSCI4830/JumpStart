@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
+// AdviceShareModal component handles the form for sharing new advice
+// Props:
+// - onClose: Function to close the modal
 export default function AdviceShareModal({ onClose }) {
+  // Form data state with initial values
   const [formData, setFormData] = useState({
     email: "",
     name: "",
@@ -9,9 +13,11 @@ export default function AdviceShareModal({ onClose }) {
     advice: "",
   });
 
+  // Generic handler for form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") {
+      // Special handling for checkbox inputs (tags)
       setFormData((prev) => ({
         ...prev,
         tags: checked
@@ -19,6 +25,7 @@ export default function AdviceShareModal({ onClose }) {
           : prev.tags.filter((tag) => tag !== value),
       }));
     } else {
+      // Handle all other input types
       setFormData((prev) => ({
         ...prev,
         [name]: value,
@@ -26,6 +33,7 @@ export default function AdviceShareModal({ onClose }) {
     }
   };
 
+  // Form submission handler
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
