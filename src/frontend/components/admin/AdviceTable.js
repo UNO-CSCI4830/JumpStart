@@ -1,5 +1,6 @@
 import React from "react";
 
+// AdviceTable component to display a table of advice items
 function AdviceTable({ advice, onStatusChange, onEdit }) {
   return (
     <table className="admin-table">
@@ -13,6 +14,7 @@ function AdviceTable({ advice, onStatusChange, onEdit }) {
         </tr>
       </thead>
       <tbody>
+        {/* Map through advice items and render each as a table row */}
         {advice.map((item) => (
           <tr
             key={item.id}
@@ -29,6 +31,7 @@ function AdviceTable({ advice, onStatusChange, onEdit }) {
             <td>{item.uploader}</td>
             <td>{item.status}</td>
             <td>
+              {/* Action buttons for each advice item */}
               <button
                 className="btn btn-outline"
                 onClick={() => onStatusChange(item.id, "approved")}

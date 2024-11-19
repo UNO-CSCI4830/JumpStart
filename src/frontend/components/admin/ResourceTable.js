@@ -1,5 +1,6 @@
 import React from "react";
 
+// ResourceTable component to display a table of resources
 function ResourceTable({ resources, onStatusChange, onEdit }) {
   return (
     <table className="admin-table">
@@ -13,6 +14,7 @@ function ResourceTable({ resources, onStatusChange, onEdit }) {
         </tr>
       </thead>
       <tbody>
+        {/* Map through resources and render each as a table row */}
         {resources.map((resource) => (
           <tr
             key={resource.id}
@@ -29,6 +31,7 @@ function ResourceTable({ resources, onStatusChange, onEdit }) {
             <td>{resource.uploader}</td>
             <td>{resource.status}</td>
             <td>
+              {/* Action buttons for each resource */}
               <button
                 className="btn btn-outline"
                 onClick={() => onStatusChange(resource.id, "approved")}

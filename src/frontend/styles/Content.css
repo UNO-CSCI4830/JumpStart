@@ -265,8 +265,7 @@ aside li.active a {
 
 .form-group input[type="email"],
 .form-group input[type="text"],
-.form-group select,
-.form-group textarea {
+.form-group select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ddd;

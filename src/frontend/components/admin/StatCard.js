@@ -1,5 +1,6 @@
 import React from "react";
 
+// StatCard component to display a statistic
 function StatCard({ title, value }) {
   return (
     <div className="stat-card">
