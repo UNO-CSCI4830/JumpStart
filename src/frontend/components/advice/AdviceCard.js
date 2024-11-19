@@ -9,7 +9,7 @@ import {useState} from "react";
  */
 
 /* Take Advice components and makes it look presentable */
-export default function AdviceCard( data, key) {
+export default function AdviceCard(data, key) {
     /*
      * @ properties
      * data: entry object
@@ -30,7 +30,6 @@ export default function AdviceCard( data, key) {
 
   return (
     <article className="advice-card">
-      <button onClick={() => console.log(data)}>show data</button>
       <h3>{data.title}</h3>
       <div className="post-meta">
         <span>
