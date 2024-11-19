@@ -33,7 +33,7 @@ async function runLimbo() {
 
         // doing some quick confirmations
 
-        console.log(`Number of posts in limbo: ${pending.length}`);
+        console.log(`### DEBUG: (Limbo:) Number of posts: ${pending.length}`);
         /*
          * Contents of any post in limbo:
          * _id -> new ObjectId

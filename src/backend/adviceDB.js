@@ -4,6 +4,20 @@
 
 const {MongoClient, ObjectId} = require('mongodb');
 
+class Connection {
+    uri = "mongodb://localhost:27017/";
+    constructor() {
+        this.client = new MongoClient(this.uri);
+    }
+
+    /* getters */
+    search() {
+        
+    }
+    /* setters */
+
+}
+
 /* ========== MAIN ========== */
 async function runAdvice() {
 
@@ -33,22 +47,20 @@ async function runAdvice() {
 
         // doing some quick confirmations
         console.log(`Current size of advice: ${advicePosts.length}`);
-        /*
-         * Contents of an advice document:
-         * _id -> new ObjectId
-         *     - dunno if we need this since id has already been defined
-         * id -> int
-         * title -> String
-         * author -> String
-         * date -> String
-         *   - This is likely gonna be pipelined.
-         *   - Date posted, but will be calculated by client to display shit like "1hr ago" depending on recency
-         * tag -> Array of strings
-         * content -> String
-         * likes -> int
-         * hearts -> int
-         * - How tf to pull new like/heart values and write them BACK TO DB
-         */
+
+        // Skeleton entry class
+        var entry = {
+            _id : new ObjectId(), // dunno if we need this b/c the following field...
+            id : 0, // If used, how do we check to incrament? Sort via field()? Pipeline via agreggate seems unnecessary
+            title : "",
+            author : "",
+            date : "", // save entry time, but use pipeline to make it human-readable
+            tag : [], // array of strings representing filterable tags
+            content: "",
+            /* How to pull like/heart data and update entry */
+            likes : 0,
+            hearts : 0,
+        }
 
     } catch (e) { // print out what went wrong
         console.error(e);
