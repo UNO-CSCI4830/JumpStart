@@ -1,5 +1,5 @@
 import React from "react";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {advicePosts} from "../../utils/advicePosts";
 import {resourcePosts} from "../../utils/resourcePosts";
 
@@ -8,63 +8,87 @@ import AdviceShareModal from "./../advice/AdviceShareModal";
 import ResourceCard from "./../resources/ResourceCard";
 import ResourceModal from "./../resources/ResourceModal";
 
-import{MongoClient, ObjectId} from "mongodb";
+import {AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios} from "react-axios";
+import {create} from "axios";
+
+/* TODO: 
+ * - Spin up Node.js server that will handle React requests to MongoDB: https://www.mongodb.com/community/forums/t/use-mongodb-directly-from-react/238644
+ *   - will handle our DB r/w commands, guessing Request/Get/Post type stuff to exchange data between Node and React
+ * - Axios integration on React side
+ */
 
 /* =========== DEMO PAGE =========== */
-
-async function readDB(){
-};
-async function writeDB(){
-
-};
-
-// class Database {
-//     uri = "mongodb://localhost:27017/";
-//     constructor() {
-//         this.client = new MongoClient(this.uri);
-//     }
-
-//     connect() {
-//         try {
-//             console.log("Attempting to connect to DB...");
-//             this.client.connect();
-//             console.log("Connection accepted.");
-//         } catch (e) {
-//             console.error(`An error occured when connecting to DB: ${e}`);
-//         }
-//     }
-
-//     close() {
-//         try {
-//             this.client.close()
-//         } catch(e) {
-//             console.error(`An error occured while closing connection: ${e}`);
-//         }
-//     }
-
-//     load() {}
-//     query() {}
-//     add(){}
-//     del(){}
-// }
-
 export default function Windtunnel() {
   const advice = advicePosts[0];
   const resource = resourcePosts[0];
   const [submitAdvice, toggleSubmitAdvice] = useState(false);
   const [submitResource, toggleSubmitResource] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [adviceMsg, setAdvice] = useState(null);
+  const [resourceMsg, setResource] = useState(null);
+  const [adminMsg, setLimbo] = useState(null);
 
-  //   /* DB instances */
-  // const resourceDB = new Database();
-  // const adviceDB = new Database();
-  // const limbo = new Database();
+  // FIXME: brokie :(
+  useEffect(() => {
+        fetch("/api")
+            .then((res) => res.json())
+            .then((data) => setMessage(data.message))
+            .catch( err => 
+                console.log(`Error contacting server/api...\n${err}`)
+            );
+        fetch("/admin")
+            .then((res) => res.json())
+            .then((data) => setLimbo(data.message))
+            .catch( err => 
+                console.log(`Error contacting server/admin...\n${err}`)
+            );
+        fetch("/advice")
+            .then((res) => res.json())
+            .then((data) => setAdvice(data.message))
+            .catch( err => 
+                console.log(`Error contacting server/advice...\n${err}`)
+            );
+        fetch("/resources")
+            .then((res) => res.json())
+            .then((data) => setResource(data.message))
+            .catch( err => 
+                console.log(`Error contacting server/resource...\n${err}`)
+            );
+  }, []);
+
   return (
     <div>
+      <div>
+      </div>
       <h1>### DEMO PAGE ###</h1>
       <p align='center'>My lil React playground.</p>
 
-      {/* ADVICE */}
+      <div>
+        <h3>Trying fetch()...</h3>
+        <p>{!message ? "Awaiting response..." : message}</p>
+        <p>{!adminMsg ? "Awaiting response..." : adminMsg}</p>
+        <p>{!resourceMsg ? "Awaiting response..." : resourceMsg}</p>
+        <p>{!adviceMsg ? "Awaiting response..." : adviceMsg}</p>
+      </div>
 
+      <div>
+        <Get url="/api">
+            {(error, response, isLoading, makeRequest, axios) => {
+          if(error) {
+            return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+          }
+          else if(isLoading) {
+            return (<div>Loading...</div>)
+          }
+          else if(response !== null) {
+            return (<div>{response.data.message} <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button></div>)
+          }
+          return (<div>Default message before request is made.</div>)
+        }}
+        </Get>
+      </div>
+
+      {/* ADVICE */}
 	  <div>
 	  	<h3>Advice Data</h3>
         <button onClick={toggleSubmitAdvice}>Submit Advice</button>
