@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const categories = [
-  "Academic",
+  /* Tags array */ "Academic",
   "Financial Aid",
   "Career",
   "Health",
@@ -9,12 +9,19 @@ const categories = [
   "Student Submission",
 ];
 
-// EditResourceModal component for editing resource details
+/* Launches form that presents resource data to be edited */
+// looks like a lot is similar to EditAdviceModal
 function EditResourceModal({ resource, onSave, onClose }) {
-  // State to hold the edited resource data
+  /*
+   * @ properties
+   * advice: entry
+   * onSave: function that takes component's state variable, editedAdvice
+   * onClose: function that handles exiting window. Guessing no persistent
+   * changes are desired
+   */
+  // state tuple
   const [editedResource, setEditedResource] = useState(resource);
 
-  // Handler for form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedResource((prev) => ({ ...prev, [name]: value }));
@@ -24,7 +31,6 @@ function EditResourceModal({ resource, onSave, onClose }) {
     <div className="modal">
       <div className="modal-content">
         <h2>Edit Resource</h2>
-        {/* Form fields for editing resource details */}
         <label>
           Title:
           <input
@@ -58,7 +64,6 @@ function EditResourceModal({ resource, onSave, onClose }) {
             value={editedResource.category}
             onChange={handleChange}
           >
-            {/* Render options for each category */}
             {categories.map((category) => (
               <option key={category} value={category}>
                 {category}
@@ -66,7 +71,6 @@ function EditResourceModal({ resource, onSave, onClose }) {
             ))}
           </select>
         </label>
-        {/* Action buttons */}
         <div class="form-actions">
           <button class="btn-save" onClick={() => onSave(editedResource)}>
             Save Changes

@@ -1,9 +1,11 @@
 import React from "react";
 
-// ResourceCard component displays individual resource information
-// Props:
-// - resource: Object containing resource details (title, description, link)
+/* Take title given to resource, description of resource, and link to resource and makes it look presentable */
 const ResourceCard = ({ resource }) => {
+  /*
+   * @ properties
+   * resource: document that will be formatted for display
+   */
   return (
     <div className="resource-card">
       {/* Resource title */}

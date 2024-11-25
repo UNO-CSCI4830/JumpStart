@@ -6,6 +6,7 @@ import "../styles/AuthenticationModal.css";
 // - onClose: Function to close the modal
 // - onVerification: Function to handle successful verification
 export default function AuthenticationModal({ onClose, onVerification }) {
+  /* Starting state of form: Empty */
   // State for email input
   const [email, setEmail] = useState("");
   // State for verification code input
@@ -19,6 +20,7 @@ export default function AuthenticationModal({ onClose, onVerification }) {
   };
 
   // Handler for verification code input changes
+  /* Upon state change, save new value to email */
   const handleVerificationCodeChange = (e) => {
     setVerificationCode(e.target.value);
   };
@@ -44,6 +46,7 @@ export default function AuthenticationModal({ onClose, onVerification }) {
   };
 
   return (
+    /* HTML time! */
     <div className="modal">
       <div className="modal-content">
         <h2 className="modal-title">UNO Student Access</h2>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../styles/Home.css";
 
 const HomePage = () => {
-  const news = [
+  const news = [ /* array of news details */
     {
       title: "New Resource Center Launch",
       date: "2024-02-01",
@@ -23,7 +23,7 @@ const HomePage = () => {
     },
   ];
 
-  const quickLinks = [
+  const quickLinks = [ /* array of links to different pages */
     {
       href: "/resources",
       icon: "book-open",

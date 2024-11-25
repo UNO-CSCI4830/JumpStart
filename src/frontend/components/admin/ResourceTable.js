@@ -1,7 +1,13 @@
 import React from "react";
 
-// ResourceTable component to display a table of resources
+/* Calls table to display Resource data. Looks equivelant to AdviceTable */
 function ResourceTable({ resources, onStatusChange, onEdit }) {
+  /*
+   * @ properties
+   * advice: array of entries (data) to be mapped to JSX elements
+   * onStatuSchange: function that updates advice element data(?)
+   * onEdit: function that will allow admins to change entry data
+   */
   return (
     <table className="admin-table">
       <thead>
