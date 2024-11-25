@@ -4,18 +4,34 @@
 
 const {MongoClient, ObjectId} = require('mongodb');
 
-class Connection {
+export class Database {
     uri = "mongodb://localhost:27017/";
     constructor() {
         this.client = new MongoClient(this.uri);
     }
 
-    /* getters */
-    search() {
-        
+    connect() {
+        try {
+            console.log("Attempting to connect to DB...");
+            this.client.connect();
+            console.log("Connection accepted.");
+        } catch (e) {
+            console.error(`An error occured when connecting to DB:\n${e}`);
+        }
     }
-    /* setters */
 
+    close() {
+        try {
+            this.client.close()
+        } catch(e) {
+            console.error(`An error occured while closing connection:\n${e}`);
+        }
+    }
+
+    load() {}
+    query() {}
+    add(){}
+    del(){}
 }
 
 /* ========== MAIN ========== */
