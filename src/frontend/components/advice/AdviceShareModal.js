@@ -1,7 +1,25 @@
 import React, { useState } from "react";
 
+const tags = [
+  "Study tips",
+  "Professors",
+  "Housing & Dorm Life",
+  "Financial Aid & Scholarships",
+  "First-Year Experience",
+  "Exam Preparation",
+  "Career Advice",
+  "Commuter Student Tips",
+  "Study Abroad",
+  "Alumni Insights",
+  "Part-Time Jobs",
+  "Internships",
+  "Tech & Tools",
+  "Off-Campus Life",
+  "Networking",
+];
+
 /* Launches submit form for the user to create a new entry */
-export default function AdviceShareModal({ onClose }) {
+export default function AdviceShareModal({ onClose, userEmail = "" }) {
   /*
    * @ properties
    * onClose: function to handle data when form closes
@@ -63,6 +81,8 @@ export default function AdviceShareModal({ onClose }) {
               value={formData.email}
               onChange={handleChange}
               required
+              readOnly={!!userEmail} // Make readonly if userEmail is provided
+              className={userEmail ? "form-control readonly" : "form-control"}
             />
           </div>
 
@@ -92,71 +112,41 @@ export default function AdviceShareModal({ onClose }) {
           </div>
 
           <div className="form-group">
-            <label>Tags:</label>
-            <div className="tag-container">
-              <div>
-                <input
-                  type="checkbox"
-                  id="studyTips"
-                  name="tags"
-                  value="Study tips"
-                  onChange={handleChange}
-                />
-                <label htmlFor="studyTips" className="tag-label">
-                  Study tips
-                </label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="timeManagement"
-                  name="tags"
-                  value="Time management"
-                  onChange={handleChange}
-                />
-                <label htmlFor="timeManagement" className="tag-label">
-                  Time management
-                </label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="examPrep"
-                  name="tags"
-                  value="Exam preparation"
-                  onChange={handleChange}
-                />
-                <label htmlFor="examPrep" className="tag-label">
-                  Exam preparation
-                </label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="careerAdvice"
-                  name="tags"
-                  value="Career advice"
-                  onChange={handleChange}
-                />
-                <label htmlFor="careerAdvice" className="tag-label">
-                  Career advice
-                </label>
-              </div>
-              <div>
-                <input
-                  type="checkbox"
-                  id="campusLife"
-                  name="tags"
-                  value="Campus life"
-                  onChange={handleChange}
-                />
-                <label htmlFor="campusLife" className="tag-label">
-                  Campus life
-                </label>
-              </div>
-            </div>
-          </div>
+            {/* Label for the tag selection dropdown */}
+            <label htmlFor="tags">Tags:</label>
+            <select
+              id="tags"
+              name="tags"
+              multiple // Enables multiple tag selection
+              value={formData.tags} // Controlled component - reflects current selected tags
+              onChange={(e) => {
+                // Convert HTMLOptionsCollection to array of selected tag values
+                const selectedTags = Array.from(
+                  e.target.selectedOptions, // Get all selected options
+                  (option) => option.value // Extract just the value from each option
+                );
 
+                // Update form state with new array of selected tags
+                setFormData((prev) => ({
+                  ...prev, // Keep all other form data
+                  tags: selectedTags, // Update only the tags array
+                }));
+              }}
+              className="tag-select"
+            >
+              {/* Map each tag in our tags array to an option element */}
+              {tags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
+            </select>
+
+            {/* Helper text to explain multiple selection functionality */}
+            <small className="helper-text">
+              Hold Ctrl (Cmd on Mac) to select multiple tags
+            </small>
+          </div>
           <div className="form-group">
             <label htmlFor="advice">Your Advice:</label>
             <textarea

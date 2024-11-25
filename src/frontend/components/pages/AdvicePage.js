@@ -13,7 +13,8 @@ export default function Advice() {
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
 
-  useEffect(() => { /* ??? No variable to handle arrow func off of, but I'm
+  useEffect(() => {
+    /* ??? No variable to handle arrow func off of, but I'm
     guessing this sorts posts on page based off "order" bar */
     let newPosts = [...advicePosts]; /* ??? re-assig arr of doc objects to 
     newPosts */
@@ -24,7 +25,7 @@ export default function Advice() {
     }
 
     // Apply sort
-    switch (sortCriteria) { /* default sortCriteria = mostRecent */
+    switch (sortCriteria /* default sortCriteria = mostRecent */) {
       case "mostRecent":
         newPosts.sort((a, b) => {
           const timeA = parseTimeAgo(a.timeAgo);
@@ -47,9 +48,9 @@ export default function Advice() {
   }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
-
-    // TODO: Add to db pipeline
-  const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 
+  // TODO: Add to db pipeline
+  const parseTimeAgo = (timeAgo) => {
+    /* arrow func with arg timeAgo calculates 
   how long ago a post was submitted */
     const timeParts = timeAgo.split(" ");
     const timeValue = parseInt(timeParts[0], 10);
@@ -87,8 +88,8 @@ export default function Advice() {
         sortCriteria  */
         currentSort={sortCriteria} /* Pass in current sortCriteria */
       />
-      {isModalOpen && ( /* if True, open submit form. Resets to false when form
-      is closed */
+      {isModalOpen /* if True, open submit form. Resets to false when form
+      is closed */ && (
         <AdviceShareModal onClose={() => setIsModalOpen(false)} />
       )}
     </div>
