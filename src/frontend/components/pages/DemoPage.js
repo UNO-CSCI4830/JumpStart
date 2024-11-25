@@ -28,7 +28,6 @@ export default function Windtunnel() {
   const [resourceMsg, setResource] = useState(null);
   const [adminMsg, setLimbo] = useState(null);
 
-  // FIXME: brokie :(
   useEffect(() => {
         fetch("/api")
             .then((res) => res.json())
