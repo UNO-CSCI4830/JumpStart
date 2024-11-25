@@ -1,13 +1,8 @@
 import React from "react";
 
-// ResourceModal component for submitting new resources
-// Props:
-// - isOpen: Boolean to control modal visibility
-// - onClose: Function to close the modal
-// - onSubmit: Function to handle form submission
-// - newResource: Object containing new resource data
-// - handleInputChange: Function to handle input changes
-// - categories: Array of available resource categories
+/* Behavior is similar to AdviceShareModal */
+/* TODO: append submission time */
+/* TODO: Submit data to DB */
 const ResourceModal = ({
   isOpen,
   onClose,
@@ -16,10 +11,19 @@ const ResourceModal = ({
   handleInputChange,
   categories = [],
 }) => {
-  // If modal is not open, don't render anything
+  /*
+   * @ properties
+   * isOpen: boolean determining form state
+   * onClose: function determining form behavior when closed
+   * onSubmit: function determining form behavior when submit button is clicked
+   * newResource: resource object to be updated with contents of form
+   * handleInputChange: function determining form behavior when form inputs change
+   * categories: Array of categories for user to choose from
+   */
   if (!isOpen) return null;
 
   return (
+    /* HTML time */
     <div className="modal">
       <div className="modal-content">
         <h2>Submit a New Resource</h2>
@@ -27,16 +31,19 @@ const ResourceModal = ({
           Share a valuable resource with your fellow students. Please provide
           accurate information.
         </p>
+        {/* Submission form! */}
         <form onSubmit={onSubmit}>
-          {/* Email input field */}
+          {" "}
+          {/* calls onSubmit */}
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
               name="email"
-              value={newResource.email}
-              onChange={handleInputChange}
+              value={newResource.email} /* assigns value to a property of 
+              newResource */
+              onChange={handleInputChange} /* calls handleInputChange */
               required
             />
           </div>
@@ -85,6 +92,7 @@ const ResourceModal = ({
               onChange={handleInputChange}
               required
             >
+              {/* array map to provide category options for users */}
               <option value="">Select a category</option>
               {categories.map((category) => (
                 <option key={category} value={category}>
@@ -101,7 +109,7 @@ const ResourceModal = ({
             <button
               type="button"
               className="btn btn-secondary"
-              onClick={onClose}
+              onClick={onClose} /* call onClose */
             >
               Cancel
             </button>

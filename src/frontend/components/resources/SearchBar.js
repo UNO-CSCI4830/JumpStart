@@ -1,10 +1,12 @@
 import React from "react";
 
-// SearchBar component for filtering resources
-// Props:
-// - searchTerm: String containing the current search term
-// - onSearchChange: Function to handle changes in the search input
+/* object that constructs SearchBar and gives it behavior */
 const SearchBar = ({ searchTerm, onSearchChange }) => {
+  /*
+   * @ properties
+   * searchTerm: state variable to be assigned when user inputs string
+   * onSearchChange: function determining behavior when input form has changed
+   */
   return (
     <div className="search-container">
       {/* Search input field */}

@@ -1,10 +1,13 @@
 import React from "react";
 import ResourceCard from "./ResourceCard";
 
-// ResourceList component to display a list of resources
-// Props:
-// - resources: Array of resource objects to be displayed
+/* Builds a list of ResourceCard Components by mapping array of document 
+   objects */
 const ResourceList = ({ resources }) => {
+  /*
+   * @ properties
+   * resources: array of document objects to be mapped to its own ResourceCard
+   */
   return (
     <div className="resources">
       {/* Map through resources and render a ResourceCard for each */}

@@ -1,19 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// AdviceSidebar component displays the sidebar with filtering options
-// Props:
-// - onShareClick: Function to handle "Share Advice" button click
-// - onFilterChange: Function to handle filter changes
-// - activeTag: Currently active tag for filtering
+/* The list on the left of the page
+ * enables posts filtering based off the posts's tags
+ */
 export default function AdviceSidebar({
   onShareClick,
   onFilterChange,
   activeTag,
 }) {
-  // Array of available tags for filtering
+  /*
+   * @ properties
+   * onShareClick: guessing this is the function that launches the
+   * AdviceShareModal
+   * onFilterChange: guessing this function updates what posts are displayed based
+   * on what is selected
+   * activeTag: string that helps decide which filter to be set with active CSS
+   */
   const tags = [
-    "All",
+    /* array of tags */ "All",
     "Study tips",
     "Professors",
     "Housing & Dorm Life",
@@ -34,7 +39,6 @@ export default function AdviceSidebar({
   return (
     <aside>
       <h2>Filter</h2>
-      {/* List of filter tags */}
       <ul>
         {tags.map((tag) => (
           <li
@@ -48,7 +52,6 @@ export default function AdviceSidebar({
           </li>
         ))}
       </ul>
-      {/* Share Advice button */}
       <button className="btn btn-primary btn-block" onClick={onShareClick}>
         Share Advice
       </button>
