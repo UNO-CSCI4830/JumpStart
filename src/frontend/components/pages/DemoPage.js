@@ -19,34 +19,35 @@ import {create} from "axios";
 
 /* =========== DEMO PAGE =========== */
 export default function Windtunnel() {
-  var advicePosts;
-  const resource = resourcePosts[0];
-  const [submitAdvice, toggleSubmitAdvice] = useState(false);
-  const [submitResource, toggleSubmitResource] = useState(false);
+    var advicePosts;
+    const resource = resourcePosts[0];
+    const [submitAdvice, toggleSubmitAdvice] = useState(false);
+    const [submitResource, toggleSubmitResource] = useState(false);
 
-  const [message, setMessage] = useState(null);
-  const [advice, setAdvice] = useState(null);
+    const [message, setMessage] = useState(null);
+    const [advice, setAdvice] = useState(null);
+    const [resources, setResources] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
         fetch("/api/advice")
             .then((res) => res.json())
             .then((data) => setAdvice(data.message))
             .catch( err => 
                 console.log(`Error contacting server/advice...\n${err}`)
             );
-  }, []);
+    }, []);
 
     const axiosInstance = create({
         baseURL : '/api/',
         timeout : 2000
     });
 
-  return (
-    <div>
-      <div>
-      </div>
-      <h1>### DEMO PAGE ###</h1>
-      <p align='center'>My lil React playground.</p>
+    return (
+        <div>
+            <div>
+            </div>
+            <h1>### DEMO PAGE ###</h1>
+            <p align='center'>My lil React playground.</p>
 
             {/* ADVICE */}
             <div>
@@ -100,19 +101,52 @@ export default function Windtunnel() {
             </div>
 
 
-      {/* RESOURCE */}
+            {/* RESOURCE */}
+            <div>
+                <h3>DEBUGGING Resources...</h3>
+                <AxiosProvider instance={axiosInstance}>
+                    <Get url="/resources">
+                        {(error, response, isLoading, makeRequest, axios) => {
+                            if(error) {
+                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+                            }
+                            else if(isLoading) {
+                                return (<div>Loading...</div>)
+                            }
+                            else if(response !== null) {
+                                return (
+                                    <div>
+                                        {response.data.message} 
+                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
+                                        { setResources(response.data.payload) }
 
-	  <div>
-	  	<h3>Resource Data</h3>
-        <button onClick={toggleSubmitResource}>Submit Resource</button>
-        <ResourceCard key={resource.id} resource={resource} />
-		 <p> 
-	  		Category Value: {resource.category} <br />
-	  		Title Value: {resource.title} <br />
-	  		Description Value: {resource.description} <br />
-	  		link Value: {resource.link} <br />
-		 </p> 
-	  </div>
-    </div>
-  );
+                                        {console.log(resources[0])}
+                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
+
+
+                                        <div>
+                                            <h3>Resource Data</h3>
+                                            <button onClick={toggleSubmitResource}>Submit Resource</button>
+                                            <ResourceCard key={resource.id} resource={resource} />
+                                            <p> 
+                                                Category Value: {resource.category} <br />
+                                                Title Value: {resource.title} <br />
+                                                Description Value: {resource.description} <br />
+                                                link Value: {resource.link} <br />
+                                            </p> 
+                                        </div>
+
+                                    </div>)
+
+                            }
+                            return (<div>Default message before request is made.</div>)
+                        }}
+                    </Get>
+
+
+                </AxiosProvider>
+            </div>
+
+        </div>
+    );
 };
