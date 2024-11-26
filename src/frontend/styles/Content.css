@@ -265,8 +265,7 @@ aside li.active a {
 
 .form-group input[type="email"],
 .form-group input[type="text"],
-.form-group select,
-.form-group textarea {
+.form-group select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ddd;
@@ -286,32 +285,6 @@ aside li.active a {
 
 .form-group textarea {
   resize: vertical;
-}
-
-.tag-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag-container input[type="checkbox"] {
-  display: none;
-}
-
-.tag-label {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tag-container input[type="checkbox"]:checked + .tag-label {
-  background-color: #007bff;
-  color: #fff;
-  border-color: #007bff;
 }
 
 .form-actions {
@@ -337,4 +310,47 @@ aside li.active a {
   margin: 2rem auto;
   gap: 2rem;
   min-width: 1200px;
+}
+
+.tag-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  min-height: 150px;
+}
+
+.helper-text {
+  display: block;
+  color: #666;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.pagination-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover {
+  background: #f0f0f0;
+}
+
+.pagination-button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
 }
