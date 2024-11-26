@@ -12,68 +12,72 @@ app.use(express.json());
 // ADVICE INTERFACE
 app.get('/api/advice', async (req, res) => {
 
+    console.log("GET request for advice received");
+
     const advice = new Database("Posts", "advice");
     await advice.query();
-    const posts = advice.getPayload();
 
     // A simple error statement just in case a DB fails
     if (advice.getError() !== null) { // would love to use the advice's getter in the response object
         res.json({
             message : "Failed retrieving advice posts :(",
-            payload : advice.getError()
+            errMsg : advice.getError()
         });
         console.log("Error retrieving advice posts from DB.");
     } else {
         res.json({
             message: "Advice posts incoming!",
-            payload: posts
+            payload: advice.getPayload()
         });
-        console.log("GET request for advice received");
+        console.log("Advice successfully sent to client.");
     }
 });
 
 // RESOURCES INTERFACE
 app.get('/api/resources', async (req, res) => {
 
+    console.log("GET request for resources received");
+    
     const resources = new Database("Posts", "resources");
     await resources.query();
-    const posts = resources.getPayload();
 
-    if (posts.length === 0) {
+    if (resources.getError() !== null) {
         res.json({
             message : "Failed retrieving resources posts :(",
-            payload : posts.getError()
+            errMsg : resources.getError()
         });
         console.log("Error retrieving resource posts from DB.");
     } else {
         res.json({
             message: "resource posts incoming!",
-            payload: posts 
+            payload: resources.getPayload()
         });
-        console.log("GET request for resources received");
+        console.log("Resources successfully sent to client.");
     }
 });
 
 // ADMIN INTERFACE
 app.get('/api/admin', async (req, res) => {
 
+    console.log("GET request for admin received");
+
     const limbo = new Database("Posts", "resources");
     await limbo.query();
     const posts = limbo.getPayload();
 
     // A simple error statement just in case a DB fails
-    if (posts.length === 0) {
+    if (limbo.getError() !== null) {
         res.json({
             message : "Failed retrieving purgatory :(",
-            payload : limbo.getError()
+            errMsg : limbo.getError()
         });
         console.log("Error retrieving purgatory from DB.");
     } else {
         res.json({
             message: "Purgatory incoming!",
-            payload: posts 
+            payload: limbo.getPayload()
         });
-        console.log("GET request for admin received");
+        console.log("Limbo successfully sent to client.");
     }
 });
 
