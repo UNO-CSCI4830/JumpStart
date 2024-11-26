@@ -6,7 +6,7 @@ import ResourceList from "../../components/resources/ResourceList";
 import CategoryButton from "../../components/resources/CategoryButton";
 import initialResources from "../../utils/initialResources";
 
-const categories = [
+const categories = [ /* array for categories */
   "Academic",
   "Financial Aid",
   "Career",
@@ -16,10 +16,12 @@ const categories = [
 ];
 
 const ResourcePage = () => {
+  /* Use state and state-changer duo */
   const [activeCategory, setActiveCategory] = useState("Academic");
+  /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
   const [searchTerm, setSearchTerm] = useState("");
   const [resources, setResources] = useState(initialResources);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); /* State of ResourceSubmitModal component, initially False */
   const [newResource, setNewResource] = useState({
     title: "",
     description: "",
@@ -27,22 +29,28 @@ const ResourcePage = () => {
     category: "",
   });
 
-  const filteredResources = resources.filter(
-    (resource) =>
-      resource.category === activeCategory &&
-      (resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        resource.description.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  /* Arrow function updating resources displayed based on searchTerm value */
+    const filteredResources = resources.filter(
+        (resource) => /* resource as an argument */
+            /* if category matches activeCategory, and title/description matches 
+               searchTerm, add to filteredResources array */
+            resource.category === activeCategory && 
+                (resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    resource.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => { /* upon submit event, update resources array 
+  with new entry */
+    e.preventDefault(); /* ??? ensure that an empty form isn't added */
     const id = resources.length + 1;
     setResources([...resources, { ...newResource, id }]);
-    setIsModalOpen(false);
+    setIsModalOpen(false); /* Modal state is now false */
+     /* new resource is now set, with blank elements */
     setNewResource({ title: "", description: "", link: "", category: "" });
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => { /* when a change event occurs, update the 
+  newResource with new name : value */
     const { name, value } = e.target;
     setNewResource({ ...newResource, [name]: value });
   };
@@ -57,26 +65,33 @@ const ResourcePage = () => {
       </p>
 
       <SearchBar
-        searchTerm={searchTerm}
-        onSearchChange={(e) => setSearchTerm(e.target.value)}
+        searchTerm={searchTerm} /* searchTerm state variable */
+        onSearchChange={(e) => setSearchTerm(e.target.value)} /* state changer 
+        to update searchTerm to entered string, given an event that occurs */
       />
 
       <div className="categories">
-        {categories.map((category) => (
+        {categories.map((category) => ( /* arrow func to build a CategoryButton 
+        to each category in array */
           <CategoryButton
-            key={category}
-            category={category}
-            isActive={activeCategory === category}
-            onClick={() => setActiveCategory(category)}
+            key={category} /* passes category as key */
+            category={category} /* ...and category again as category */
+            isActive={activeCategory === category} /* truthy boolean determining 
+            if the category is active */
+            onClick={() => setActiveCategory(category)} /* state changer to 
+            assign new category if button is clicked */
           />
         ))}
       </div>
+            {/* Passes filteredResources array to ResourceList component */}
+      <ResourceList resources={filteredResources} /> 
 
-      <ResourceList resources={filteredResources} />
-
+      {/* Button that, if clicked toggles ResourceSubmitModal state between T
+      or F */}
       <button
         className="submit-resource-btn"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsModalOpen(true)} /* now Modal state is True, 
+        Open form!*/
       >
         <svg
           viewBox="0 0 24 24"
@@ -90,12 +105,18 @@ const ResourcePage = () => {
       </button>
 
       <ResourceModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSubmit={handleSubmit}
-        newResource={newResource}
-        handleInputChange={handleInputChange}
-        categories={categories}
+        isOpen={isModalOpen} /* current boolean determining if form is even 
+        open */
+        onClose={() => setIsModalOpen(false)} /* passing state changer to set 
+        the modal state boolean to false when form closes */
+        onSubmit={handleSubmit} /* Passing arrow func to onSubmit behavior, so 
+        when submit button is clicked, data entered into the form is saved */
+        newResource={newResource} /* passing empty new resource object to be 
+        filled in with formData */
+        handleInputChange={handleInputChange} /* passing arrow func to Modal to
+        update data with new inputs */
+        categories={categories} /* passes categories array to provide user with
+        possible assignments */
       />
     </div>
   );

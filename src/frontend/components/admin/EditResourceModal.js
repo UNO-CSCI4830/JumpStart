@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const categories = [
-  "Academic",
+  /* Tags array */ "Academic",
   "Financial Aid",
   "Career",
   "Health",
@@ -9,7 +9,17 @@ const categories = [
   "Student Submission",
 ];
 
+/* Launches form that presents resource data to be edited */
+// looks like a lot is similar to EditAdviceModal
 function EditResourceModal({ resource, onSave, onClose }) {
+  /*
+   * @ properties
+   * advice: entry
+   * onSave: function that takes component's state variable, editedAdvice
+   * onClose: function that handles exiting window. Guessing no persistent
+   * changes are desired
+   */
+  // state tuple
   const [editedResource, setEditedResource] = useState(resource);
 
   const handleChange = (e) => {

@@ -5,14 +5,19 @@ import AdviceShareModal from "../advice/AdviceShareModal";
 import { advicePosts } from "../../utils/advicePosts";
 import "../../styles/Content.css";
 
+/* Builds page for displaying advice */
 export default function Advice() {
+  /* state tuples */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filteredPosts, setFilteredPosts] = useState(advicePosts);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
 
   useEffect(() => {
-    let newPosts = [...advicePosts];
+    /* ??? No variable to handle arrow func off of, but I'm
+    guessing this sorts posts on page based off "order" bar */
+    let newPosts = [...advicePosts]; /* ??? re-assig arr of doc objects to 
+    newPosts */
 
     // Apply filter
     if (activeTag !== "All") {
@@ -20,7 +25,7 @@ export default function Advice() {
     }
 
     // Apply sort
-    switch (sortCriteria) {
+    switch (sortCriteria /* default sortCriteria = mostRecent */) {
       case "mostRecent":
         newPosts.sort((a, b) => {
           const timeA = parseTimeAgo(a.timeAgo);
@@ -38,10 +43,15 @@ export default function Advice() {
         break;
     }
 
-    setFilteredPosts(newPosts);
-  }, [activeTag, sortCriteria]);
+    setFilteredPosts(newPosts); /* updates filteredPosts to the re-sorted 
+    newPosts */
+  }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
+  be used in the arrow func */
 
+  // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => {
+    /* arrow func with arg timeAgo calculates 
+  how long ago a post was submitted */
     const timeParts = timeAgo.split(" ");
     const timeValue = parseInt(timeParts[0], 10);
     const timeUnit = timeParts[1];
@@ -64,17 +74,22 @@ export default function Advice() {
 
   return (
     <div className="advice-container">
-      <Sidebar
-        onShareClick={() => setIsModalOpen(true)}
-        onFilterChange={setActiveTag}
-        activeTag={activeTag}
+      <Sidebar /* Call Sidebar */
+        onShareClick={() => setIsModalOpen(true)} /* Calls state changer to 
+        open submit form */
+        onFilterChange={setActiveTag} /* pass in state changer to update active
+        tag */
+        activeTag={activeTag} /* Pass in current active tag */
       />
-      <Content
-        posts={filteredPosts}
-        onSortChange={setSortCriteria}
-        currentSort={sortCriteria}
+      <Content /* Call Content */
+        posts={filteredPosts} /* pass in filteredPsts to Content to display 
+        using AdviceCard */
+        onSortChange={setSortCriteria} /* pass in state changer for 
+        sortCriteria  */
+        currentSort={sortCriteria} /* Pass in current sortCriteria */
       />
-      {isModalOpen && (
+      {isModalOpen /* if True, open submit form. Resets to false when form
+      is closed */ && (
         <AdviceShareModal onClose={() => setIsModalOpen(false)} />
       )}
     </div>

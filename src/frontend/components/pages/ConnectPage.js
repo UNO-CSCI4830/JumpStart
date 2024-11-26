@@ -1,19 +1,22 @@
 import React from "react";
 import "../../styles/Connect.css";
 
+// ConnectPage component displays community connection features
 const ConnectPage = () => {
   return (
     <div className="container">
+      {/* Header section */}
       <div className="header">
         <h1>Connect with the Community</h1>
         <p className="subtitle">
-          Join the UNO Student Hub to connect, collaborate, and
-          <br />
-          explore community channels with fellow students!
+          Join the UNO Student Hub to connect, collaborate, and explore
+          community channels with fellow students!
         </p>
       </div>
 
+      {/* Feature cards grid */}
       <div className="card-grid">
+        {/* Chat channels card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -24,6 +27,7 @@ const ConnectPage = () => {
               Dedicated channels for different subjects and interests
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <div className="badge-container">
               <span className="badge">#placeholder</span>
@@ -35,6 +39,7 @@ const ConnectPage = () => {
           </div>
         </div>
 
+        {/* Community features card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -45,6 +50,7 @@ const ConnectPage = () => {
               Everything you need to connect and collaborate
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <ul className="feature-list">
               <li>• Placeholder</li>
@@ -56,6 +62,7 @@ const ConnectPage = () => {
           </div>
         </div>
 
+        {/* Get started card */}
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">
@@ -66,6 +73,7 @@ const ConnectPage = () => {
               Join our Discord server in three easy steps
             </p>
           </div>
+          {/* TODO */}
           <div className="card-content">
             <ol className="steps-list">
               <li>
@@ -89,6 +97,7 @@ const ConnectPage = () => {
         </div>
       </div>
 
+      {/* Community guidelines section */}
       <div className="guidelines-section">
         <h2>Community Guidelines</h2>
         <p className="guidelines-description">
