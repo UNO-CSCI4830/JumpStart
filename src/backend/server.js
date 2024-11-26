@@ -17,7 +17,7 @@ app.get('/api/advice', async (req, res) => {
     const posts = advice.getPayload();
 
     // A simple error statement just in case a DB fails
-    if (posts.getError() !== null) { // would love to use the advice's getter in the response object
+    if (advice.getError() !== null) { // would love to use the advice's getter in the response object
         res.json({
             message : "Failed retrieving advice posts :(",
             payload : advice.getError()
@@ -26,7 +26,7 @@ app.get('/api/advice', async (req, res) => {
     } else {
         res.json({
             message: "Advice posts incoming!",
-            payload: posts
+            payload: posts // Replicate what's in Resources Interface
         });
         console.log("GET request for advice received");
     }
@@ -39,16 +39,16 @@ app.get('/api/resources', async (req, res) => {
     await resources.query();
     const posts = resources.getPayload();
 
-    if (posts.length === 0) {
+    if (resources.getError() !== null) {
         res.json({
             message : "Failed retrieving resources posts :(",
-            payload : posts.getError()
+            payload : resources.getError()
         });
         console.log("Error retrieving resource posts from DB.");
     } else {
         res.json({
             message: "resource posts incoming!",
-            payload: posts 
+            payload: resources.getPayload() 
         });
         console.log("GET request for resources received");
     }
@@ -62,7 +62,7 @@ app.get('/api/admin', async (req, res) => {
     const posts = limbo.getPayload();
 
     // A simple error statement just in case a DB fails
-    if (posts.length === 0) {
+    if (limbo.getError() !== null) {
         res.json({
             message : "Failed retrieving purgatory :(",
             payload : limbo.getError()
