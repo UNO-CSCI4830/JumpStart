@@ -9,7 +9,7 @@ import ResourceCard from "./../resources/ResourceCard";
 import ResourceModal from "./../resources/ResourceModal";
 
 import {AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios} from "react-axios";
-import {create} from "axios";
+import {post, get} from "axios";
 
 /* TODO: 
  * - Spin up Node.js server that will handle React requests to MongoDB: https://www.mongodb.com/community/forums/t/use-mongodb-directly-from-react/238644
@@ -19,28 +19,56 @@ import {create} from "axios";
 
 /* =========== DEMO PAGE =========== */
 export default function Windtunnel() {
-    var advicePosts;
-    const resource = resourcePosts[0];
+    
     const [submitAdvice, toggleSubmitAdvice] = useState(false);
     const [submitResource, toggleSubmitResource] = useState(false);
 
     const [message, setMessage] = useState(null);
     const [advice, setAdvice] = useState(null);
     const [resources, setResources] = useState(null);
+    const [data, setData] = useState(null);
 
-    useEffect(() => {
-        fetch("/api/advice")
-            .then((res) => res.json())
-            .then((data) => setAdvice(data.message))
-            .catch( err => 
+    async function add(api, data) { // TODO: Implement!
+        if (data !== null) {
+            await post("/api/advice", { /* Axios POST */
+                payload: data
+            })
+            .then((res) => console.log(res))
+            .catch(err =>
+                console.log(`Error sending data to advice server...\n${err}`)
+            );
+        }
+    }
+
+    async function queryAdvice() {
+        await get("/api/advice") /* Axios GET */
+            .then((res) => {
+                setMessage(res.data.message);
+                setAdvice(res.data.payload);
+            }).catch( err => 
                 console.log(`Error contacting server/advice...\n${err}`)
             );
-    }, []);
 
-    const axiosInstance = create({
-        baseURL : '/api/',
-        timeout : 2000
-    });
+    }
+    async function queryResources() {
+        await get("/api/resources") /* Axios GET */
+            .then((res) => {
+                setMessage(res.data.message);
+                setResources(res.data.payload);
+            }).catch( err => 
+                console.log(`Error contacting server/resources...\n${err}`)
+            );
+
+    }
+    useEffect(() => {
+        // I ping the server twice because why not :)
+        queryAdvice();
+        queryResources();
+
+        add("/api/advice", data); // TODO: Implement!
+        add("/api/resources", data); // TODO: Implement!
+        add("/api/admin", data); // TODO: Implement!
+    }, []);
 
     return (
         <div>
@@ -52,84 +80,35 @@ export default function Windtunnel() {
             {/* ADVICE */}
             <div>
                 <h3>DEBUGGING ADVICE...</h3>
-                <AxiosProvider instance={axiosInstance}>
-                    <Get url="/advice">
-                        {(error, response, isLoading, makeRequest, axios) => {
-                            if(error) {
-                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
-                            }
-                            else if(isLoading) {
-                                return (<div>Loading...</div>)
-                            }
-                            else if(response !== null) {
-                                return (
-                                    <div>
-                                        {response.data.message} 
-                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
-                                        {
-                                            setAdvice(response.data.payload)
-
-                                        }
-
-                                        {console.log(advice[0])}
-                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
-                                        <div> {/* React component goes here */}
-                                            <h3>Advice Data</h3>
-                                            <button onClick={toggleSubmitAdvice}>Submit Advice</button>
-                                            <AdviceCard {...advice[0]} /> {/* I CLEARLY knew what this was, wtf */}
-                                            {/* TODO: 
-                                              * Okay... but now how do I save updated values back to advicePosts[0]? 
-                                              * I can't pass the new value from AdviceCard back here, so either
-                                              * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
-                                              * 	- I make the incrament here
-                                              */}
-                                            {submitAdvice && ( /* if True, open submit form. Resets to false when form is closed */
-                                                <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
-                                            )}
-                                        </div>
-                                    </div>)
-                            }
-                            return (<div>Default message before request is made.</div>)
-                        }}
-                    </Get>
-                </AxiosProvider>
+                <p>{!message ? "Awaiting response from advice..." : message}</p>
             </div>
 
+            <div> {/* React component goes here */}
+                <h3>Advice Data</h3>
+                { (advice !== null && (<AdviceCard {...advice[0]} /> )) || <div><h4>Nothing to show...</h4></div>}
+                <button onClick={toggleSubmitAdvice}>Submit Advice</button>
+                {/* TODO: 
+                  * Okay... but now how do I save updated values back to advicePosts[0]? 
+                  * I can't pass the new value from AdviceCard back here, so either
+                  * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
+                  * 	- I make the incrament here
+                  */}
+                {submitAdvice && ( /* if True, open submit form. Resets to false when form is closed */
+                    <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
+                )}
+            </div>
 
             {/* RESOURCE */}
             <div>
                 <h3>DEBUGGING Resources...</h3>
-                <AxiosProvider instance={axiosInstance}>
-                    <Get url="/resources">
-                        {(error, response, isLoading, makeRequest, axios) => {
-                            if(error) {
-                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
-                            }
-                            else if(isLoading) {
-                                return (<div>Loading...</div>)
-                            }
-                            else if(response !== null) {
-                                return (
-                                    <div>
-                                        {response.data.message} 
-                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
-                                        { setResources(response.data.payload) }
-
-                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
-
-                                        <div> {/* React component goes here */}
-                                            <h3>Resource Data</h3>
-                                            <button onClick={toggleSubmitResource}>Submit Resource</button>
-                                            <ResourceCard key={resources[0].id} resource={resources[0]} />
-                                        </div>
-
-                                    </div>)
-
-                            }
-                            return (<div>Default message before request is made.</div>)
-                        }}
-                    </Get>
-                </AxiosProvider>
+            </div>
+            <div> {/* React component goes here */}
+                <h3>Resource Data</h3>
+                { (resources !== null && (
+                    <ResourceCard key={resources[1].id} resource={resources[1]} />)
+                    || <div><h4>Nothing to show...</h4></div>
+                )}
+                <button onClick={toggleSubmitResource}>Submit Resource</button>
             </div>
 
         </div>
