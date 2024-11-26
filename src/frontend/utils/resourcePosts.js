@@ -1,4 +1,4 @@
-export const initialResources = [
+export const resourcePosts = [
   {
     id: 1,
     category: "Academic",
@@ -18,22 +18,22 @@ export const initialResources = [
     title: "Writing Center",
     description:
       "Professional assistance with essays, research papers, and academic writing",
-  },
+  },  
   {
     id: 4,
     category: "Financial Aid",
     title: "Scholarship Database",
     description:
       "Comprehensive list of available scholarships and application deadlines",
-  },
+  },  
   {
     id: 5,
     category: "Financial Aid",
     title: "FAFSA Workshop",
     description:
       "Get help filling out your FAFSA and understanding financial aid options",
-  },
-  {
+  },  
+{
     id: 6,
     category: "Career",
     title: "Resume Builder",
@@ -65,7 +65,7 @@ export const initialResources = [
     title: "Student Organizations",
     description: "Directory of clubs, organizations, and campus activities",
   },
-  {
+{
     id: 11,
     category: "Social",
     title: "Events Calendar",
@@ -97,5 +97,5 @@ export const initialResources = [
     category: "Financial Aid",
     title: "Work-Study Jobs",
     description: "On-campus employment opportunities for eligible students",
-  },
-];
+  }
+]

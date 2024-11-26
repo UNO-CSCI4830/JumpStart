@@ -3,6 +3,12 @@ import AdviceCard from "./AdviceCard";
 import "../../styles/Content.css";
 
 export default function Content({ posts, onSortChange }) {
+  /*
+   * @ properties
+   * posts: array of entries to be displayed
+   * onSortChange: function that updates order of posts displayed. Called by
+   * button events
+   */
   return (
     <section className="content">
       <div className="order-by">
@@ -31,19 +37,10 @@ export default function Content({ posts, onSortChange }) {
 
       <div className="advice-posts">
         {posts.length > 0 ? (
-          posts.map((post, index) => (
-            <AdviceCard
-              key={index}
-              title={post.title}
-              author={post.author}
-              time={post.timeAgo}
-              tag={post.tag}
-              content={post.content}
-              likes={post.likes}
-              hearts={post.hearts}
-            />
-          ))
+          /* For Each post, at each index, map to AdviceCard component */
+          posts.map((post, index) => <AdviceCard {...post} key={0} />)
         ) : (
+          // Display message when no posts are available
           <p>No advice is available for the selected filter.</p>
         )}
       </div>
