@@ -5,6 +5,7 @@ import {resourcePosts} from "../../utils/resourcePosts";
 import {AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios} from "react-axios";
 import {create} from "axios";
 import AdviceCard from "../advice/AdviceCard";
+import AdviceShareModal from "../advice/AdviceShareModal";
 import ResourceCard from "../resources/ResourceCard";
 
 /* TODO: 

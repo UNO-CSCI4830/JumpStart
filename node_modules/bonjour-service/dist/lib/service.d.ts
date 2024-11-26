@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import KeyValue from './KeyValue';
 import { EventEmitter } from 'events';
 export interface ServiceConfig {
