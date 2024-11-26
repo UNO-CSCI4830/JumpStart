@@ -19,7 +19,7 @@ const tags = [
 ];
 
 /* Launches submit form for the user to create a new entry */
-export default function AdviceShareModal({ onClose, userEmail = "" }) {
+export default function AdviceShareModal({ onClose }) {
   /*
    * @ properties
    * onClose: function to handle data when form closes
@@ -81,8 +81,6 @@ export default function AdviceShareModal({ onClose, userEmail = "" }) {
               value={formData.email}
               onChange={handleChange}
               required
-              readOnly={!!userEmail} // Make readonly if userEmail is provided
-              className={userEmail ? "form-control readonly" : "form-control"}
             />
           </div>
 
