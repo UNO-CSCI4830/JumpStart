@@ -5,7 +5,7 @@ const EventsList = () => {
   // state tuple
   const [events, setEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage] = useState(9); // Show 6 events per page
+  const [eventsPerPage] = useState(9); // Show 9 events per page
 
   /* ??? looks like useEffect is an omecient arrow func regardless if its 
    called */
