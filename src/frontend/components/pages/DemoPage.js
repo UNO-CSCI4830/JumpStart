@@ -73,30 +73,25 @@ export default function Windtunnel() {
 
                                         {console.log(advice[0])}
                                         <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
-                                        <div>
+                                        <div> {/* React component goes here */}
                                             <h3>Advice Data</h3>
                                             <button onClick={toggleSubmitAdvice}>Submit Advice</button>
                                             <AdviceCard {...advice[0]} /> {/* I CLEARLY knew what this was, wtf */}
                                             {/* TODO: 
-          * Okay... but now how do I save updated values back to advicePosts[0]? 
-          * I can't pass the new value from AdviceCard back here, so either
-          * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
-          * 	- I make the incrament here
-          */}
-                                            {submitAdvice && ( /* if True, open submit form. Resets to false when form
-      is closed */
+                                              * Okay... but now how do I save updated values back to advicePosts[0]? 
+                                              * I can't pass the new value from AdviceCard back here, so either
+                                              * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
+                                              * 	- I make the incrament here
+                                              */}
+                                            {submitAdvice && ( /* if True, open submit form. Resets to false when form is closed */
                                                 <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
                                             )}
                                         </div>
-
                                     </div>)
-
                             }
                             return (<div>Default message before request is made.</div>)
                         }}
                     </Get>
-
-
                 </AxiosProvider>
             </div>
 
@@ -123,17 +118,10 @@ export default function Windtunnel() {
                                         {console.log(resources[0])}
                                         <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
 
-
-                                        <div>
+                                        <div> {/* React component goes here */}
                                             <h3>Resource Data</h3>
                                             <button onClick={toggleSubmitResource}>Submit Resource</button>
-                                            <ResourceCard key={resource.id} resource={resource} />
-                                            <p> 
-                                                Category Value: {resource.category} <br />
-                                                Title Value: {resource.title} <br />
-                                                Description Value: {resource.description} <br />
-                                                link Value: {resource.link} <br />
-                                            </p> 
+                                            <ResourceCard key={resources[0].id} resource={resources[0]} />
                                         </div>
 
                                     </div>)
@@ -142,8 +130,6 @@ export default function Windtunnel() {
                             return (<div>Default message before request is made.</div>)
                         }}
                     </Get>
-
-
                 </AxiosProvider>
             </div>
 
