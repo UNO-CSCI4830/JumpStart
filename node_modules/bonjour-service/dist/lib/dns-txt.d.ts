@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import KeyValue from './KeyValue';
 export declare class DnsTxt {
     private binary;
