@@ -17,7 +17,7 @@ app.get('/api/advice', async (req, res) => {
     const posts = advice.getPayload();
 
     // A simple error statement just in case a DB fails
-    if (posts.getError() !== null) { // would love to use the advice's getter in the response object
+    if (advice.getError() !== null) { // would love to use the advice's getter in the response object
         res.json({
             message : "Failed retrieving advice posts :(",
             payload : advice.getError()
