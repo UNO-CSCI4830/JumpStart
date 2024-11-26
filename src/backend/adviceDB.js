@@ -4,85 +4,68 @@
 
 const {MongoClient, ObjectId} = require('mongodb');
 
-export class Database {
-    uri = "mongodb://localhost:27017/";
-    constructor() {
+class Database {
+    uri = "mongodb://localhost:27017"; // URI to mongoDB instacne. Be good to put this as a proxy and/or obfuscate lol
+    dbName = ""; // Generic string for identifying DB to interact with
+    collName = ""; // Igualmente for colllection name
+    payload = []; // Where I'm expecting post data to go. Dunno if I wanna seperate incoming/outgoing payloads but that seems like a good idea
+    errorStack = null; // How I'm currently passing along error codes from MongoDB to other sources for debugging atm
+    params = {}; // Query parameters
+    projs = {}; // Field filtering parameters unique to the find and findAll calls
+
+    constructor(dbname, collname) {
         this.client = new MongoClient(this.uri);
+        this.dbName = dbname;
+        this.collName = collname;
     }
 
-    connect() {
+    async query() {
         try {
             console.log("Attempting to connect to DB...");
-            this.client.connect();
-            console.log("Connection accepted.");
+            await this.client.connect(); // Connect to MongoDB instance
+            console.log(`Connected to DB!`);
+            const queryColl = await this.client.db(this.dbName).collection(this.collName); // Connect to Collection to retrieve contents
+            this.payload = await queryColl.find(this.params,this.projs).toArray();
         } catch (e) {
-            console.error(`An error occured when connecting to DB:\n${e}`);
+            this.errorStack = e;
+            console.error(`An error occured when connecting ot DB:\n${e}`);
+        } finally {
+            this.client.close();
         }
     }
 
-    close() {
-        try {
-            this.client.close()
-        } catch(e) {
-            console.error(`An error occured while closing connection:\n${e}`);
-        }
+    getPayload() {
+        return this.payload;
     }
-
-    load() {}
-    query() {}
-    add(){}
-    del(){}
 }
+
 
 /* ========== MAIN ========== */
 async function runAdvice() {
 
-    // URI connection details for client to communicate with DB
-    const uri = "mongodb://localhost:27017/";
-    const client = new MongoClient(uri); // creates MongoClient instance
+    const advice = new Database("Posts", "advice");
+    await advice.query();
+    const advicePosts = advice.getPayload();
 
-    try { // attempt to establish a connection
 
-        console.log(`Attempting connection to ${uri}...`);
-        await client.connect(); // sit and wait for DB to respond with "promise"
-        /* Blocks all following execution until DB promise has been received. Think c-s demo from comm networks */
-        console.log(`Connected to ${uri}\n`);
 
-        // define database object
-        const postsDB = await client.db("Posts");
+    // doing some quick confirmations
+    console.log(`Current size of advice: ${advicePosts.length}`);
 
-        // define collection objects
-        const advice = await postsDB.collection("advice");
-
-        // defining rw parameter documents
-        var query = {};
-        var proj = {};
-
-        // array of entries pulled from collections
-        const advicePosts = await advice.find(query,proj).toArray();
-
-        // doing some quick confirmations
-        console.log(`Current size of advice: ${advicePosts.length}`);
-
-        // Skeleton entry class
-        var entry = {
-            _id : new ObjectId(), // dunno if we need this b/c the following field...
-            id : 0, // If used, how do we check to incrament? Sort via field()? Pipeline via agreggate seems unnecessary
-            title : "",
-            author : "",
-            date : "", // save entry time, but use pipeline to make it human-readable
-            tag : [], // array of strings representing filterable tags
-            content: "",
-            /* How to pull like/heart data and update entry */
-            likes : 0,
-            hearts : 0,
-        }
-
-    } catch (e) { // print out what went wrong
-        console.error(e);
-    } finally { // close connection
-        await client.close();
+    // Skeleton entry class
+    var entry = {
+        _id : new ObjectId(), // dunno if we need this b/c the following field...
+        id : 0, // If used, how do we check to incrament? Sort via field()? Pipeline via agreggate seems unnecessary
+        title : "",
+        author : "",
+        date : "", // save entry time, but use pipeline to make it human-readable
+        tag : [], // array of strings representing filterable tags
+        content: "",
+        /* How to pull like/heart data and update entry */
+        likes : 0,
+        hearts : 0,
     }
+
 }
 
 runAdvice().catch(console.error);
