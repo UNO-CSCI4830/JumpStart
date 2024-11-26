@@ -115,7 +115,6 @@ export default function Windtunnel() {
                                         <p>Number of posts retrieved: {response.data.payload.length}</p>
                                         { setResources(response.data.payload) }
 
-                                        {console.log(resources[0])}
                                         <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
 
                                         <div> {/* React component goes here */}
