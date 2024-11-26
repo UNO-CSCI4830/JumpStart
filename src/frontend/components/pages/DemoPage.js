@@ -19,41 +19,27 @@ import {create} from "axios";
 
 /* =========== DEMO PAGE =========== */
 export default function Windtunnel() {
-  const advice = advicePosts[0];
+  var advicePosts;
   const resource = resourcePosts[0];
   const [submitAdvice, toggleSubmitAdvice] = useState(false);
   const [submitResource, toggleSubmitResource] = useState(false);
+
   const [message, setMessage] = useState(null);
-  const [adviceMsg, setAdvice] = useState(null);
-  const [resourceMsg, setResource] = useState(null);
-  const [adminMsg, setLimbo] = useState(null);
+  const [advice, setAdvice] = useState(null);
 
   useEffect(() => {
-        fetch("/api")
-            .then((res) => res.json())
-            .then((data) => setMessage(data.message))
-            .catch( err => 
-                console.log(`Error contacting server/api...\n${err}`)
-            );
-        fetch("/admin")
-            .then((res) => res.json())
-            .then((data) => setLimbo(data.message))
-            .catch( err => 
-                console.log(`Error contacting server/admin...\n${err}`)
-            );
-        fetch("/advice")
+        fetch("/api/advice")
             .then((res) => res.json())
             .then((data) => setAdvice(data.message))
             .catch( err => 
                 console.log(`Error contacting server/advice...\n${err}`)
             );
-        fetch("/resources")
-            .then((res) => res.json())
-            .then((data) => setResource(data.message))
-            .catch( err => 
-                console.log(`Error contacting server/resource...\n${err}`)
-            );
   }, []);
+
+    const axiosInstance = create({
+        baseURL : '/api/',
+        timeout : 2000
+    });
 
   return (
     <div>
@@ -62,47 +48,57 @@ export default function Windtunnel() {
       <h1>### DEMO PAGE ###</h1>
       <p align='center'>My lil React playground.</p>
 
-      <div>
-        <h3>Trying fetch()...</h3>
-        <p>{!message ? "Awaiting response..." : message}</p>
-        <p>{!adminMsg ? "Awaiting response..." : adminMsg}</p>
-        <p>{!resourceMsg ? "Awaiting response..." : resourceMsg}</p>
-        <p>{!adviceMsg ? "Awaiting response..." : adviceMsg}</p>
-      </div>
+            {/* ADVICE */}
+            <div>
+                <h3>DEBUGGING ADVICE...</h3>
+                <AxiosProvider instance={axiosInstance}>
+                    <Get url="/advice">
+                        {(error, response, isLoading, makeRequest, axios) => {
+                            if(error) {
+                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+                            }
+                            else if(isLoading) {
+                                return (<div>Loading...</div>)
+                            }
+                            else if(response !== null) {
+                                return (
+                                    <div>
+                                        {response.data.message} 
+                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
+                                        {
+                                            setAdvice(response.data.payload)
 
-      <div>
-        <Get url="/api">
-            {(error, response, isLoading, makeRequest, axios) => {
-          if(error) {
-            return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
-          }
-          else if(isLoading) {
-            return (<div>Loading...</div>)
-          }
-          else if(response !== null) {
-            return (<div>{response.data.message} <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button></div>)
-          }
-          return (<div>Default message before request is made.</div>)
-        }}
-        </Get>
-      </div>
+                                        }
 
-      {/* ADVICE */}
-	  <div>
-	  	<h3>Advice Data</h3>
-        <button onClick={toggleSubmitAdvice}>Submit Advice</button>
-		<AdviceCard {...advice} /> {/* I CLEARLY knew what this was, wtf */}
-		{/* TODO: 
-		  * Okay... but now how do I save updated values back to advicePosts[0]? 
-		  * I can't pass the new value from AdviceCard back here, so either
-		  * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
-		  * 	- I make the incrament here
-		  */}
-      {submitAdvice && ( /* if True, open submit form. Resets to false when form
+                                        {console.log(advice[0])}
+                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
+                                        <div>
+                                            <h3>Advice Data</h3>
+                                            <button onClick={toggleSubmitAdvice}>Submit Advice</button>
+                                            <AdviceCard {...advice[0]} /> {/* I CLEARLY knew what this was, wtf */}
+                                            {/* TODO: 
+          * Okay... but now how do I save updated values back to advicePosts[0]? 
+          * I can't pass the new value from AdviceCard back here, so either
+          * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
+          * 	- I make the incrament here
+          */}
+                                            {submitAdvice && ( /* if True, open submit form. Resets to false when form
       is closed */
-        <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
-      )}
-	  </div>
+                                                <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
+                                            )}
+                                        </div>
+
+                                    </div>)
+
+                            }
+                            return (<div>Default message before request is made.</div>)
+                        }}
+                    </Get>
+
+
+                </AxiosProvider>
+            </div>
+
 
       {/* RESOURCE */}
 

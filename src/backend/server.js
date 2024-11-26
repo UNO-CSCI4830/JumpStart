@@ -4,6 +4,12 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+const {MongoClient, ObjectId} = require('mongodb');
+
+
+app.use(cors());
+app.use(express.json());
+
 /*
  * NOTE: How I managed to get this unholy abomination working:
  * 0. Shut down Node and React stuff
@@ -13,28 +19,72 @@ const PORT = process.env.PORT || 3001;
  * 4. re-installed npm `npm install`
  */
 
-app.use(cors());
-app.use(express.json());
+class Database {
+    uri = "mongodb://localhost:27017"; // URI to mongoDB instacne. Be good to put this as a proxy and/or obfuscate lol
+    dbName = ""; // Generic string for identifying DB to interact with
+    collName = ""; // Igualmente for colllection name
+    payload = []; // Where I'm expecting post data to go. Dunno if I wanna seperate incoming/outgoing payloads but that seems like a good idea
+    errorStack = null; // How I'm currently passing along error codes from MongoDB to other sources for debugging atm
+    params = {}; // Query parameters
+    projs = {}; // Field filtering parameters unique to the find and findAll calls
 
-app.get('/api', (req, res) => {
-    res.json({message: "Hello from server.js!"});
-    // res.send("Server.js Demo");
-    console.log("GET request for API received");
+    constructor(dbname, collname) {
+        this.client = new MongoClient(this.uri);
+        this.dbName = dbname;
+        this.collName = collname;
+    }
+
+    // Setters
+    async query() {
+        try {
+            console.log("Attempting to connect to DB...");
+            await this.client.connect(); // Connect to MongoDB instance
+            console.log(`Connected to DB!`);
+            const queryColl = await this.client.db(this.dbName).collection(this.collName); // Connect to Collection to retrieve contents
+            this.payload = await queryColl.find(this.params,this.projs).toArray();
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`An error occured when connecting ot DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
+    }
+
+    // Getters
+    getPayload() { return this.payload; }
+    getError() { return this.errorStack; }
+}
+
+app.get('/api/advice', async (req, res) => {
+
+    const advice = new Database("Posts", "advice");
+    await advice.query();
+    const advicePosts = advice.getPayload();
+
+    // A simple error statement just in case a DB fails
+    if (advicePosts.length === 0) {
+        res.json({
+            message : "Failed retrieving advice posts :(",
+            payload : advicePosts.getError()
+        });
+        console.log("Error retrieving advice posts from DB.");
+    } else {
+        res.json({
+            message: "Advice posts incoming!",
+            payload: advicePosts
+        });
+        // res.send("Server.js Demo");
+        console.log("GET request for advice received");
+    }
 });
 
-app.get('/advice', (req, res) => {
-    res.json({message: "Advice posts!"});
-    // res.send("Server.js Demo");
-    console.log("GET request for advice received");
-});
-
-app.get('/resources', (req, res) => {
+app.get('/api/resources', (req, res) => {
     res.json({message: "Resources posts!"});
     // res.send("Server.js Demo");
     console.log("GET request for resources received");
 });
 
-app.get('/admin', (req, res) => {
+app.get('/api/admin', (req, res) => {
     res.json({message: "Admin stuff!"});
     // res.send("Server.js Demo");
     console.log("GET request for admin received");
