@@ -1,5 +1,5 @@
 import React from "react";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef, useCallback} from "react";
 import {advicePosts} from "../../utils/advicePosts";
 import {resourcePosts} from "../../utils/resourcePosts";
 
@@ -22,13 +22,20 @@ export default function Windtunnel() {
     
     const [submitAdvice, toggleSubmitAdvice] = useState(false);
     const [submitResource, toggleSubmitResource] = useState(false);
-
     const [message, setMessage] = useState(null);
     const [advice, setAdvice] = useState(null);
     const [resources, setResources] = useState(null);
     const [data, setData] = useState(null);
 
-    async function add(api, data) { // TODO: Implement!
+    var emptyAdvice = advice === null;
+
+    /* TODO
+     * - FIXME on ResourcePage and AdvicePage
+     * - get query={} parameters working!
+     * - Standardize Dataset
+     * - Integrate LimboDB
+     */
+    async function add(api, data) { // NOTE: IGNORE
         if (data !== null) {
             await post("/api/advice", { /* Axios POST */
                 payload: data
@@ -40,35 +47,28 @@ export default function Windtunnel() {
         }
     }
 
-    async function queryAdvice() {
-        await get("/api/advice") /* Axios GET */
-            .then((res) => {
-                setMessage(res.data.message);
-                setAdvice(res.data.payload);
-            }).catch( err => 
-                console.log(`Error contacting server/advice...\n${err}`)
-            );
-
-    }
-    async function queryResources() {
-        await get("/api/resources") /* Axios GET */
-            .then((res) => {
-                setMessage(res.data.message);
-                setResources(res.data.payload);
-            }).catch( err => 
-                console.log(`Error contacting server/resources...\n${err}`)
-            );
-
-    }
     useEffect(() => {
         // I ping the server twice because why not :)
-        queryAdvice();
-        queryResources();
+        if (emptyAdvice) {
 
-        add("/api/advice", data); // TODO: Implement!
-        add("/api/resources", data); // TODO: Implement!
-        add("/api/admin", data); // TODO: Implement!
-    }, []);
+            get("/api/advice") /* Axios GET */
+                .then((res) => {
+                    setMessage(res.data.message);
+                    setAdvice([...res.data.payload]);
+                }).catch( err => 
+                    console.log(`Error contacting server/advice...\n${err}`)
+                );
+
+            get("/api/resources") /* Axios GET */
+                .then((res) => {
+                    setMessage(res.data.message);
+                    setResources([...res.data.payload]);
+                }).catch( err => 
+                    console.log(`Error contacting server/resources...\n${err}`)
+                );
+        }
+
+    }, [emptyAdvice]);
 
     return (
         <div>
@@ -81,6 +81,8 @@ export default function Windtunnel() {
             <div>
                 <h3>DEBUGGING ADVICE...</h3>
                 <p>{!message ? "Awaiting response from advice..." : message}</p>
+                {console.log(typeof(advice))}
+                {console.log(advice)}
             </div>
 
             <div> {/* React component goes here */}

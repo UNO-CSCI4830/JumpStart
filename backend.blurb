@@ -1,0 +1,29 @@
+# Dataflow of app
+React frontend <-> server.js <-> MongoDB Database
+
+# DONE:
+- 1 DB "Posts" active
+    - 3 collections active right now:
+        - Advice: Approved advice posts (Can be viewed on Demo Page, replicating what's visible in Advice)
+        - Resources: Approved resource posts (Can be viewed on Demo Page, replicates what's visible in Resoruces)
+        - Limbo: Posts that have been submitted, but have yet to be approved (What is visible in Admin Dashboard)
+
+- Demo page is start of read capabilities
+
+# In progress
+- Integrating DemoPage read into Advice and Resources
+- Error handling for malformed requests, timeouts, empty deliveries from server.js
+- Unit Testing
+
+# TODO
+- Write capabilities with the Submit buttons
+    - Will submit a post to Limbo collection
+    - Admin can make changes to submission and approve to respective collection, or reject which deletes submission
+
+- Users DB
+    - R/W permissions for admins, users
+
+# Code
+backend/server.js : handles GET requests for the 3 collections and retrieves posts in respective MongoDB collection with Database object
+backend/utils.js : Database object which performs query and modifications to mongoDB instance it represents. Currently does read.
+frontend/components/Pages/DemoPage.js : Shitty implementation of server.js calls on React
