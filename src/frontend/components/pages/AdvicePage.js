@@ -2,50 +2,66 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/advice/AdviceSidebar";
 import Content from "../advice/AdviceContent";
 import AdviceShareModal from "../advice/AdviceShareModal";
-import { advicePosts } from "../../utils/advicePosts";
 import "../../styles/Content.css";
+import {get} from 'axios';
 
 /* Builds page for displaying advice */
 export default function Advice() {
   /* state tuples */
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState(advicePosts);
+  const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
+  const [message, setMessage] = useState(null);
 
-  useEffect(() => { /* ??? No variable to handle arrow func off of, but I'm
-    guessing this sorts posts on page based off "order" bar */
-    let newPosts = [...advicePosts]; /* ??? re-assig arr of doc objects to 
-    newPosts */
+  // Pull from DB based on Filter
+  useEffect(() => {
+    let tagQuery = activeTag === "All" ? "" : activeTag;
 
-    // Apply filter
-    if (activeTag !== "All") {
-      newPosts = newPosts.filter((post) => post.tag === activeTag);
-    }
+    // Query posts from DB
+    get("/api/advice", { // TODO: Get the filter working on Server!
+        params: {tag: tagQuery}
+    }).then((res) => {
+            setMessage(res.data.message);
+            setPosts([...res.data.payload]);
+        }).catch( err => 
+            console.log(`Error contacting server/advice...\n${err}`)
+        );
+        console.log(posts);
+  }, [activeTag]); /* Define activeTag and sortCriteria so it can
+  be used in the arrow func */
 
     // Apply sort
-    switch (sortCriteria) { /* default sortCriteria = mostRecent */
-      case "mostRecent":
-        newPosts.sort((a, b) => {
-          const timeA = parseTimeAgo(a.timeAgo);
-          const timeB = parseTimeAgo(b.timeAgo);
-          return timeB - timeA;
-        });
-        break;
-      case "mostLiked":
-        newPosts.sort((a, b) => b.likes - a.likes);
-        break;
-      case "mostHearted":
-        newPosts.sort((a, b) => b.hearts - a.hearts);
-        break;
-      default:
-        break;
-    }
+    useEffect(() => { // FIXME: Great! Now I broke the sort filter!
+        let toSort = posts; // pass current set of posts to temp newPosts arr to be sorted
+        console.log("posts to sort:");
 
-    setFilteredPosts(newPosts); /* updates filteredPosts to the re-sorted 
+        switch (sortCriteria) { /* default sortCriteria = mostRecent */
+            case "mostRecent":
+                toSort.sort((a, b) => {
+                    console.log(a.title);
+                    console.log(b.title);
+                    const timeA = parseTimeAgo(a.timeAgo);
+                    const timeB = parseTimeAgo(b.timeAgo);
+                    // return timeB - timeA;
+                    return timeA - timeB;
+                });
+                break;
+            case "mostLiked":
+                console.log("B4 sorting...");
+                toSort.sort((a, b) => a.likes - b.likes);
+                console.log("After sorting...");
+                toSort.map((e) => console.log(e.title));
+                break;
+            case "mostHearted":
+                toSort.sort((a, b) => b.hearts - a.hearts);
+                break;
+            default:
+                break;
+        }
+        setPosts(toSort); /* updates posts to the re-sorted 
     newPosts */
-  }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
-  be used in the arrow func */
+    }, [sortCriteria]);
 
 
     // TODO: Add to db pipeline
@@ -81,7 +97,7 @@ export default function Advice() {
         activeTag={activeTag} /* Pass in current active tag */
       />
       <Content /* Call Content */
-        posts={filteredPosts} /* pass in filteredPsts to Content to display 
+        posts={posts} /* pass in filteredPsts to Content to display 
         using AdviceCard */
         onSortChange={setSortCriteria} /* pass in state changer for 
         sortCriteria  */

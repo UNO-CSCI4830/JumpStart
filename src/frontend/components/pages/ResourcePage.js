@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Resource.css";
 import ResourceModal from "../../components/resources/ResourceModal";
 import SearchBar from "../../components/resources/SearchBar";
 import ResourceList from "../../components/resources/ResourceList";
 import CategoryButton from "../../components/resources/CategoryButton";
-import initialResources from "../../utils/initialResources";
 
+import {get, post} from 'axios';
 const categories = [ /* array for categories */
   "Academic",
   "Financial Aid",
@@ -20,7 +20,7 @@ const ResourcePage = () => {
   const [activeCategory, setActiveCategory] = useState("Academic");
   /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
   const [searchTerm, setSearchTerm] = useState("");
-  const [resources, setResources] = useState(initialResources);
+  const [resources, setResources] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); /* State of ResourceSubmitModal component, initially False */
   const [newResource, setNewResource] = useState({
     title: "",
@@ -28,6 +28,23 @@ const ResourcePage = () => {
     link: "",
     category: "",
   });
+
+  const [message, setMessage] = useState(null);
+    
+    // FIXME: Repair Filter/Search function!
+
+    useEffect(() => { // WILL break filter/Search features
+        get("/api/resources")
+        .then((res) => {
+                setMessage(res.data.message);
+                setResources([...res.data.payload]);
+            }).catch(err => 
+                console.log(`Error contacting server/resources...\n${err}`)
+            );
+
+    }, [searchTerm, activeCategory]);
+
+    console.log(resources);
 
   /* Arrow function updating resources displayed based on searchTerm value */
     const filteredResources = resources.filter(

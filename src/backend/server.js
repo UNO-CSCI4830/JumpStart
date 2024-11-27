@@ -12,7 +12,10 @@ app.use(express.json());
 // ADVICE INTERFACE
 app.get('/api/advice', async (req, res) => {
 
-    console.log("GET request for advice received");
+    console.log("GET request for advice received:");
+    console.log(`Got the following search parameters: `);
+    console.log(req.query);
+    console.log("I can't do anything with this query yet!");
 
     const advice = new Database("Posts", "advice");
     await advice.query();
@@ -29,7 +32,8 @@ app.get('/api/advice', async (req, res) => {
             message: "Advice posts incoming!",
             payload: advice.getPayload()
         });
-        console.log("Advice successfully sent to client.");
+        // console.log(advice.getPayload());
+        console.log(`${advice.getPayload().length} advice posts successfully sent to client.`);
     }
 });
 
@@ -52,7 +56,7 @@ app.get('/api/resources', async (req, res) => {
             message: "resource posts incoming!",
             payload: resources.getPayload()
         });
-        console.log("Resources successfully sent to client.");
+        console.log(`${resources.getPayload().length} resources posts successfully sent to client.`);
     }
 });
 
@@ -77,7 +81,7 @@ app.get('/api/admin', async (req, res) => {
             message: "Purgatory incoming!",
             payload: limbo.getPayload()
         });
-        console.log("Limbo successfully sent to client.");
+        console.log(`${limbo.getPayload().length} purgatory posts successfully sent to client.`);
     }
 });
 
