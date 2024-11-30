@@ -10,15 +10,16 @@ app.use(cors());
 app.use(express.json());
 
 // ADVICE INTERFACE
+// Wonder if I can integrate this into Database class as a method somehow? These GETs are repeated code
 app.get('/api/advice', async (req, res) => {
 
     console.log("GET request for advice received:");
-    console.log(`Got the following search parameters: `);
+    console.log(`Server.js: Got the following search parameters: `);
     console.log(req.query);
     console.log("I can't do anything with this query yet!");
 
     const advice = new Database("Posts", "advice");
-    await advice.query();
+    await advice.pull(req.query);
 
     // A simple error statement just in case a DB fails
     if (advice.getError() !== null) { // would love to use the advice's getter in the response object
@@ -43,7 +44,7 @@ app.get('/api/resources', async (req, res) => {
     console.log("GET request for resources received");
     
     const resources = new Database("Posts", "resources");
-    await resources.query();
+    await resources.pull();
 
     if (resources.getError() !== null) {
         res.json({
@@ -66,8 +67,7 @@ app.get('/api/admin', async (req, res) => {
     console.log("GET request for admin received");
 
     const limbo = new Database("Posts", "resources");
-    await limbo.query();
-    const posts = limbo.getPayload();
+    await limbo.pull();
 
     // A simple error statement just in case a DB fails
     if (limbo.getError() !== null) {

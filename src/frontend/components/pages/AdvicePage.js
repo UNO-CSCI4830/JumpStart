@@ -12,27 +12,29 @@ export default function Advice() {
   const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
-  const [message, setMessage] = useState(null);
+  const [msg, setMsg] = useState(null);
 
   // Pull from DB based on Filter
   useEffect(() => {
-    let tagQuery = activeTag === "All" ? "" : activeTag;
+    let params = activeTag === "All" ? {} : {tag: activeTag};
 
     // Query posts from DB
-    get("/api/advice", { // TODO: Get the filter working on Server!
-        params: {tag: tagQuery}
+    get("/api/advice", {
+        params: params
     }).then((res) => {
-            setMessage(res.data.message);
             setPosts([...res.data.payload]);
-        }).catch( err => 
-            console.log(`Error contacting server/advice...\n${err}`)
-        );
+        }).catch( err => {
+                console.log(err.response);
+                setMsg(`Couldn't load data. Status ${err.response.status}`);
+            });
         console.log(posts);
   }, [activeTag]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
     // Apply sort
-    useEffect(() => { // FIXME: Great! Now I broke the sort filter!
+    // FIXME: Great! Now I broke the sort filter!
+    // Apparently, posts are switching up their associated likes/hearts values...
+    useEffect(() => { 
         let toSort = posts; // pass current set of posts to temp newPosts arr to be sorted
         console.log("posts to sort:");
 
@@ -61,7 +63,7 @@ export default function Advice() {
         }
         setPosts(toSort); /* updates posts to the re-sorted 
     newPosts */
-    }, [sortCriteria]);
+    }, [posts, sortCriteria]);
 
 
     // TODO: Add to db pipeline
@@ -96,13 +98,15 @@ export default function Advice() {
         tag */
         activeTag={activeTag} /* Pass in current active tag */
       />
-      <Content /* Call Content */
-        posts={posts} /* pass in filteredPsts to Content to display 
-        using AdviceCard */
-        onSortChange={setSortCriteria} /* pass in state changer for 
-        sortCriteria  */
-        currentSort={sortCriteria} /* Pass in current sortCriteria */
-      />
+      {msg !== null ?
+        (<div><h1>{msg}</h1></div>) : 
+        (<Content /* Call Content */
+            posts={posts} /* pass in filteredPsts to Content to display 
+            using AdviceCard */
+            onSortChange={setSortCriteria} /* pass in state changer for 
+            sortCriteria  */
+            currentSort={sortCriteria} /* Pass in current sortCriteria */
+          />)}
       {isModalOpen && ( /* if True, open submit form. Resets to false when form
       is closed */
         <AdviceShareModal onClose={() => setIsModalOpen(false)} />
