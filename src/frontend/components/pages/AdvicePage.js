@@ -16,11 +16,11 @@ export default function Advice() {
 
   // Pull from DB based on Filter
   useEffect(() => {
-    let params = activeTag === "All" ? {} : {tag: activeTag};
+    let filter = activeTag === "All" ? {} : {tag: activeTag};
 
     // Query posts from DB
     get("/api/advice", {
-        params: params
+        params: filter 
     }).then((res) => {
             setPosts([...res.data.payload]);
         }).catch( err => {

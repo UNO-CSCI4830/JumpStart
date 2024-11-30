@@ -23,10 +23,11 @@ module.exports = class Database {
             await this.client.connect(); // Connect to MongoDB instance
             console.log(`Connected to DB!`);
             const queryColl = await this.client.db(this.dbName).collection(this.collName); // Connect to Collection to retrieve contents
-            this.payload = await queryColl.find(params, projs).toArray();
+            const cursor = queryColl.find(params,projs); // since cursors reference objects...
+            this.payload = await cursor.toArray(); // and we want to make sure we get all objects
         } catch (e) {
             this.errorStack = e;
-            console.error(`An error occured when connecting ot DB:\n${e}`);
+            console.error(`An error occured when retrieving posts from DB:\n${e}`);
         } finally {
             this.client.close();
         }
