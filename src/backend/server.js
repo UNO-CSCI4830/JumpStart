@@ -91,12 +91,27 @@ app.get('/api/resources', async (req, res) => {
 });
 
 // ADMIN INTERFACE
-app.get('/api/admin', async (req, res) => {
+app.get('/api/limbo', async (req, res) => {
 
     console.log("GET request for admin received");
+    console.log(`Server: Got the following search parameters: `);
+    console.log(req.query);
 
-    const limbo = new Database("Posts", "resources");
-    await limbo.pull();
+    // Parsing incoming parameters object to construct query parameter
+    const query = {};
+
+    for (const[key, value] of Object.entries(req.query)) {
+        console.log(`\t${key}: ${value}`);
+        if (key === "search") {
+            query['$text'] = {$search:value};
+        } else query[key] = value;
+    }
+
+    console.log("Constructed query:");
+    console.log(query);
+
+    const limbo = new Database("Posts", "limbo");
+    await limbo.pull(query);
 
     // A simple error statement just in case a DB fails
     if (limbo.getError() !== null) {
