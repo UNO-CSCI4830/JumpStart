@@ -34,7 +34,6 @@ export default function Header() {
           <Link to="/events">Events</Link>
           <Link to="/connect">Connect</Link>
           <Link to="/admin">Admin</Link>
-          <Link to="/DEMO">Demo</Link> {/* DEMO PAGE */}
         </div>
         {/* Sign in button, and AuthenticationModal */}
         <div className="nav-right">
