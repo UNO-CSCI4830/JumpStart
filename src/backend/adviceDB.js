@@ -153,7 +153,7 @@ async function retryOperation(operation, retries, delay) {
         } catch (error){
             attempt++;
             console.error(`Attempt ${attempt} failed: ${error.message}`);
-            if (attemtp >= retries){
+            if (attempt >= retries){
                 throw new Error(`Operation failed after ${retries} attempts: ${error.message}`);
             }
             console.log(`Retrying in ${delay}ms...`);

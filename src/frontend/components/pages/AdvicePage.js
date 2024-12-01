@@ -5,9 +5,14 @@ import AdviceShareModal from "../advice/AdviceShareModal";
 import "../../styles/Content.css";
 import {get} from 'axios';
 
-/* Builds page for displaying advice */
+/*
+ * NOTE:
+ * OrderBy functionality has currently broke, and I'm not sure why...
+ *
+ * TODO:
+ * - axios.post() to have AdviceShareModal push to LimboDB
+ */
 export default function Advice() {
-  /* state tuples */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");

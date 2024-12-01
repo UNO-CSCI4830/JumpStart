@@ -5,7 +5,12 @@ import SearchBar from "../../components/resources/SearchBar";
 import ResourceList from "../../components/resources/ResourceList";
 import CategoryButton from "../../components/resources/CategoryButton";
 
-import {get, post, default as axios} from 'axios';
+import {get, post} from 'axios';
+
+/*
+ * TODO:
+ * -axios.post() for ResourceModal to push to LimboDB
+ */
 
 const categories = [ /* array for categories */
   "Academic",
