@@ -18,9 +18,6 @@ import {get, post} from 'axios';
 
 /* Builds Admin page to be called by App */
 function AdminDashboard() {
-    /* State tuples for activeTab, resources, advice, editResource, and
-     * editAdvice 
-     */
   const [activeTab, setActiveTab] = useState("resource");
   const [posts, setPosts] = useState([]); // generic posts values
   const [editPost, setEditPosts] = useState(null); // generic editor values

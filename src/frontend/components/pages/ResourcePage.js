@@ -24,10 +24,9 @@ const categories = [ /* array for categories */
 const ResourcePage = () => {
   /* Use state and state-changer duo */
   const [activeTag, setActiveTag] = useState("Academic");
-  /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
   const [searchTerm, setSearchTerm] = useState("");
   const [resources, setResources] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); /* State of ResourceSubmitModal component, initially False */
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [newResource, setNewResource] = useState({
     title: "",
     description: "",
@@ -39,8 +38,9 @@ const ResourcePage = () => {
   const [msg, setMsg] = useState(null);
     
     useEffect(() => {
+         // TODO: will change Resource.category to Resource.tag
         let params = {
-            category : activeTag, // TODO: will change Resource['category'] to 'tag'
+            category : activeTag,
         };
 
         // add search term to params if characters are found

@@ -32,7 +32,6 @@ export default function Advice() {
                 console.log(err.response);
                 setMsg(`Couldn't load data. Status ${err.response.status}`);
             });
-        console.log(posts);
   }, [activeTag]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
