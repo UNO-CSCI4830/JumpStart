@@ -35,8 +35,8 @@ app.get('/api/advice', async (req, res) => {
     await advice.pull(query);
 
     // A simple error statement just in case a DB fails
-    if (advice.getError() !== null) { // would love to use the advice's getter in the response object
-        res.json({
+    if (advice.getError() !== null) {
+        res.status(500).json({ // Changed to handle other additonal sever errors
             message : "Failed retrieving advice posts :(",
             errMsg : advice.getError()
         });
@@ -76,7 +76,7 @@ app.get('/api/resources', async (req, res) => {
     await resources.pull(query);
 
     if (resources.getError() !== null) {
-        res.json({
+        res.status(500).json({ // Changed to handle other additonal sever errors
             message : "Failed retrieving resources posts :(",
             errMsg : resources.getError()
         });
@@ -115,7 +115,7 @@ app.get('/api/limbo', async (req, res) => {
 
     // A simple error statement just in case a DB fails
     if (limbo.getError() !== null) {
-        res.json({
+        res.status(500).json({ // Changed to handle other additonal sever errors
             message : "Failed retrieving purgatory :(",
             errMsg : limbo.getError()
         });
