@@ -19,7 +19,7 @@ jest.mock('mongodb', () => {
 describe('Admin Dashboard Functions', () => {
   
   // FUNCTION TESTS: handleStatusChange
-  // Testing updating resource status with handleStatusChange
+  // This test verifies that the function correctly updates the status of a resource item
   test('handleStatusChange updates resource status', () => {
     const mockResources = [
       { id: 1, status: 'pending' },
@@ -50,7 +50,7 @@ describe('Admin Dashboard Functions', () => {
     ]);
   });
 
-  // Testing updating advice status with handleStatusChange
+  // This test verifies that the function correctly updates the status of an advice item
   test('handleStatusChange updates advice status', () => {
     const mockAdvice = [
       { id: 1, status: 'pending' },
@@ -80,7 +80,7 @@ describe('Admin Dashboard Functions', () => {
   });
 
   // FUNCTION TESTS: handleSaveResource
-  // Testing saving resources with handleSave Resource
+  // This test verifies that the function correctly updates an existing resource item
   test('handleSaveResource saves resource', () => {
     const mockResources = [
       { id: 1, status: 'pending' },
@@ -106,7 +106,7 @@ describe('Admin Dashboard Functions', () => {
     ]);
   });
 
-  // Testing adding a new resource if not existing
+  // This test verifies that the function adds a new resource to the list if it does not already exist
   test('handleSaveResource adds new resource if not existing', () => {
     const mockResources = [
       { id: 1, status: 'pending' },
@@ -137,7 +137,7 @@ describe('Admin Dashboard Functions', () => {
   });
 
   // FUNCTION TESTS: handleSaveAdvice
-  // Testing saving advice with handleSaveAdvice
+  // This test verifies that the function correctly updates an existing advice item
   test('handleSaveAdvice saves advice', () => {
     const mockAdvice = [
       { id: 1, status: 'pending' },
@@ -163,7 +163,7 @@ describe('Admin Dashboard Functions', () => {
     ]);
   });
 
-  // Testing reseting edit state after saving with handleSaveAdvice
+  // This test verifies that the function resets the edit state after saving an advice item
   test('handleSaveAdvice resets edit state after saving', () => {
     const mockAdvice = [
       { id: 1, status: 'pending' },
