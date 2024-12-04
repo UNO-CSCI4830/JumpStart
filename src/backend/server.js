@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const handleQuery =  (url, instance) => {
+const handleQuery = (url, instance)  => {
     app.get(url, async (req, res) => {
 
         console.log("Server: GET request for received");
@@ -70,3 +70,5 @@ app.use( function(req, res, next) {
     res.status(404).json("Error 404: Not found");
     console.log(`Server: User attempted to access ${req.url}`);
 });
+
+module.exports = handleQuery;
