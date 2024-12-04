@@ -1,12 +1,17 @@
-const handleQuery = require('./server');
-const Database = require('./utils.js');
+
 
 describe('Creating an instance object', () => {
+    const Database = require('./utils.js');
     test('Creating resources DB instance', () => {
+        const intent = {
+            uri : "mongodb://localhost:27017",
+            dbName : "Posts",
+            collName : "resources",
+        }
         const instance = new Database("Posts", "resources");
-        expect(instance.uri).toMatch("mongodb://localhost:27017"); // checking strings
-        expect(instance.dbName).toMatch("Posts");
-        expect(instance.collName).toMatch("resources");
+        expect(instance.uri).toMatch(intent.uri); // checking strings
+        expect(instance.dbName).toMatch(intent.dbName);
+        expect(instance.collName).toMatch(intent.collName);
         expect(instance.payload.length).toBe(0); // Checking array initialized as empty
         expect(instance.payload).toBeDefined(); // array must be defined
         expect(instance.errorStack).toBeNull(); // Checking error
@@ -29,9 +34,27 @@ describe('Creating an instance object', () => {
 //   - validate/sanitize/ handle user input data
 //   - Might be where I do my verification with email, sanitized content, and ObjectId
 
-describe('properly handles GET request', () => {
-    // Might want to do build/teardown per test
-    test('Accept connection for resource posts', () => {
+describe('Handling GET requests', () => {
+    const get = require('./server').handleQuery;
+    const Database = require('./utils.js');
+    var server;
+    beforeAll(() => {
+        resources = new Database("Posts","resources");
+    });
 
+    beforeEach(async () => {
+        // remove all trace of old imports from server.js
+        delete require.cache[require.resolve('./server')];
+        // imports server variable that is our instance
+        server = require('./server').server;
+    });
+    
+    afterEach(async () => {
+        server.close(); // close server instance after each test
+    });
+    test('Accept connection for resource posts', async () => {
+        const get = await handleQuery("/api/resources", resources);
+        console.log(get);
+        // await expect(handleQuery("/api/admin", resources)).rejects.toBe("failure");
     });
 });

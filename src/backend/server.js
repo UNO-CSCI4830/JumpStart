@@ -9,7 +9,6 @@ const Database = require('./utils.js');
 app.use(cors());
 app.use(express.json());
 
-
 const handleQuery = (url, instance)  => {
     app.get(url, async (req, res) => {
 
@@ -61,7 +60,7 @@ handleQuery("/api/resources", resources);
 const limbo = new Database("Posts", "limbo")
 handleQuery("/api/limbo", limbo);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server: Server started on ${PORT}`)
 });
 
@@ -71,4 +70,4 @@ app.use( function(req, res, next) {
     console.log(`Server: User attempted to access ${req.url}`);
 });
 
-module.exports = handleQuery;
+module.exports = {handleQuery, server};
