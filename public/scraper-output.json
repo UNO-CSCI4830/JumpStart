@@ -1,296 +1,20 @@
 {
-    "event_count": 175,
+    "event_count": 215,
     "events": [
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Mon, Nov 25, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "NSF Funding Opportunities and 1:1 Meetings",
-            "url": "https://events.unomaha.edu/event/national-science-foundation-engaging-with-nsf-funding-opportunities-and-11-meetings-with-dr-eleanor-sayre",
-            "datetime": "Mon, Nov 25, 2024 9am to 4pm",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "Melanated Queerations",
-            "url": "https://events.unomaha.edu/event/melanated-queerations-5538",
-            "datetime": "Mon, Nov 25, 2024 12pm to 1pm"
-        },
-        {
-            "title": "Keyboard Area Recital",
-            "url": "https://events.unomaha.edu/event/keyboard-area-recital",
-            "datetime": "Mon, Nov 25, 2024 7:30pm to 9:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Tue, Nov 26, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "Lez Bi Real Queer",
-            "url": "https://events.unomaha.edu/event/lez-bi-real-queer-2276",
-            "datetime": "Tue, Nov 26, 2024 12pm to 1pm"
-        },
-        {
-            "title": "Post Election Safe Space",
-            "url": "https://events.unomaha.edu/event/post-election-safe-space-8780",
-            "datetime": "Tue, Nov 26, 2024 12pm to 1pm",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "Academic Calendar: Thanksgiving Student Holiday",
-            "url": "https://events.unomaha.edu/event/thanksgiving-student-holiday",
-            "datetime": "Wed, Nov 27, 2024",
-            "tags": [
-                "Academic Calendar"
-            ]
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Wed, Nov 27, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Wed, Nov 27, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "Career Closet Donation Drop-off",
-            "url": "https://events.unomaha.edu/event/career-closet-1397",
-            "datetime": "Wed, Nov 27, 2024 2pm to 4pm",
-            "tags": [
-                "Volunteering/Service Work"
-            ]
-        },
-        {
-            "title": "Library Stitchcraft",
-            "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
-            "datetime": "Wed, Nov 27, 2024 3pm to 5pm",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "Academic Calendar: Thanksgiving Vacation",
-            "url": "https://events.unomaha.edu/event/thanksgiving-vacation",
-            "datetime": "Thu, Nov 28, 2024",
-            "tags": [
-                "Academic Calendar"
-            ]
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Thu, Nov 28, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Thu, Nov 28, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "UNOTheatre Presents:  ANYTHING GOES",
-            "url": "https://events.unomaha.edu/event/unotheatre-presents-anything-goes",
-            "datetime": "Thu, Nov 28, 2024 7:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "Academic Calendar: Thanksgiving Vacation",
-            "url": "https://events.unomaha.edu/event/thanksgiving-vacation",
-            "datetime": "Fri, Nov 29, 2024",
-            "tags": [
-                "Academic Calendar"
-            ]
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Fri, Nov 29, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Fri, Nov 29, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "UNOTheatre Presents:  ANYTHING GOES",
-            "url": "https://events.unomaha.edu/event/unotheatre-presents-anything-goes",
-            "datetime": "Fri, Nov 29, 2024 7:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "Academic Calendar: Thanksgiving Vacation",
-            "url": "https://events.unomaha.edu/event/thanksgiving-vacation",
-            "datetime": "Sat, Nov 30, 2024",
-            "tags": [
-                "Academic Calendar"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Sat, Nov 30, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "UNOTheatre Presents:  ANYTHING GOES",
-            "url": "https://events.unomaha.edu/event/unotheatre-presents-anything-goes",
-            "datetime": "Sat, Nov 30, 2024 7:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "Academic Calendar: Thanksgiving Vacation",
-            "url": "https://events.unomaha.edu/event/thanksgiving-vacation",
-            "datetime": "Sun, Dec 1, 2024",
-            "tags": [
-                "Academic Calendar"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Sun, Dec 1, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "UNOTheatre Presents:  ANYTHING GOES",
-            "url": "https://events.unomaha.edu/event/unotheatre-presents-anything-goes",
-            "datetime": "Sun, Dec 1, 2024 7:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Mon, Dec 2, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "January Session & Spring 2025 Textbooks Available",
-            "url": "https://events.unomaha.edu/event/january_session_and_spring_2025_textbooks_available",
-            "datetime": "Mon, Dec 2, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "The Maverick Store Black Friday Sale (11/27/24-12/02/24)",
-            "url": "https://events.unomaha.edu/event/the-maverick-store-black-friday-sale-112724-120224",
-            "datetime": "Mon, Dec 2, 2024",
-            "tags": [
-                "Maverick Life"
-            ]
-        },
-        {
-            "title": "Library Friends Book Sale",
-            "url": "https://events.unomaha.edu/event/library_friends_book_sale",
-            "datetime": "Mon, Dec 2, 2024 9am to 10pm",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "Melanated Queerations",
-            "url": "https://events.unomaha.edu/event/melanated-queerations-5538",
-            "datetime": "Mon, Dec 2, 2024 12pm to 1pm"
-        },
-        {
-            "title": "BFA Thesis & BASA Senior Exhibitions",
-            "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
-            "datetime": "Tue, Dec 3, 2024",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "Library Friends Book Sale",
-            "url": "https://events.unomaha.edu/event/library_friends_book_sale",
-            "datetime": "Tue, Dec 3, 2024 7am to 10pm",
-            "tags": [
-                "Exhibit"
-            ]
-        },
-        {
-            "title": "Healthy Meal Prep Webinar with Chef Alfaro",
-            "url": "https://events.unomaha.edu/event/healthy-meal-prep-webinar-with-chef-michelle-alfaro",
-            "datetime": "Tue, Dec 3, 2024 11am to 12pm",
-            "tags": [
-                "Education/Training"
-            ]
-        },
-        {
-            "title": "Lez Bi Real Queer",
-            "url": "https://events.unomaha.edu/event/lez-bi-real-queer-2276",
-            "datetime": "Tue, Dec 3, 2024 12pm to 1pm"
-        },
-        {
-            "title": "UNO Maverick String Quartet-in-Residence at Nebraska Medicine's Fred & Pamela Buffett Cancer Center 12/3",
-            "url": "https://events.unomaha.edu/event/uno-maverick-string-quartet-in-residence-at-nebraska-medicines-fred-pamela-buffett-cancer-center-123",
-            "datetime": "Tue, Dec 3, 2024 12:15pm to 1:15pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
-        {
-            "title": "UNO Choirs Concert - December 3",
-            "url": "https://events.unomaha.edu/event/uno-choirs-concert-december-5",
-            "datetime": "Tue, Dec 3, 2024 7:30pm to 9:30pm",
-            "tags": [
-                "Concert/Performance"
-            ]
-        },
         {
             "title": "BFA Thesis & BASA Senior Exhibitions",
             "url": "https://events.unomaha.edu/event/bfa-thesis-basa-senior-exhibitions",
             "datetime": "Wed, Dec 4, 2024",
             "tags": [
                 "Exhibit"
+            ]
+        },
+        {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Wed, Dec 4, 2024",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -302,7 +26,7 @@
             ]
         },
         {
-            "title": "Coffee Talk With Spirit and Tradition",
+            "title": "Canceled: Coffee Talk With Spirit and Tradition",
             "url": "https://events.unomaha.edu/event/coffee-talk-with-spirit-and-tradition",
             "datetime": "Wed, Dec 4, 2024 9am to 11am",
             "tags": [
@@ -315,14 +39,6 @@
             "datetime": "Wed, Dec 4, 2024 9am to 10am",
             "tags": [
                 "Education/Training"
-            ]
-        },
-        {
-            "title": "December 2024 MavMania at The Maverick Store",
-            "url": "https://events.unomaha.edu/event/december-2024-mavmania-at-the-maverick-store",
-            "datetime": "Wed, Dec 4, 2024 10am",
-            "tags": [
-                "Maverick Life"
             ]
         },
         {
@@ -339,7 +55,7 @@
             ]
         },
         {
-            "title": "Nebraska Medical Orchestra & Choir Holiday Concert",
+            "title": "CANCELLED: Nebraska Medical Orchestra & Choir Holiday Concert",
             "url": "https://events.unomaha.edu/event/nebraska-medical-orchestra-choir-holiday-concert",
             "datetime": "Wed, Dec 4, 2024 7:30pm to 9:30pm",
             "tags": [
@@ -355,11 +71,27 @@
             ]
         },
         {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Thu, Dec 5, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Library Friends Book Sale",
             "url": "https://events.unomaha.edu/event/library_friends_book_sale",
             "datetime": "Thu, Dec 5, 2024 7am to 10pm",
             "tags": [
                 "Exhibit"
+            ]
+        },
+        {
+            "title": "Postponed: December 2024 MavMania at The Maverick Store",
+            "url": "https://events.unomaha.edu/event/december-2024-mavmania-at-the-maverick-store",
+            "datetime": "Thu, Dec 5, 2024 10am",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -411,6 +143,14 @@
             ]
         },
         {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Fri, Dec 6, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "UNO Art Alumni Exhibition | Call For Submissions",
             "url": "https://events.unomaha.edu/event/uno-art-alumni-exhibition-call-for-submissions",
             "datetime": "Fri, Dec 6, 2024",
@@ -443,11 +183,27 @@
             ]
         },
         {
+            "title": "Biomechanics Seminar Series: Dr. Abbis Jaffri",
+            "url": "https://events.unomaha.edu/event/biomechanics-seminar-series-dr-abbis-jaffri",
+            "datetime": "Fri, Dec 6, 2024 10am to 11:15am",
+            "tags": [
+                "Lecture/Conference"
+            ]
+        },
+        {
             "title": "First Friday in the Food Court with Spirit and Tradition",
             "url": "https://events.unomaha.edu/event/first-friday-in-the-food-court-with-spirit-and-tradition",
             "datetime": "Fri, Dec 6, 2024 11am to 1pm",
             "tags": [
                 "Maverick Life"
+            ]
+        },
+        {
+            "title": "The DEAI Symposium Series",
+            "url": "https://events.unomaha.edu/event/deai-symposium",
+            "datetime": "Fri, Dec 6, 2024 12pm to 1pm",
+            "tags": [
+                "Lecture/Conference"
             ]
         },
         {
@@ -475,6 +231,14 @@
             ]
         },
         {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Sat, Dec 7, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Library Friends Book Sale",
             "url": "https://events.unomaha.edu/event/library_friends_book_sale",
             "datetime": "Sat, Dec 7, 2024 9am to 5pm",
@@ -499,6 +263,14 @@
             ]
         },
         {
+            "title": "\"After the Storm: Identity & Repair - A Music Exploration\" feat. performances by UNO faculty, students & alumni",
+            "url": "https://events.unomaha.edu/event/after-the-storm-identity-repair-a-music-exploration-feat-performances-by-uno-faculty-students-alumni",
+            "datetime": "Sat, Dec 7, 2024 2pm to 3:30pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
             "title": "UNO Symphonic Wind Ensemble Concert",
             "url": "https://events.unomaha.edu/event/uno-symphonic-wind-ensemble-concert",
             "datetime": "Sat, Dec 7, 2024 7:30pm to 9:30pm",
@@ -512,6 +284,14 @@
             "datetime": "Sat, Dec 7, 2024 7:30pm",
             "tags": [
                 "Concert/Performance"
+            ]
+        },
+        {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Sun, Dec 8, 2024",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -563,6 +343,14 @@
             ]
         },
         {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Mon, Dec 9, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Melanated Queerations",
             "url": "https://events.unomaha.edu/event/melanated-queerations-5538",
             "datetime": "Mon, Dec 9, 2024 12pm to 1pm"
@@ -584,6 +372,30 @@
             ]
         },
         {
+            "title": "The Maverick Store Hydro Flask Sale (11/28 - 12/10)",
+            "url": "https://events.unomaha.edu/event/the-maverick-store-hydro-flask-sale-112824-121024",
+            "datetime": "Tue, Dec 10, 2024",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Hydration Station",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-hydration-station",
+            "datetime": "Tue, Dec 10, 2024 11am to 1pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Maverick Cookie Decorating with the UNO Alumni Association",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-maverick-cookie-decorating-with-the-uno-alumni-association-4270",
+            "datetime": "Tue, Dec 10, 2024 11am to 1pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Lez Bi Real Queer",
             "url": "https://events.unomaha.edu/event/lez-bi-real-queer-2276",
             "datetime": "Tue, Dec 10, 2024 12pm to 1pm"
@@ -602,6 +414,14 @@
             "datetime": "Tue, Dec 10, 2024 2pm to 3pm",
             "tags": [
                 "Education/Training"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Y2K on Ice",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-y2k-on-ice",
+            "datetime": "Tue, Dec 10, 2024 6pm to 9pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -629,6 +449,22 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Clothing for A Cause",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-clothing-for-a-cause",
+            "datetime": "Wed, Dec 11, 2024 11am to 2pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Visit with the Vendors",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-visit-with-the-vendors",
+            "datetime": "Wed, Dec 11, 2024 11am to 2pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Doggone Fantastic Faculty",
             "url": "https://events.unomaha.edu/event/doggone-fantastic-faculty",
             "datetime": "Wed, Dec 11, 2024 12pm to 2pm",
@@ -650,6 +486,14 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Late Night at Chick-fil-A",
+            "url": "https://events.unomaha.edu/event/late-night-at-chick-fil-a",
+            "datetime": "Wed, Dec 11, 2024 10pm to 11pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Prep Week",
             "url": "https://events.unomaha.edu/event/prep-week",
             "datetime": "Thu, Dec 12, 2024",
@@ -663,6 +507,52 @@
             "datetime": "Thu, Dec 12, 2024",
             "tags": [
                 "Exhibit"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Coffee, Coloring, and Croissants",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-coffee-coloring-and-croissants",
+            "datetime": "Thu, Dec 12, 2024 9am to 12pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Pilates",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-pilates",
+            "datetime": "Thu, Dec 12, 2024 10am to 10:45am",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Arty Party Crafting Fest",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-arty-party-crafting-fest",
+            "datetime": "Thu, Dec 12, 2024 11am to 1pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Paint or Plant",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-paint-or-plant",
+            "datetime": "Thu, Dec 12, 2024 11am to 1pm",
+            "tags": []
+        },
+        {
+            "title": "De-Stress Fest: LEGO\u00ae at the Library",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-legos-at-the-library",
+            "datetime": "Thu, Dec 12, 2024 2pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Snack Attack",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-smejis-snack-attack",
+            "datetime": "Thu, Dec 12, 2024 6pm to 7pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -690,11 +580,43 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Play-Doh Sculpting Showdown",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-playdoh-sculpting-showdown",
+            "datetime": "Fri, Dec 13, 2024 10am to 12pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Chancellor Li's Winter Fest for Faculty & Staff",
             "url": "https://events.unomaha.edu/event/chancellor-lis-winter-fest",
             "datetime": "Fri, Dec 13, 2024 1pm to 3pm",
             "tags": [
                 "Ceremony/Reception"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Hockey Pregame Party",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-hockey-pre-game-party",
+            "datetime": "Fri, Dec 13, 2024 5pm to 6:30pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "UNO Heartland Flute Choir \"Holiday Harmony Concert at the Shrine\"",
+            "url": "https://events.unomaha.edu/event/heartland-flute-choir-holiday-harmony-concert-at-the-shrine",
+            "datetime": "Fri, Dec 13, 2024 6:30pm to 8pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Omaha Hockey vs. Lindenwood",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-uno-hockey-vs-lindenwood",
+            "datetime": "Fri, Dec 13, 2024 7:07pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -714,6 +636,22 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Donate, Dollars, Diapers, Dinner",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-donate-dollars-diapers-dinner",
+            "datetime": "Sat, Dec 14, 2024 4pm to 6pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Omaha Hockey vs. Lindenwood",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-uno-hockey-vs-lindenwood-4763",
+            "datetime": "Sat, Dec 14, 2024 7:07pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Finals Week",
             "url": "https://events.unomaha.edu/event/finals-week",
             "datetime": "Sun, Dec 15, 2024",
@@ -722,6 +660,14 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Sunday Sweater Spotlight",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-sunday-sweater-spotlight",
+            "datetime": "Sun, Dec 15, 2024 8am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Finals Week",
             "url": "https://events.unomaha.edu/event/finals-week",
             "datetime": "Mon, Dec 16, 2024",
@@ -738,6 +684,22 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Critters and Candy",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-critters-and-candy",
+            "datetime": "Mon, Dec 16, 2024 10am to 12pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Dessert with Durango",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-dessert-with-durango",
+            "datetime": "Mon, Dec 16, 2024 8pm to 10pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Finals Week",
             "url": "https://events.unomaha.edu/event/finals-week",
             "datetime": "Tue, Dec 17, 2024",
@@ -751,6 +713,22 @@
             "datetime": "Tue, Dec 17, 2024",
             "tags": [
                 "Exhibit"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Biscuits on the Bus",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-biscuits-on-the-bus",
+            "datetime": "Tue, Dec 17, 2024 8am to 10am",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Stocking Stuffing Station",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-stocking-stuffing-station",
+            "datetime": "Tue, Dec 17, 2024 12pm to 2pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -765,6 +743,22 @@
             "title": "Meditation at the Art Gallery : Mindful Awareness Meditation",
             "url": "https://events.unomaha.edu/event/meditation-at-the-art-gallery-mindful-awareness-meditation",
             "datetime": "Tue, Dec 17, 2024 1:15pm to 2pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Stocking Stuffing Station",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-stocking-stuffing-station",
+            "datetime": "Tue, Dec 17, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Pool Party \u2013 Holiday Edition",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-pool-party-holiday-edition",
+            "datetime": "Tue, Dec 17, 2024 6pm to 8pm",
             "tags": [
                 "Maverick Life"
             ]
@@ -786,9 +780,33 @@
             ]
         },
         {
+            "title": "De-Stress Fest: Midweek Hibernation",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-midweek-hibernation",
+            "datetime": "Wed, Dec 18, 2024 9am to 11am",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Lunch Munch",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-lunch-munch",
+            "datetime": "Wed, Dec 18, 2024 11am to 1pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Library Stitchcraft",
             "url": "https://events.unomaha.edu/event/library_stitchcraft_club",
             "datetime": "Wed, Dec 18, 2024 3pm to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Women\u2019s Basketball vs. Bellevue University",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-womens-basketball-vs-bellevue-university",
+            "datetime": "Wed, Dec 18, 2024 6pm",
             "tags": [
                 "Maverick Life"
             ]
@@ -815,6 +833,22 @@
             "datetime": "Thu, Dec 19, 2024 9am to 12pm",
             "tags": [
                 "Lecture/Conference"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Spices and Stickers",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-spices-and-stickers",
+            "datetime": "Thu, Dec 19, 2024 10am to 12pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "De-Stress Fest: Giant Gingerbread Gathering",
+            "url": "https://events.unomaha.edu/event/de-stress-fest-giant-gingerbread-gathering",
+            "datetime": "Thu, Dec 19, 2024 12pm to 2pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -922,11 +956,203 @@
             ]
         },
         {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Thu, Jan 2, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Fri, Jan 3, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sat, Jan 4, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sun, Jan 5, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Mon, Jan 6, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge Learn & Play Pickleball",
+            "url": "https://events.unomaha.edu/event/learn-play-pickleball",
+            "datetime": "Mon, Jan 6, 2025 9am to 11am",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Tue, Jan 7, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge: Free Climbing Basics Clinic",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-free-climbing-basics-clinic",
+            "datetime": "Tue, Jan 7, 2025 12:15pm to 12:45pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Wed, Jan 8, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge: Free Climbing Basics Clinic",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-free-climbing-basics-clinic",
+            "datetime": "Wed, Jan 8, 2025 12:15pm to 12:45pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Thu, Jan 9, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Fri, Jan 10, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sat, Jan 11, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sun, Jan 12, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Mon, Jan 13, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge Learn & Play Pickleball",
+            "url": "https://events.unomaha.edu/event/learn-play-pickleball",
+            "datetime": "Mon, Jan 13, 2025 9am to 11am",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Writing (J)am Session",
             "url": "https://events.unomaha.edu/event/writing_jam_session",
             "datetime": "Mon, Jan 13, 2025 9am to 3pm",
             "tags": [
                 "Education/Training"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Tue, Jan 14, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "UNO Maverick String Quartet-in-Residence 1/14",
+            "url": "https://events.unomaha.edu/event/uno-maverick-string-quartet-in-residence-114",
+            "datetime": "Tue, Jan 14, 2025 12:15pm to 1:15pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Wed, Jan 15, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Thu, Jan 16, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "UNO Maverick String Quartet-in-Residence 1/16",
+            "url": "https://events.unomaha.edu/event/uno-maverick-string-quartet-in-residence-116",
+            "datetime": "Thu, Jan 16, 2025 12:15pm to 1:15pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Fri, Jan 17, 2025 6am to 8pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sat, Jan 18, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
+            "title": "J-Term Challenge with Campus Recreation & Wellness",
+            "url": "https://events.unomaha.edu/event/j-term-challenge-with-campus-recreation-wellness",
+            "datetime": "Sun, Jan 19, 2025 11am to 5pm",
+            "tags": [
+                "Maverick Life"
             ]
         },
         {
@@ -938,11 +1164,51 @@
             ]
         },
         {
+            "title": "Martin Luther King Jr Day of Service 2025",
+            "url": "https://events.unomaha.edu/event/martin-luther-king-jr-day-of-service-2025",
+            "datetime": "Mon, Jan 20, 2025 8:30am to 2pm",
+            "tags": [
+                "Maverick Life"
+            ]
+        },
+        {
             "title": "Academic Calendar: Spring 2025 Classes Begin",
             "url": "https://events.unomaha.edu/event/spring-classes-begin",
             "datetime": "Tue, Jan 21, 2025",
             "tags": [
                 "Academic Calendar"
+            ]
+        },
+        {
+            "title": "UNO Maverick String Quartet-in-Residence 1/21",
+            "url": "https://events.unomaha.edu/event/uno-maverick-string-quartet-in-residence-121",
+            "datetime": "Tue, Jan 21, 2025 12:15pm to 1:15pm",
+            "tags": [
+                "Concert/Performance"
+            ]
+        },
+        {
+            "title": "Global Game Jam Omaha 2025",
+            "url": "https://events.unomaha.edu/event/global-game-jam-omaha-2025",
+            "datetime": "Sat, Jan 25, 2025 10am to 9pm",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
+            "title": "Global Game Jam Omaha 2025",
+            "url": "https://events.unomaha.edu/event/global-game-jam-omaha-2025",
+            "datetime": "Sun, Jan 26, 2025 10am to 5pm",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
+            "title": "Sound Health: Bringing Music to Medicine - Percussion Area",
+            "url": "https://events.unomaha.edu/event/sound-health-bringing-music-to-medicine-percussion-area",
+            "datetime": "Tue, Jan 28, 2025 12:15pm to 1:15pm",
+            "tags": [
+                "Concert/Performance"
             ]
         },
         {
@@ -968,6 +1234,14 @@
             ]
         },
         {
+            "title": "UNO FAST: Demystifying Compensation for Supervisors",
+            "url": "https://events.unomaha.edu/event/uno-fast-demystifying-compensation-for-supervisors-2026",
+            "datetime": "Wed, Feb 12, 2025 2pm to 3pm",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
             "title": "External Grants Workshop",
             "url": "https://events.unomaha.edu/event/external-grants-workshop",
             "datetime": "Fri, Feb 14, 2025 12pm to 1:30pm",
@@ -987,6 +1261,22 @@
             "title": "Faculty Search Training - Advanced",
             "url": "https://events.unomaha.edu/event/advanced-search-training",
             "datetime": "Wed, Feb 19, 2025 2pm to 3:30pm",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
+            "title": "UNO FAST: Stress Less",
+            "url": "https://events.unomaha.edu/event/uno-fast-stress-less",
+            "datetime": "Wed, Feb 19, 2025 2pm to 3pm",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
+            "title": "UNO FAST: Demystifying Compensation for Staff",
+            "url": "https://events.unomaha.edu/event/uno-fast-demystifying-compensation-for-staff-5055",
+            "datetime": "Thu, Feb 20, 2025 2pm to 3pm",
             "tags": [
                 "Education/Training"
             ]
@@ -1094,6 +1384,14 @@
             ]
         },
         {
+            "title": "UNO FAST: Managing Personality Conflicts",
+            "url": "https://events.unomaha.edu/event/uno-fast-managing-personality-conflicts",
+            "datetime": "Wed, Mar 12, 2025 10am to 11am",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
             "title": "The Migration Consequences of English-Language Education",
             "url": "https://events.unomaha.edu/event/the-migration-consequences-of-english-language-education",
             "datetime": "Fri, Mar 14, 2025 3pm to 4pm",
@@ -1182,6 +1480,22 @@
             ]
         },
         {
+            "title": "0DTEs: Trading, Gamma Risk and Volatility Propagation",
+            "url": "https://events.unomaha.edu/event/0dtes-trading-gamma-risk-and-volatility-propagation",
+            "datetime": "Fri, Apr 4, 2025 3pm to 4pm",
+            "tags": [
+                "Lecture/Conference"
+            ]
+        },
+        {
+            "title": "UNO FAST: We Need to Talk- How to Have Crucial Conversations",
+            "url": "https://events.unomaha.edu/event/uno-fast-we-need-to-talk-how-to-have-crucial-conversations",
+            "datetime": "Wed, Apr 9, 2025 10am to 11am",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
             "title": "Save the Date: Hollie Bethel Distinguished Alumni Event",
             "url": "https://events.unomaha.edu/event/hollie-bethel-distinguished-alumni-event-2025",
             "datetime": "Wed, Apr 9, 2025 11:30am to 1pm",
@@ -1219,6 +1533,14 @@
             "datetime": "Sat, Apr 19, 2025",
             "tags": [
                 "Concert/Performance"
+            ]
+        },
+        {
+            "title": "UNO FAST: Combating Burnout",
+            "url": "https://events.unomaha.edu/event/uno-fast-combating-burnout",
+            "datetime": "Thu, May 1, 2025 10am to 11am",
+            "tags": [
+                "Education/Training"
             ]
         },
         {
@@ -1310,6 +1632,14 @@
             ]
         },
         {
+            "title": "UNO FAST: Why Mindfulness Matters",
+            "url": "https://events.unomaha.edu/event/uno-fast-why-mindfulness-matters",
+            "datetime": "Wed, May 14, 2025 10am to 11am",
+            "tags": [
+                "Education/Training"
+            ]
+        },
+        {
             "title": "Academic Calendar: Finals Week",
             "url": "https://events.unomaha.edu/event/finals-week",
             "datetime": "Thu, May 15, 2025",
@@ -1374,6 +1704,6 @@
             ]
         }
     ],
-    "pages_scraped": 9,
-    "last_updated": "2024-11-25T16:32:58.004418"
+    "pages_scraped": 11,
+    "last_updated": "2024-12-04T20:43:09.677721"
 }
