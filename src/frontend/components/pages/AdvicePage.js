@@ -69,7 +69,6 @@ export default function Advice() {
     newPosts */
     }, [posts, sortCriteria]);
 
-
     // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 
   how long ago a post was submitted */
