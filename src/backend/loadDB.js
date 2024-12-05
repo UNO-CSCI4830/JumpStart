@@ -6,42 +6,76 @@ const resourcePosts = require("./data/resourcePosts.js").resourcePosts;
 const advicePosts = require("./data/advicePosts.js").advicePosts;
 const pendingPosts = require("./data/AdminData.js").pendingPosts;
 
-const {MongoClient} = require('mongodb');
+module.exports = { addEntries, getEntries, deleteEntries, lookEntries };
 
-async function listDBs(client) { // Lists all DBs in a MonboDB instance
-    let dbList = await client.db().admin().listDatabases();
+const { MongoClient } = require('mongodb');
+
+// Lists all DBs in a MongoDB instance
+async function listDBs(client) {
+    let dbList = await client.admin().listDatabases(); // Use admin() to access listDatabases
     dbList.databases.forEach(db => console.log(`${db.name}`));
     return dbList;
 }
 
-async function getEntries(collection, query={}, proj={}) { // retrieves all entries from a specified collection in a specified db
-    let entries = await collection.find(query).toArray();
-    // await entries.forEach(e => console.log(e));
-    return entries;
+
+// Retrieves all entries from a specified collection in a specified db
+async function getEntries(collection) {
+    try {
+        const entries = await collection.find().toArray();
+        return entries;
+    } catch (error) {
+        console.error('Error retrieving entries:', error);
+    }
 }
 
-async function addEntries(collection, arr=[]) { // takes elements of arr and adds them as entries into specified collection
-    console.log(await collection.insertMany(arr));
+// Takes elements of arr and adds them as entries into the specified collection
+async function addEntries(collection, arr = []) {
+    try {
+        const result = await collection.insertMany(arr);
+        console.log(`${result.insertedCount} entries added.`);
+    } catch (error) {
+        console.error('Error adding entries:', error);
+    }
+}
+
+// Deletes entries based on the query criteria
+async function deleteEntries(collection, query = {}) {
+    try {
+        const result = await collection.deleteMany(query);
+        console.log(`${result.deletedCount} entries deleted.`);
+        return result;
+    } catch (error) {
+        console.error('Error deleting entries:', error);
+    }
+}
+
+// Retrieves entries with specific keywords (search)
+async function lookEntries(collection, query) {
+    try {
+        const entries = await collection.find(query).toArray();
+        return entries;
+    } catch (error) {
+        console.error('Error retrieving entries:', error);
+    }
 }
 
 /* ========== MAIN ========== */
-async function configurePostsDB() {
 
+async function configurePostsDB() {
     // URI to connect to DB "Posts"
     const uri = "mongodb://localhost:27017/";
     const client = new MongoClient(uri); // MongoClient object with details to connect to Posts DB
 
     try { // attempt to establish a connection
         console.log(`Attempting connection to ${uri}...`);
-        await client.connect(); // sit and wait for DB to respond with "promise" object of our connection
-        /* Blocks all following execution until DB promise has been received. Think c-s demo from comm networks */
+        await client.connect(); // wait for DB to respond with "promise" object of our connection
         console.log(`Connected to ${uri}\n`);
 
         console.log("Constructing Posts database...");
         const postsDB = client.db("Posts")
 
+        // Listing databases (NOTE: Updated to correct function for MongoDB 4+)
         console.log(`DBs on ${uri}:`);
-        await listDBs(client);
 
         /* ### Building Resources collection in posts DB ### */
         // Defining Resources collection
@@ -96,7 +130,7 @@ async function configurePostsDB() {
         await addEntries(limbo, pendingPosts);
         const limboColl = await getEntries(limbo);
 
-        // Verify creating advice collection
+        // Verify creating limbo collection
         if (limboColl.length === pendingPosts.length) {
             console.log("All advice posts were added to \"Limbo\" collection");
         } else if (limboColl.length > pendingPosts.length) {
@@ -114,6 +148,3 @@ async function configurePostsDB() {
         await client.close();
     }
 }
-
-configurePostsDB().catch(console.error);
-
