@@ -7,7 +7,6 @@ import EventsPage from "./components/pages/EventsPage";
 import ConnectPage from "./components/pages/ConnectPage";
 import ResourcePage from "./components/pages/ResourcePage";
 import AdminDashboardPage from "./components/pages/AdminDashboardPage";
-import Windtunnel from "./components/pages/DemoPage";
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
             <Route path="/events" element={<EventsPage />} />
             <Route path="/connect" element={<ConnectPage />} />
             <Route path="/admin" element={<AdminDashboardPage />} />
-            <Route path="/DEMO" element={<Windtunnel />} /> {/* DEMO PAGE */}
           </Routes>
         </main>
       </div>
