@@ -2,55 +2,75 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/advice/AdviceSidebar";
 import Content from "../advice/AdviceContent";
 import AdviceShareModal from "../advice/AdviceShareModal";
-import { advicePosts } from "../../utils/advicePosts";
 import "../../styles/Content.css";
+import {get, post} from 'axios';
 
-/* Builds page for displaying advice */
+/*
+ * NOTE:
+ * OrderBy functionality has currently broke, and I'm not sure why...
+ *
+ * TODO:
+ * - axios.post() to have AdviceShareModal push to LimboDB
+ */
 export default function Advice() {
-  /* state tuples */
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState(advicePosts);
+  const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
+  const [msg, setMsg] = useState(null);
 
+  // Pull from DB based on Filter
   useEffect(() => {
-    /* ??? No variable to handle arrow func off of, but I'm
-    guessing this sorts posts on page based off "order" bar */
-    let newPosts = [...advicePosts]; /* ??? re-assig arr of doc objects to 
-    newPosts */
+    let filter = activeTag === "All" ? {} : {tag: activeTag};
 
-    // Apply filter
-    if (activeTag !== "All") {
-      newPosts = newPosts.filter((post) => post.tag === activeTag);
-    }
-
-    // Apply sort
-    switch (sortCriteria /* default sortCriteria = mostRecent */) {
-      case "mostRecent":
-        newPosts.sort((a, b) => {
-          const timeA = parseTimeAgo(a.timeAgo);
-          const timeB = parseTimeAgo(b.timeAgo);
-          return timeB - timeA;
-        });
-        break;
-      case "mostLiked":
-        newPosts.sort((a, b) => b.likes - a.likes);
-        break;
-      case "mostHearted":
-        newPosts.sort((a, b) => b.hearts - a.hearts);
-        break;
-      default:
-        break;
-    }
-
-    setFilteredPosts(newPosts); /* updates filteredPosts to the re-sorted 
-    newPosts */
-  }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
+    // Query posts from DB
+    get("/api/advice", {
+        params: filter 
+    }).then((res) => {
+            setPosts([...res.data.payload]);
+        }).catch( err => {
+                console.log(err.response);
+                setMsg(`Couldn't load data. Status ${err.response.status}`);
+            });
+  }, [activeTag]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
-  // TODO: Add to db pipeline
-  const parseTimeAgo = (timeAgo) => {
-    /* arrow func with arg timeAgo calculates 
+    // Apply sort
+    // FIXME: Great! Now I broke the sort filter!
+    // Apparently, posts are switching up their associated likes/hearts values...
+    useEffect(() => { 
+        let toSort = posts; // pass current set of posts to temp newPosts arr to be sorted
+        console.log("posts to sort:");
+
+        switch (sortCriteria) { /* default sortCriteria = mostRecent */
+            case "mostRecent":
+                toSort.sort((a, b) => {
+                    console.log(a.title);
+                    console.log(b.title);
+                    const timeA = parseTimeAgo(a.timeAgo);
+                    const timeB = parseTimeAgo(b.timeAgo);
+                    // return timeB - timeA;
+                    return timeA - timeB;
+                });
+                break;
+            case "mostLiked":
+                console.log("B4 sorting...");
+                toSort.sort((a, b) => a.likes - b.likes);
+                console.log("After sorting...");
+                toSort.map((e) => console.log(e.title));
+                break;
+            case "mostHearted":
+                toSort.sort((a, b) => b.hearts - a.hearts);
+                break;
+            default:
+                break;
+        }
+        setPosts(toSort); /* updates posts to the re-sorted 
+    newPosts */
+    }, [posts, sortCriteria]);
+
+    // TODO: Add to db pipeline
+  const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 
   how long ago a post was submitted */
     const timeParts = timeAgo.split(" ");
     const timeValue = parseInt(timeParts[0], 10);
@@ -81,15 +101,17 @@ export default function Advice() {
         tag */
         activeTag={activeTag} /* Pass in current active tag */
       />
-      <Content /* Call Content */
-        posts={filteredPosts} /* pass in filteredPsts to Content to display 
-        using AdviceCard */
-        onSortChange={setSortCriteria} /* pass in state changer for 
-        sortCriteria  */
-        currentSort={sortCriteria} /* Pass in current sortCriteria */
-      />
-      {isModalOpen /* if True, open submit form. Resets to false when form
-      is closed */ && (
+      {msg !== null ?
+        (<div><h1>{msg}</h1></div>) : 
+        (<Content /* Call Content */
+            posts={posts} /* pass in filteredPsts to Content to display 
+            using AdviceCard */
+            onSortChange={setSortCriteria} /* pass in state changer for 
+            sortCriteria  */
+            currentSort={sortCriteria} /* Pass in current sortCriteria */
+          />)}
+      {isModalOpen && ( /* if True, open submit form. Resets to false when form
+      is closed */
         <AdviceShareModal onClose={() => setIsModalOpen(false)} />
       )}
     </div>

@@ -9,80 +9,64 @@ const Database = require('./utils.js');
 app.use(cors());
 app.use(express.json());
 
-// ADVICE INTERFACE
-app.get('/api/advice', async (req, res) => {
 
-    const advice = new Database("Posts", "advice");
-    await advice.query();
-    const posts = advice.getPayload();
+const handleQuery =  (url, instance) => {
+    app.get(url, async (req, res) => {
 
-    // A simple error statement just in case a DB fails
-    if (advice.getError() !== null) { // would love to use the advice's getter in the response object
-        res.json({
-            message : "Failed retrieving advice posts :(",
-            payload : advice.getError()
-        });
-        console.log("Error retrieving advice posts from DB.");
-    } else {
-        res.json({
-            message: "Advice posts incoming!",
-            payload: posts // Replicate what's in Resources Interface
-        });
-        console.log("GET request for advice received");
-    }
-});
+        console.log("Server: GET request for received");
+        console.log(`Server: Got the following search parameters: `);
+        console.log(req.query);
 
-// RESOURCES INTERFACE
-app.get('/api/resources', async (req, res) => {
+        // Parsing incoming parameters object to construct query parameter
+        const query = {};
 
-    const resources = new Database("Posts", "resources");
-    await resources.query();
-    const posts = resources.getPayload();
+        for (const[key, value] of Object.entries(req.query)) {
+            console.log(`\t${key}: ${value}`);
+            if (key === "search") {
+                query['$text'] = {$search:value};
+            } else query[key] = value;
+        }
 
-    if (resources.getError() !== null) {
-        res.json({
-            message : "Failed retrieving resources posts :(",
-            payload : resources.getError()
-        });
-        console.log("Error retrieving resource posts from DB.");
-    } else {
-        res.json({
-            message: "resource posts incoming!",
-            payload: resources.getPayload() 
-        });
-        console.log("GET request for resources received");
-    }
-});
+        console.log("Constructed query:");
+        console.log(query);
 
-// ADMIN INTERFACE
-app.get('/api/admin', async (req, res) => {
+        // Passing query parameter to pull() method
+        await instance.pull(query);
 
-    const limbo = new Database("Posts", "resources");
-    await limbo.query();
-    const posts = limbo.getPayload();
+        if (instance.getError() !== null) {
+            res.status(500).json({ // Changed to handle other additonal sever errors
+                message : "Failed retrieving posts :(",
+                errMsg : instance.getError()
+            });
+            console.log("Server: Error retrieving posts from DB.");
+        } else {
+            res.json({
+                message: "posts incoming!",
+                payload: instance.getPayload()
+            });
+            console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
+        }
+    });
+};
 
-    // A simple error statement just in case a DB fails
-    if (limbo.getError() !== null) {
-        res.json({
-            message : "Failed retrieving purgatory :(",
-            payload : limbo.getError()
-        });
-        console.log("Error retrieving purgatory from DB.");
-    } else {
-        res.json({
-            message: "Purgatory incoming!",
-            payload: posts 
-        });
-        console.log("GET request for admin received");
-    }
-});
+// ADVICE INSTANCE 
+const advice = new Database("Posts", "advice")
+handleQuery('/api/advice', advice);
+
+// RESOURCES INSTANCE
+const resources = new Database("Posts", "resources")
+handleQuery("/api/resources", resources);
+
+// ADMIN INSTANCE
+const limbo = new Database("Posts", "limbo")
+handleQuery("/api/limbo", limbo);
 
 app.listen(PORT, () => {
-    console.log(`Server started on ${PORT}`)
+    console.log(`Server: Server started on ${PORT}`)
 });
 
 // middleware to catch non-existing routes
 app.use( function(req, res, next) {
     res.status(404).json("Error 404: Not found");
-    console.log(`User attempted to access ${req.url}`);
+    console.log(`Server: User attempted to access ${req.url}`);
 });
