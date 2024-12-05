@@ -61,7 +61,7 @@ handleQuery("/api/resources", resources);
 const limbo = new Database("Posts", "limbo")
 handleQuery("/api/limbo", limbo);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server: Server started on ${PORT}`)
 });
 
@@ -70,3 +70,5 @@ app.use( function(req, res, next) {
     res.status(404).json("Error 404: Not found");
     console.log(`Server: User attempted to access ${req.url}`);
 });
+
+module.exports = server;
