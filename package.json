@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
     "formidable": "^3.5.2",
-    "mongodb": "^6.10.0",
+    "mongodb": "^6.11.0",
     "react": "^18.3.1",
     "react-axios": "^2.0.6",
     "react-dom": "^18.3.1",
@@ -19,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -50,7 +51,10 @@
     "react-app-rewired": "^2.2.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
-    "url": "^0.11.4"
+    "url": "^0.11.4",
+    "@types/jest": "^29.5.14",
+    "jest": "^27.5.1",
+    "mongodb-memory-server": "^10.1.2"
   },
   "proxy": "http://localhost:3001"
 }
