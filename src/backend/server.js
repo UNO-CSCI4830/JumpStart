@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require("cors");
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail'); // Import SendGrid
-// const User = require('./models/User'); // Ensure you have the User model
+const User = require('./models/User'); // Ensure you have the User model
 const Database = require('./utils.js');
 
 const app = express();
@@ -56,12 +56,12 @@ const handleQuery = (url, instance) => {
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);  // Replace with your actual SendGrid API key
 
 // MongoDB connection
-// mongoose.connect('mongodb://localhost:27017/Jumpstart', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-//   .then(() => console.log('Connected to MongoDB'))
-//   .catch(err => console.error('Error connecting to MongoDB:', err));
+mongoose.connect('mongodb://localhost:27017/Jumpstart', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 // /api/register route
 app.post('/api/register', async (req, res) => {
@@ -77,16 +77,16 @@ app.post('/api/register', async (req, res) => {
   
       // Create a temporary user record in the database with the verification code
       // NOTE: User DB entry schema! (Also found in models/User.js)
-      // const tempUser = new User({
-      //   email,
-      //   verificationCode: verificationCode.toString(),
-      //   verificationCodeExpiry: Date.now() + 3600000, // 1 hour expiry time _ change to 5 mins
-      //   isVerified: false,  // User is not verified yet
-      // });
+      const tempUser = new User({
+        email,
+        verificationCode: verificationCode.toString(),
+        verificationCodeExpiry: Date.now() + 3600000, // 1 hour expiry time _ change to 5 mins
+        isVerified: false,  // User is not verified yet
+      });
   
       // Save the temporary user (not the actual user yet)
       // Pushes to User DB
-      // await tempUser.save(); // TODO: Integrate with Database.push()
+      await tempUser.save(); // TODO: Integrate with Database.push()
   
       // Send the verification code to the user's email using SendGrid
       const msg = {
@@ -128,30 +128,30 @@ app.post('/api/verify-code', async (req, res) => {
         // Find the temporary user by email
 
         // TODO: Integrate with Database.pull(). It pulls from User DB
-        // const tempUser = await User.findOne({ email });
+        const tempUser = await User.findOne({ email });
 
-        //     if (!tempUser) {
-        //         return res.status(404).json({ message: 'User not found. Please register first.' });
-        //     }
+            if (!tempUser) {
+                return res.status(404).json({ message: 'User not found. Please register first.' });
+            }
 
-        //     // Check if the verification code matches
-        //     if (tempUser.verificationCode !== verificationCode) {
-        //         return res.status(400).json({ message: 'Invalid verification code' });
-        //     }
+            // Check if the verification code matches
+            if (tempUser.verificationCode !== verificationCode) {
+                return res.status(400).json({ message: 'Invalid verification code' });
+            }
 
-        //     // Check if the verification code has expired
-        //     if (Date.now() > tempUser.verificationCodeExpiry) {
-        //         return res.status(400).json({ message: 'Verification code has expired' });
-        //     }
+            // Check if the verification code has expired
+            if (Date.now() > tempUser.verificationCodeExpiry) {
+                return res.status(400).json({ message: 'Verification code has expired' });
+            }
 
-        //     // Add the user to the database as a verified user
-        //     tempUser.isVerified = true;
-        //     tempUser.verificationCode = undefined; // Remove the verification code
-        //     tempUser.verificationCodeExpiry = undefined; // Remove the expiry time
+            // Add the user to the database as a verified user
+            tempUser.isVerified = true;
+            tempUser.verificationCode = undefined; // Remove the verification code
+            tempUser.verificationCodeExpiry = undefined; // Remove the expiry time
 
             // Save the verified user
             // TODO: Implement Database.push(); 
-            // await tempUser.save();
+            await tempUser.save();
 
             res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
         } catch (error) {
