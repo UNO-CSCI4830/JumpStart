@@ -17,7 +17,7 @@ export default function AuthenticationModal({ onClose, onVerification }) {
       return;
     }
     setLoading(true);
-    try {
+    try { // TODO: Conver to Axios POST
       const response = await fetch("/api/send-verification-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ export default function AuthenticationModal({ onClose, onVerification }) {
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
+    try { // TODO: Convert to Axios POST
       const response = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
