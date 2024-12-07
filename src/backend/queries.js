@@ -30,6 +30,9 @@ router.post('/limbo', async(req, res) => {
     postReq(limbo, req, res);
     // TODO: conditional for edit and delete as well!
     // - dunno whether to use session credentials, or header info
+    // - Approval
+    //  - feeling like this one: either use move() with some aggregate() method (Which wouldn't have to requrie me spinning up another Instance per type)
+    //  - OR: just do Instance.push(object) where Object just doesn't have its ID
 });
 
 /* ========== # User verification and registry # ========== */

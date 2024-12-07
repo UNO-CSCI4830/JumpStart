@@ -27,11 +27,13 @@ const ResourcePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [resources, setResources] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newResource, setNewResource] = useState({
+  const [submission, setSubmission] = useState({
+    type: "resource",
     title: "",
+    uploader: "",
     description: "",
     link : "",
-    tag : "",
+    category : "",
   });
 
   // Ubuquitous msg
@@ -54,23 +56,30 @@ const ResourcePage = () => {
                 console.log(err.response);
                 setMsg(`Couldn't load data. Status ${err.response.status}`);
     });
-
     }, [searchTerm, activeTag]);
 
   const handleSubmit = (e) => { /* upon submit event, update resources array 
   with new entry */
     e.preventDefault(); /* ??? ensure that an empty form isn't added */
-    const _id = Date(); // TODO: ObjectId will be handled on backend!
-    setResources([...resources, { ...newResource, _id }]);
+    // setResources([...resources, { ...submission, _id }]);
     setIsModalOpen(false); /* Modal state is now false */
-     /* new resource is now set, with blank elements */
-    setNewResource({ title: "", description: "", link: "", category: "" });
+
+    // send submission over POST
+    post('/api/limbo', submission)
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err.response);
+    });
+
+     /* submission is now set, with blank elements */
+    setSubmission({ uploader: "", title: "", description: "", link: "", category: "" });
   };
 
   const handleInputChange = (e) => { /* when a change event occurs, update the 
-  newResource with new name : value */
+  submission with new name : value */
     const { name, value } = e.target;
-    setNewResource({ ...newResource, [name]: value });
+    setSubmission({ ...submission, [name]: value });
   };
 
   return (
@@ -135,7 +144,7 @@ const ResourcePage = () => {
         the modal state boolean to false when form closes */
         onSubmit={handleSubmit} /* Passing arrow func to onSubmit behavior, so 
         when submit button is clicked, data entered into the form is saved */
-        newResource={newResource} /* passing empty new resource object to be 
+        submission={submission} /* passing empty new resource object to be 
         filled in with formData */
         handleInputChange={handleInputChange} /* passing arrow func to Modal to
         update data with new inputs */
