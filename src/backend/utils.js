@@ -41,7 +41,6 @@ class Instance{
     }
 
     async connect(){
-        
         console.log("Instance: Attempting to connect to DB...");
 
         if ((this.collName === undefined) || (this.dbName === undefined))
@@ -53,11 +52,12 @@ class Instance{
         return await this.client.db(this.dbName).collection(this.collName);
     }
 
-    async pull(params = {}, projs = {}) {
+    async pull(params = {}, projs = {}, sort = {}) {
+        // NOTE: Blindly searches data
         this.reset();
         try {
             const coll = await this.connect();
-            const cursor = coll.find(params).project(projs); // since cursors reference objects...
+            const cursor = coll.find(params).project(projs).sort(sort); // since cursors reference objects...
             console.log(`Instance: Posts pulled!`);
             this.payload = await cursor.toArray(); // and we want to make sure we get all objects
 
@@ -77,15 +77,13 @@ class Instance{
          *  j: (boolean) whether or not write has been written to on-disk journal
          *  wtimeout: (int) representing timelimit on waiting for prev 2 confirms in ms 
          */
-        // NOTE: Blindly inserts data. Up to server to sanitize based off route!
+        // NOTE: Blindly inserts data
         this.reset();
         try {
             if ((typeof(data) !== "object") || (typeof(concern) !== "object"))
                 throw TypeError("Instance: push(): arguments are of incorrect type");
             
             if (data.length === 0) throw new Error("Instance: No entries to add.");
-
-            // TODO: handle dirty keys
 
             console.log("Instance: data received: ");
             console.log(data);
@@ -101,8 +99,6 @@ class Instance{
         }
     }
 
-        // TODO: use db.collection.deleteMany
-        // TODO: return results in payload
     async del(params = {}) {
         this.reset();
         try {
@@ -120,6 +116,7 @@ class Instance{
     async edit(){
         // TODO: use db.collection.Modify
         // TODO: if entry doesn't exist, throw
+        // TODO: 
     }
 
     // async retryOperation(operation) {
@@ -144,41 +141,71 @@ class Instance{
     getErrorMsg() { return (this.errorStack !== null) ? this.errorStack.message : null}
 }
 
-
 async function pullReq(instance, req, res) {
-        console.log("Receptionist: GET request for received");
-        console.log(`Receptionist: Got the following search parameters: `);
-        console.log(req.data);
+    console.log(`Receptionist: Got the following search parameters: `);
+    console.log(req.data);
 
-        // Parsing incoming parameters object to construct query parameter
-        const query = {};
+    // Parsing incoming parameters object to construct query parameter
+    const query = {}; // Defines parameters in which to pull data
+    const projs = {}; // Defines fields that will be sent to client
+    const sort = {}; // Defines order in which to send to client
 
-        for (const[key, value] of Object.entries(req.query)) {
-            console.log(`\t${key}: ${value}`);
-            if (key === "search") {
-                query['$text'] = {$search:value};
-            } else query[key] = value;
-        }
+    // TODO: SANITIZE
+    // TODO: Enable filtering of projs and sort! Only sorts for potential text indexing!!
+    for (const[key, value] of Object.entries(req.query)) {
+        console.log(`\t${key}: ${value}`);
+        if (key === "search") {
+            query['$text'] = {$search:value};
+        } else query[key] = value;
+    }
 
-        console.log("Constructed query:");
-        console.log(query);
+    console.log("Constructed query:");
+    console.log(query);
 
-        // Passing query parameter to pull() method
-        await instance.pull(query);
+    // Passing query parameter to pull() method
+    await instance.pull(query, projs, sort);
 
-        if (instance.getErrorMsg() !== null) {
-            res.status(500).json({ // Changed to handle other additonal sever errors
-                message : "Failed retrieving posts :(",
-                errMsg : instance.getErrorMsg()
-            });
-            console.log("Receptionist: Error retrieving posts from DB.");
-        } else {
-            res.json({
-                message: "posts incoming!",
-                payload: instance.getPayload()
-            });
-            console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
-        }
+    if (instance.getErrorMsg() !== null) {
+        res.status(500).json({ // Changed to handle other additonal sever errors
+            message : "Failed retrieving posts :(",
+            errMsg : instance.getErrorMsg()
+        });
+        console.log("Receptionist: Error retrieving posts from DB.");
+    } else {
+        res.json({
+            message: "posts incoming!",
+            payload: instance.getPayload()
+        });
+        console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
+    }
 };
 
-module.exports = {Instance, pullReq};
+// TODO: UNDER CONSTRUCTION
+async function postReq(instance, req, res) {
+    console.log(`Receptionist: Data received to add/modify: `);
+    console.log(req.data);
+
+    // TODO: Sanitize!!
+    res.json({message: "Data received!"});
+
+    return 0;
+
+    // Passing data to push to DB
+    await instance.push(req.data);
+
+    if (instance.getErrorMsg() !== null) {
+        res.status(500).json({ // Changed to handle other additonal sever errors
+            message : "Failed retrieving posts :(",
+            errMsg : instance.getErrorMsg()
+        });
+        console.log("Receptionist: Error retrieving posts from DB.");
+    } else {
+        res.json({
+            message: "posts incoming!",
+            payload: instance.getPayload()
+        });
+        console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
+    }
+}
+
+module.exports = {Instance, pullReq, postReq};
