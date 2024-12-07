@@ -38,7 +38,7 @@ export default function Content({ posts, onSortChange }) {
       <div className="advice-posts">
         {posts.length > 0 ? (
           /* For Each post, at each index, map to AdviceCard component */
-          posts.map((post, index) => <AdviceCard {...post} key={0} />)
+          posts.map((post, index) => <AdviceCard data={post} key={index} />)
         ) : (
           // Display message when no posts are available
           <p>No advice is available for the selected filter.</p>

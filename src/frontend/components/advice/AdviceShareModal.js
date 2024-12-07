@@ -62,7 +62,7 @@ export default function AdviceShareModal({ onClose }) {
     /* TODO: append submission time */
     /* TODO: SUBMIT NEW DATA TO DB */
     if (onClose) {
-      onClose();
+      onClose(formData);
     }
   };
 

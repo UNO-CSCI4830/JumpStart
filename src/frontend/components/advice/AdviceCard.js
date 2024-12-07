@@ -9,7 +9,7 @@ import { useState } from "react";
  */
 
 /* Take Advice components and makes it look presentable */
-export default function AdviceCard(data, key) {
+export default function AdviceCard({ data, key }) {
   /*
    * @ properties
    * data: entry object
