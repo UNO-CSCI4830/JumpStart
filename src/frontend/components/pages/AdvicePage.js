@@ -18,10 +18,22 @@ export default function Advice() {
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
   const [msg, setMsg] = useState(null);
+  const [submission, setSubmission] = useState({
+    type : "advice",
+    uploader: "joemama@urmoms.place",
+    title: "New Post",
+    postAs: "Anonymous",
+    tags: [],
+    description: "lorem ipsum get rekt nerd",
+  });
 
   // Pull from DB based on Filter
   useEffect(() => {
     let filter = activeTag === "All" ? {} : {tag: activeTag};
+        //
+    filter["sort"] = sortCriteria; // NOTE: I *think* sort works now!
+    // FIXME: BUT liked values STILL DON'T CHANGE
+    filter["process"] = true; // Tell GET handler to process upload date to be nicer
 
     // Query posts from DB
     get("/api/advice", {
@@ -32,42 +44,10 @@ export default function Advice() {
                 console.log(err.response);
                 setMsg(`Couldn't load data. Status ${err.response.status}`);
             });
-  }, [activeTag]); /* Define activeTag and sortCriteria so it can
+  }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
-    // Apply sort
-    // FIXME: Great! Now I broke the sort filter!
-    // Apparently, posts are switching up their associated likes/hearts values...
-    useEffect(() => { 
-        let toSort = posts; // pass current set of posts to temp newPosts arr to be sorted
-        console.log("posts to sort:");
-
-        switch (sortCriteria) { /* default sortCriteria = mostRecent */
-            case "mostRecent":
-                toSort.sort((a, b) => {
-                    console.log(a.title);
-                    console.log(b.title);
-                    const timeA = parseTimeAgo(a.timeAgo);
-                    const timeB = parseTimeAgo(b.timeAgo);
-                    // return timeB - timeA;
-                    return timeA - timeB;
-                });
-                break;
-            case "mostLiked":
-                console.log("B4 sorting...");
-                toSort.sort((a, b) => a.likes - b.likes);
-                console.log("After sorting...");
-                toSort.map((e) => console.log(e.title));
-                break;
-            case "mostHearted":
-                toSort.sort((a, b) => b.hearts - a.hearts);
-                break;
-            default:
-                break;
-        }
-        setPosts(toSort); /* updates posts to the re-sorted 
-    newPosts */
-    }, [posts, sortCriteria]);
+    console.log(posts);
 
     // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 

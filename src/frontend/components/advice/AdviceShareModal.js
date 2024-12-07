@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import post from "axios";
+
 const tags = [
   "Study tips",
   "Professors",
@@ -26,11 +28,12 @@ export default function AdviceShareModal({ onClose }) {
    */
   /* Starting state of fields in form */
   const [formData, setFormData] = useState({
-    email: "",
-    name: "",
+    type : "advice",
+    uploader: "joemama@urmoms.place",
+    title: "New Post",
     postAs: "Anonymous",
     tags: [],
-    advice: "",
+    description: "lorem ipsum get rekt nerd",
   });
 
   /* Guessing handleChange stores the data provided by a user? */
@@ -57,10 +60,16 @@ export default function AdviceShareModal({ onClose }) {
   /* Upon form submission, handle data */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); /* !! Here we handle our new data !! */
     /* formData is an object! No need to create a new one!! */
-    /* TODO: append submission time */
     /* TODO: SUBMIT NEW DATA TO DB */
+    // send submission over POST
+    post('/api/limbo', formData)
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err.response);
+    });
+
     if (onClose) {
       onClose();
     }
@@ -73,24 +82,24 @@ export default function AdviceShareModal({ onClose }) {
         <h2>Share Your Advice</h2>
         <form id="shareAdviceForm" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="uploader">Email:</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="uploader"
+              id="uploader"
+              name="uploader"
+              value={formData.uploader}
               onChange={handleChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="title">Name:</label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="title"
+              name="title"
+              value={formData.title}
               onChange={handleChange}
               required
             />
@@ -146,11 +155,11 @@ export default function AdviceShareModal({ onClose }) {
             </small>
           </div>
           <div className="form-group">
-            <label htmlFor="advice">Your Advice:</label>
+            <label htmlFor="description">Your Advice:</label>
             <textarea
-              id="advice"
-              name="advice"
-              value={formData.advice}
+              id="description"
+              name="description"
+              value={formData.description}
               onChange={handleChange}
               rows="6"
               required
