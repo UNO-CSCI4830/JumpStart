@@ -49,6 +49,45 @@ export default function Advice() {
 
     console.log(posts);
 
+  const handleSubmit = (e) => { /* upon submit event, update resources array 
+  with new entry */
+    e.preventDefault(); /* ??? ensure that an empty form isn't added */
+    // setResources([...resources, { ...submission, _id }]);
+    setIsModalOpen(false); /* Modal state is now false */
+
+    // send submission over POST
+    post('/api/limbo', submission)
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err.response);
+    });
+
+     /* submission is now set, with blank elements */
+    setSubmission({ uploader: "", title: "", description: "", link: "", category: "" });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target; /* Field names for form */
+    /* Determine which data to update */
+    // FIXME: Tag gets selected and is received by server, but it doesn't register visually
+    if (type === "checkbox") {
+      /* type "checkbox", so update tags */
+      setSubmission((prev) => ({
+        ...prev,
+        tags: checked
+          ? [...prev.tags, value]
+          : prev.tags.filter((tag) => tag !== value),
+      }));
+    } else {
+      /* They're not updating a tag */
+      setSubmission((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
     // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 
   how long ago a post was submitted */
@@ -92,7 +131,12 @@ export default function Advice() {
           />)}
       {isModalOpen && ( /* if True, open submit form. Resets to false when form
       is closed */
-        <AdviceShareModal onClose={() => setIsModalOpen(false)} />
+        <AdviceShareModal 
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleSubmit}
+                    submission={submission}
+                    handleInputChange={handleInputChange}
+                />
       )}
     </div>
   );
