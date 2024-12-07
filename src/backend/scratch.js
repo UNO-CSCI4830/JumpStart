@@ -1,10 +1,30 @@
 const {MongoClient} = require('mongodb');
 const Database = require('./utils.js').Instance;
 
+
+async function get(params, projs, sort, group){
+    const instance = new Database("Posts", "limbo");
+    await instance.pull(params, projs, sort, group);
+    console.log(instance.getPayload());
+    console.log(instance.getPayload().length);
+}
+
+async function post(data) {
+    const instance = new Database("Posts", "limbo");
+    await instance.push(data);
+    console.log(instance.getPayload());
+}
+
+async function wipe(params) {
+    const instance = new Database("Posts", "limbo");
+    await instance.del(params);
+    console.log(instance.getPayload());
+}
+
 let maliciousData = [
     {
         // _id is created by instance
-        "title" : "New Post",
+        "ti.tle" : "New Post",
         "uploader" : "your.mom@school",
         "content" : "lor^em ipsum",
         "link" : 'https://havibeenpwnd.com/',
@@ -38,27 +58,6 @@ let data2 = [
     { "_id": 3, "color": "blue" }
 ]
 
-let params = {"color" : "purple"};
-let projs = {};
-
-async function get() {
-    const instance = new Database("Posts", "limbo");
-    await instance.pull(params);
-    console.log(instance.getPayload());
-}
-
-async function post() {
-    const instance = new Database("Posts", "limbo");
-    await instance.push(maliciousData);
-    console.log(instance.getPayload());
-}
-
-async function wipe() {
-    const instance = new Database("Posts", "limbo");
-    await instance.del(params);
-    console.log(instance.getPayload());
-}
-
 // data2.forEach((i) => {
 //     Object.keys(i).forEach((key) => {
 //         console.log(key);
@@ -67,6 +66,11 @@ async function wipe() {
 // });
 
 // post();
-wipe();
+// wipe();
 
-// get();
+// get({color:"red"});
+// get({color:"purple"});
+// get({title:"New Post"});
+// get({"ti.tle":"New Post"});
+get({"type": "resource"}, [], {uploadDate: -1});
+// get({});
