@@ -29,9 +29,9 @@ const ResourcePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submission, setSubmission] = useState({
     type: "resource",
-    title: "",
-    uploader: "",
-    description: "",
+    title: "New Post",
+    uploader: "joemama@urmoms.place",
+    description: "lorem ipsum getem prankdum",
     link : "",
     category : "",
   });

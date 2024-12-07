@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 
-import post from "axios";
 
 const tags = [
   "Study tips",
@@ -21,74 +20,36 @@ const tags = [
 ];
 
 /* Launches submit form for the user to create a new entry */
-export default function AdviceShareModal({ onClose }) {
+export default function AdviceShareModal({ 
+  onClose,
+  onSubmit,
+  submission,
+  handleInputChange
+}) {
   /*
    * @ properties
-   * onClose: function to handle data when form closes
+   * isOpen: boolean determining form state
+   * onClose: function determining form behavior when closed
+   * onSubmit: function determining form behavior when submit button is clicked
+   * submission: resource object to be updated with contents of form
+   * handleInputChange: function determining form behavior when form inputs change
    */
   /* Starting state of fields in form */
-  const [formData, setFormData] = useState({
-    type : "advice",
-    uploader: "joemama@urmoms.place",
-    title: "New Post",
-    postAs: "Anonymous",
-    tags: [],
-    description: "lorem ipsum get rekt nerd",
-  });
-
-  /* Guessing handleChange stores the data provided by a user? */
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target; /* Field names for form */
-    /* Determine which data to update */
-    if (type === "checkbox") {
-      /* type "checkbox", so update tags */
-      setFormData((prev) => ({
-        ...prev,
-        tags: checked
-          ? [...prev.tags, value]
-          : prev.tags.filter((tag) => tag !== value),
-      }));
-    } else {
-      /* They're not updating a tag */
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-
-  /* Upon form submission, handle data */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    /* formData is an object! No need to create a new one!! */
-    /* TODO: SUBMIT NEW DATA TO DB */
-    // send submission over POST
-    post('/api/limbo', formData)
-        .then((res) => {
-            console.log(res);
-        }).catch((err) => {
-            console.log(err.response);
-    });
-
-    if (onClose) {
-      onClose();
-    }
-  };
 
   return (
     /* HTML */
     <div className="modal">
       <div className="modal-content">
         <h2>Share Your Advice</h2>
-        <form id="shareAdviceForm" onSubmit={handleSubmit}>
+        <form id="shareAdviceForm" onSubmit={onSubmit}>
           <div className="form-group">
             <label htmlFor="uploader">Email:</label>
             <input
               type="uploader"
               id="uploader"
               name="uploader"
-              value={formData.uploader}
-              onChange={handleChange}
+              value={submission.uploader}
+              onChange={handleInputChange}
               required
             />
           </div>
@@ -99,8 +60,8 @@ export default function AdviceShareModal({ onClose }) {
               type="text"
               id="title"
               name="title"
-              value={formData.title}
-              onChange={handleChange}
+              value={submission.title}
+              onChange={handleInputChange}
               required
             />
           </div>
@@ -110,8 +71,8 @@ export default function AdviceShareModal({ onClose }) {
             <select
               id="postAs"
               name="postAs"
-              value={formData.postAs}
-              onChange={handleChange}
+              value={submission.postAs}
+              onChange={handleInputChange}
             >
               <option value="Anonymous">Anonymous</option>
               <option value="Name">Name</option>
@@ -125,20 +86,8 @@ export default function AdviceShareModal({ onClose }) {
               id="tags"
               name="tags"
               multiple // Enables multiple tag selection
-              value={formData.tags} // Controlled component - reflects current selected tags
-              onChange={(e) => {
-                // Convert HTMLOptionsCollection to array of selected tag values
-                const selectedTags = Array.from(
-                  e.target.selectedOptions, // Get all selected options
-                  (option) => option.value // Extract just the value from each option
-                );
-
-                // Update form state with new array of selected tags
-                setFormData((prev) => ({
-                  ...prev, // Keep all other form data
-                  tags: selectedTags, // Update only the tags array
-                }));
-              }}
+              value={submission.tags} // Controlled component - reflects current selected tags
+              onChange={handleInputChange}
               className="tag-select"
             >
               {/* Map each tag in our tags array to an option element */}
@@ -159,8 +108,8 @@ export default function AdviceShareModal({ onClose }) {
             <textarea
               id="description"
               name="description"
-              value={formData.description}
-              onChange={handleChange}
+              value={submission.description}
+              onChange={handleInputChange}
               rows="6"
               required
             />
