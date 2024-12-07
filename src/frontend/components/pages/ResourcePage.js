@@ -32,9 +32,9 @@ const ResourcePage = () => {
   const [submission, setSubmission] = useState({
     type: "resource",
     uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
-    title: "New Post",
-    uploader: "joemama@urmoms.place",
-    description: "lorem ipsum getem prankdum",
+    title: "",
+    uploader: "",
+    description: "",
     link : "",
     category : "",
   });

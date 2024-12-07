@@ -227,46 +227,35 @@ async function pullReq(instance, req, res) {
     }
 };
 
-// TODO: UNDER CONSTRUCTION
 async function postReq(instance, req, res) {
-    console.log(`Receptionist: Data received to add/modify: `);
-    console.log(req.body);
 
-    // TODO: Sanitize!!
+    // NOTE: THIS FUNCTION HAS NOT BEEN CONFIRMED TO PERFORM INPUT SANITATION
+    // TODO: SANITIZE!
     let entry = {};
-
     Object.entries(req.body).forEach(([key,value]) => {
-        // console.log(`${key}: ${value}`);
         entry[key] = value;
     });
-
-    var date = new Date(Date.now());
-    entry["uploadDate"] = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
     entry["status"] = "pending";
 
     console.log("Receptionist: Entry to submit:");
     console.log(entry);
 
-    res.json({message: "Data received!"});
-
-    return 0;
-
     // Passing data to push to DB
-    await instance.push(req.data);
+    await instance.push([entry]);
 
     if (instance.getErrorMsg() !== null) {
         res.status(500).json({ // Changed to handle other additonal sever errors
-            message : "Failed retrieving posts :(",
+            message : "Failed inserting posts :(",
             errMsg : instance.getErrorMsg()
         });
-        console.log("Receptionist: Error retrieving posts from DB.");
+        console.log("Receptionist: Error inserting posts to Limbo.");
     } else {
         res.json({
-            message: "posts incoming!",
+            message: "posts submitted!",
             payload: instance.getPayload()
         });
-        console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
+        console.log(`Server: ${instance.getPayload()[0].insertedCount} posts successfully added to DB.`);
     }
 }
 
