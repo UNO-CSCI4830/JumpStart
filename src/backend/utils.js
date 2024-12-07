@@ -52,14 +52,25 @@ class Instance{
         return await this.client.db(this.dbName).collection(this.collName);
     }
 
-    async pull(params = {}, projs = {}, sort = {}) {
-        // NOTE: Blindly searches data
+    async pull(params = {}, projs = [], sort = {}, group) {
+        // NOTE: Blindly finds data
+        // NOTE: group doesn't do shit rn!
         this.reset();
+        let pipeline = [{$match : params}];
+        if (projs.length > 0) pipeline.push({$unset : projs});
+        if (Object.entries(sort).length > 0) pipeline.push({$sort : sort});
+        if (group !== undefined) console.log("Get Prankd!"); 
+
         try {
             const coll = await this.connect();
-            const cursor = coll.find(params).project(projs).sort(sort); // since cursors reference objects...
-            console.log(`Instance: Posts pulled!`);
-            this.payload = await cursor.toArray(); // and we want to make sure we get all objects
+            // const cursor = coll.find(params).project(projs).sort(sort); // since cursors reference objects...
+            // this.payload = await cursor.toArray(); // and we want to make sure we get all objects
+            // TODO: Try replacing with 
+            const cursor = await coll.aggregate(pipeline);
+            this.payload = await cursor.toArray();
+
+            // this.payload = await coll.aggregate(pipeline).toArray();
+            console.log(`Instance: Posts pulled with aggregate!!`);
 
         } catch (e) {
             this.errorStack = e;
@@ -78,7 +89,9 @@ class Instance{
          *  wtimeout: (int) representing timelimit on waiting for prev 2 confirms in ms 
          */
         // NOTE: Blindly inserts data
+        if (Object.entries(concern).length > 0) console.log("Get rekt");
         this.reset();
+
         try {
             if ((typeof(data) !== "object") || (typeof(concern) !== "object"))
                 throw TypeError("Instance: push(): arguments are of incorrect type");
@@ -114,9 +127,24 @@ class Instance{
     }
 
     async edit(){
-        // TODO: use db.collection.Modify
+        // TODO: See how eidtModal works handles data!
+        //  - depending on it, might use db.collection.updateOne(query {<udpate oerator>: {field: value, ...}}) OR db.update.replaceOne(query, object)
         // TODO: if entry doesn't exist, throw
         // TODO: 
+    }
+
+    async move() {
+        // TODO: Not even sure if this is something I wanna implement, but it might be useful with that aggregate method if items are approved!
+
+        // limbo.aggregate([
+        // {$match : {_id: ObjectId}},
+        // {$merge : {
+        //     into: advice/resources
+        //     on: "_id"
+        //     whenNotMatched: "insert",
+        //     // Maybe an error if the object already exists
+        // }}
+        // ])
     }
 
     // async retryOperation(operation) {
@@ -127,7 +155,7 @@ class Instance{
     //             attempt++;
     //             console.error(`Attempt ${attempt} failed: ${error.message}`);
     //             if (attemtp >= retries){
-    //                 throw new Error(`Operation failed after ${retries} attempts: ${error.message}`);
+    //                 throw new Error(`Operation failed aftedr ${retries} attempts: ${error.message}`);
     //             }
     //             console.log(`Retrying in ${delay}ms...`);
     //             await new Promise(res => setTimeout(res, delay)); //wait befor trying again
@@ -147,16 +175,35 @@ async function pullReq(instance, req, res) {
 
     // Parsing incoming parameters object to construct query parameter
     const query = {}; // Defines parameters in which to pull data
-    const projs = {}; // Defines fields that will be sent to client
+    const projs = []; // Defines fields that will be sent to client
     const sort = {}; // Defines order in which to send to client
 
     // TODO: SANITIZE
     // TODO: Enable filtering of projs and sort! Only sorts for potential text indexing!!
     for (const[key, value] of Object.entries(req.query)) {
-        console.log(`\t${key}: ${value}`);
         if (key === "search") {
             query['$text'] = {$search:value};
-        } else query[key] = value;
+        } else if (key === "process" && value) {
+            console.log('Receiptionist: Request to process');
+        } else if (key === "sort") {
+            // console.log(`Sort by ${value}`);
+            switch (value) {
+              case "mostRecent":
+                console.log("Sorting by upload date!");
+                sort["timeAgo"] = 1;
+                break;
+
+              case "mostLiked":
+                console.log("Sorting by liked values");
+                sort["likes"] =  -1;
+                break;
+
+              default:
+                console.log("sort criteria unrecognized.");
+                break;
+            }
+
+        }else query[key] = value;
     }
 
     console.log("Constructed query:");
@@ -183,9 +230,21 @@ async function pullReq(instance, req, res) {
 // TODO: UNDER CONSTRUCTION
 async function postReq(instance, req, res) {
     console.log(`Receptionist: Data received to add/modify: `);
-    console.log(req.data);
+    console.log(req.body);
 
     // TODO: Sanitize!!
+    let entry = {};
+
+    Object.entries(req.body).forEach(([key,value]) => {
+        // console.log(`${key}: ${value}`);
+        entry[key] = value;
+    });
+
+    entry["status"] = "pending";
+
+    console.log("Receptionist: Entry to submit:");
+    console.log(entry);
+
     res.json({message: "Data received!"});
 
     return 0;
