@@ -23,11 +23,11 @@ export default function Advice() {
   const [submission, setSubmission] = useState({
     type : "advice",
     uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
-    uploader: "joemama@urmoms.place",
-    title: "New Post",
-    postAs: "Anonymous",
+    uploader: "",
+    title: "",
+    postAs: "",
     tags: [],
-    description: "lorem ipsum get rekt nerd",
+    description: "",
   });
 
   // Pull from DB based on Filter
