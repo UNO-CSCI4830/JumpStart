@@ -28,6 +28,7 @@ export default function Advice() {
     postAs: "",
     tags: [],
     description: "",
+    likes: 0
   });
 
   // Pull from DB based on Filter
