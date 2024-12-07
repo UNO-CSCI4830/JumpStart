@@ -1,99 +1,132 @@
-// import React from "react";
-// import {useState} from "react";
-// import {advicePosts} from "../../utils/advicePosts";
-// import {resourcePosts} from "../../utils/resourcePosts";
+import React from "react";
+import {useState, useEffect} from "react";
+import {advicePosts} from "../../utils/advicePosts";
+import {resourcePosts} from "../../utils/resourcePosts";
+import {AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios} from "react-axios";
+import {create} from "axios";
+import AdviceCard from "../advice/AdviceCard";
+import AdviceShareModal from "../advice/AdviceShareModal";
+import ResourceCard from "../resources/ResourceCard";
 
-// import AdviceCard from "./../advice/AdviceCard";
-// import AdviceShareModal from "./../advice/AdviceShareModal";
-// import ResourceCard from "./../resources/ResourceCard";
-// import ResourceModal from "./../resources/ResourceModal";
+/* TODO: 
+ * - Axios integration on React side
+ */
 
-// import{MongoClient, ObjectId} from "mongodb";
+/* =========== DEMO PAGE =========== */
+export default function Windtunnel() {
+    var advicePosts;
+    const resource = resourcePosts[0];
+    const [submitAdvice, toggleSubmitAdvice] = useState(false);
+    const [submitResource, toggleSubmitResource] = useState(false);
 
-// /* =========== DEMO PAGE =========== */
+    const [message, setMessage] = useState(null);
+    const [advice, setAdvice] = useState(null);
+    const [resources, setResources] = useState(null);
 
-// async function readDB(){
-// };
-// async function writeDB(){
+    useEffect(() => {
+        fetch("/api/advice")
+            .then((res) => res.json())
+            .then((data) => setAdvice(data.message))
+            .catch( err => 
+                console.log(`Error contacting server/advice...\n${err}`)
+            );
+    }, []);
 
-// };
+    const axiosInstance = create({
+        baseURL : '/api/',
+        timeout : 2000
+    });
 
-// // class Database {
-// //     uri = "mongodb://localhost:27017/";
-// //     constructor() {
-// //         this.client = new MongoClient(this.uri);
-// //     }
+    return (
+        <div>
+            <div>
+            </div>
+            <h1>### DEMO PAGE ###</h1>
+            <p align='center'>My lil React playground.</p>
 
-// //     connect() {
-// //         try {
-// //             console.log("Attempting to connect to DB...");
-// //             this.client.connect();
-// //             console.log("Connection accepted.");
-// //         } catch (e) {
-// //             console.error(`An error occured when connecting to DB: ${e}`);
-// //         }
-// //     }
+            {/* ADVICE */}
+            <div>
+                <h3>DEBUGGING ADVICE...</h3>
+                <AxiosProvider instance={axiosInstance}>
+                    <Get url="/advice">
+                        {(error, response, isLoading, makeRequest, axios) => {
+                            if(error) {
+                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+                            }
+                            else if(isLoading) {
+                                return (<div>Loading...</div>)
+                            }
+                            else if(response !== null) {
+                                return (
+                                    <div>
+                                        {response.data.message} 
+                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
+                                        {
+                                            setAdvice(response.data.payload)
 
-// //     close() {
-// //         try {
-// //             this.client.close()
-// //         } catch(e) {
-// //             console.error(`An error occured while closing connection: ${e}`);
-// //         }
-// //     }
+                                        }
 
-// //     load() {}
-// //     query() {}
-// //     add(){}
-// //     del(){}
-// // }
+                                        {console.log(advice[0])}
+                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
+                                        <div> {/* React component goes here */}
+                                            <h3>Advice Data</h3>
+                                            <button onClick={toggleSubmitAdvice}>Submit Advice</button>
+                                            <AdviceCard {...advice[0]} /> {/* I CLEARLY knew what this was, wtf */}
+                                            {/* TODO: 
+                                              * Okay... but now how do I save updated values back to advicePosts[0]? 
+                                              * I can't pass the new value from AdviceCard back here, so either
+                                              * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
+                                              * 	- I make the incrament here
+                                              */}
+                                            {submitAdvice && ( /* if True, open submit form. Resets to false when form is closed */
+                                                <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
+                                            )}
+                                        </div>
+                                    </div>)
+                            }
+                            return (<div>Default message before request is made.</div>)
+                        }}
+                    </Get>
+                </AxiosProvider>
+            </div>
 
-// export default function Windtunnel() {
-//   const advice = advicePosts[0];
-//   const resource = resourcePosts[0];
-//   const [submitAdvice, toggleSubmitAdvice] = useState(false);
-//   const [submitResource, toggleSubmitResource] = useState(false);
 
-//   //   /* DB instances */
-//   // const resourceDB = new Database();
-//   // const adviceDB = new Database();
-//   // const limbo = new Database();
-//   return (
-//     <div>
-//       <h1>### DEMO PAGE ###</h1>
-//       <p align='center'>My lil React playground.</p>
+            {/* RESOURCE */}
+            <div>
+                <h3>DEBUGGING Resources...</h3>
+                <AxiosProvider instance={axiosInstance}>
+                    <Get url="/resources">
+                        {(error, response, isLoading, makeRequest, axios) => {
+                            if(error) {
+                                return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+                            }
+                            else if(isLoading) {
+                                return (<div>Loading...</div>)
+                            }
+                            else if(response !== null) {
+                                return (
+                                    <div>
+                                        {response.data.message} 
+                                        <p>Number of posts retrieved: {response.data.payload.length}</p>
+                                        { setResources(response.data.payload) }
 
-//       {/* ADVICE */}
+                                        <button onClick={() => makeRequest({ params: { refresh: true } })}>Refresh</button>
 
-// 	  <div>
-// 	  	<h3>Advice Data</h3>
-//         <button onClick={toggleSubmitAdvice}>Submit Advice</button>
-// 		<AdviceCard {...advice} /> {/* I CLEARLY knew what this was, wtf */}
-// 		{/* TODO:
-// 		  * Okay... but now how do I save updated values back to advicePosts[0]?
-// 		  * I can't pass the new value from AdviceCard back here, so either
-// 		  * 	- I pass the whole datastructure/class/whatever the fuck it is TO the component
-// 		  * 	- I make the incrament here
-// 		  */}
-//       {submitAdvice && ( /* if True, open submit form. Resets to false when form
-//       is closed */
-//         <AdviceShareModal onClose={() => toggleSubmitAdvice(false)} />
-//       )}
-// 	  </div>
+                                        <div> {/* React component goes here */}
+                                            <h3>Resource Data</h3>
+                                            <button onClick={toggleSubmitResource}>Submit Resource</button>
+                                            <ResourceCard key={resources[0].id} resource={resources[0]} />
+                                        </div>
 
-//       {/* RESOURCE */}
+                                    </div>)
 
-// 	  <div>
-// 	  	<h3>Resource Data</h3>
-//         <button onClick={toggleSubmitResource}>Submit Resource</button>
-//         <ResourceCard key={resource.id} resource={resource} />
-// 		 <p>
-// 	  		Category Value: {resource.category} <br />
-// 	  		Title Value: {resource.title} <br />
-// 	  		Description Value: {resource.description} <br />
-// 	  		link Value: {resource.link} <br />
-// 		 </p>
-// 	  </div>
-//     </div>
-//   );
-// };
+                            }
+                            return (<div>Default message before request is made.</div>)
+                        }}
+                    </Get>
+                </AxiosProvider>
+            </div>
+
+        </div>
+    );
+};

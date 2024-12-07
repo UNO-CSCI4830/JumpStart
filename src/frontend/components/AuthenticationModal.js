@@ -1,65 +1,82 @@
 import React, { useState } from "react";
 import "../styles/AuthenticationModal.css";
 
-// AuthenticationModal component handles UNO student email verification
-// Props:
-// - onClose: Function to close the modal
-// - onVerification: Function to handle successful verification
 export default function AuthenticationModal({ onClose, onVerification }) {
-  /* Starting state of form: Empty */
-  // State for email input
   const [email, setEmail] = useState("");
-  // State for verification code input
   const [verificationCode, setVerificationCode] = useState("");
-  // State to track current step (email input or verification code input)
   const [step, setStep] = useState("email");
+  const [loading, setLoading] = useState(false);
 
-  // Handler for email input changes
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handleVerificationCodeChange = (e) => setVerificationCode(e.target.value);
 
-  // Handler for verification code input changes
-  /* Upon state change, save new value to email */
-  const handleVerificationCodeChange = (e) => {
-    setVerificationCode(e.target.value);
-  };
-
-  // Handler for email form submission
-  const handleEmailSubmit = (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sending verification code to:", email);
-    // TODO: Add logic to send verification code here
-    setStep("verification"); // Move to verification code step
+    if (!email.endsWith("@unomaha.edu")) {
+      alert("Please use a valid @unomaha.edu email address.");
+      return;
+    }
+    setLoading(true);
+    try { // TODO: Conver to Axios POST
+      const response = await fetch("/api/send-verification-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send verification code");
+      }
+      alert("Verification code sent successfully. Please check your email.");
+      setStep("verification");
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error sending verification code. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Handler for verification code form submission
-  const handleVerificationSubmit = (e) => {
+  const handleVerificationSubmit = async (e) => {
     e.preventDefault();
-    console.log("Verifying code:", verificationCode);
-    // TODO: Add logic to verify the code here
-    const username = email.split("@")[0]; // Extract username from email
-    onVerification(username); // Pass username to parent component
-    if (onClose) {
-      onClose(); // Close modal after successful verification
+    setLoading(true);
+    try { // TODO: Convert to Axios POST
+      const response = await fetch("/api/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, verificationCode }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid verification code");
+      }
+
+      const username = email.split("@")[0];
+      alert("Verification successful!");
+      onVerification(username);
+      if (onClose) {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Invalid verification code. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    /* HTML time! */
     <div className="modal">
       <div className="modal-content">
         <h2 className="modal-title">UNO Student Access</h2>
-        {/* Conditional rendering based on current step */}
+        {loading && <p className="loading-message">Processing...</p>}
+
         {step === "email" ? (
-          // Email input step
           <>
             <p className="modal-description">Sign in with your UNO email</p>
             <form onSubmit={handleEmailSubmit} className="modal-form">
               <div className="form-group">
-                <label htmlFor="email" className="form-label">
-                  Email
-                </label>
+                <label htmlFor="email" className="form-label">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -71,30 +88,21 @@ export default function AuthenticationModal({ onClose, onVerification }) {
                 />
               </div>
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" disabled={loading}>
                   Send Verification Code
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={onClose}
-                >
+                <button type="button" className="btn btn-secondary" onClick={onClose} disabled={loading}>
                   Cancel
                 </button>
               </div>
             </form>
           </>
         ) : (
-          // Verification code input step
           <>
-            <p className="modal-description">
-              Enter the verification code sent to your email
-            </p>
+            <p className="modal-description">Enter the verification code sent to your email</p>
             <form onSubmit={handleVerificationSubmit} className="modal-form">
               <div className="form-group">
-                <label htmlFor="verificationCode" className="form-label">
-                  Verification Code
-                </label>
+                <label htmlFor="verificationCode" className="form-label">Verification Code</label>
                 <input
                   type="text"
                   id="verificationCode"
@@ -106,23 +114,17 @@ export default function AuthenticationModal({ onClose, onVerification }) {
                 />
               </div>
               <div className="form-actions">
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" disabled={loading}>
                   Verify
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setStep("email")}
-                >
+                <button type="button" className="btn btn-secondary" onClick={() => setStep("email")} disabled={loading}>
                   Back
                 </button>
               </div>
             </form>
           </>
         )}
-        <p className="modal-footer">
-          Only for University of Nebraska Omaha students
-        </p>
+        <p className="modal-footer">Only for University of Nebraska Omaha students</p>
       </div>
     </div>
   );
