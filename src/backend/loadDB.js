@@ -148,3 +148,4 @@ async function configurePostsDB() {
         await client.close();
     }
 }
+configurePostsDB();
