@@ -240,6 +240,9 @@ async function postReq(instance, req, res) {
         entry[key] = value;
     });
 
+    var date = new Date(Date.now());
+    entry["uploadDate"] = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
     entry["status"] = "pending";
 
     console.log("Receptionist: Entry to submit:");
