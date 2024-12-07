@@ -1,5 +1,5 @@
 const Router = require('express');
-const {Instance, thatOnePullFunction} = require ('./utils');
+const {Instance, pullReq} = require ('./utils');
 
 const router = Router();
 
@@ -7,17 +7,17 @@ const router = Router();
 
 const advice = new Instance("Posts", "advice");
 router.get('/advice', async(req, res) => {
-    thatOnePullFunction(advice, req, res);
+    pullReq(advice, req, res);
 });
 
 const resources = new Instance("Posts", "resources");
 router.get('/resources', async(req, res) => {
-    thatOnePullFunction(resources, req, res);
+    pullReq(resources, req, res);
 });
 
 const limbo = new Instance("Posts", "limbo");
 router.get('/limbo', async(req, res) => {
-    thatOnePullFunction(limbo, req, res);
+    pullReq(limbo, req, res);
 });
 
 module.exports = router;

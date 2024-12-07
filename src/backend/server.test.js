@@ -1,17 +1,12 @@
-// TODO: Server.js
-// - accepts requests ONLY to resources, advice, and limbo
-// - throws error 404 for ALL others
-// - throws errors in the event Database fails
-// - when write is implemeneted
-//   - validate/sanitize/ handle user input data
-//   - Might be where I do my verification with email, sanitized content, and ObjectId
-
 // TEST goals:
 // x Server can accept GET with explicit routes, ignoring all others
 // x Server can provide JSON responses to GET requests
+// Server can properly sanitize query parameters as GET headers
 // Server can properly accept POST requests to explicit routes, ignoring others
 // Server can properly respond to POST requests
-// Server can share failure with client
+// Server can provide JSON responses to POST requests
+// Server properly sanitizes POST data
+// Server can handle Instance failure and share failure with client via JSON format
 
 describe('Handling GET requests', () => {
     const request = require("supertest");
@@ -68,6 +63,10 @@ describe('Handling GET requests', () => {
         expect(res.status).toBe(404);
 
         res = await request(app).get('/api/Admin');
+        expect(res.headers['content-type']).toMatch(RegExp('json'));
+        expect(res.status).toBe(404);
+
+        res = await request(app).get('/api/fdsa');
         expect(res.headers['content-type']).toMatch(RegExp('json'));
         expect(res.status).toBe(404);
     });

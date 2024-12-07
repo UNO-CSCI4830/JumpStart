@@ -10,53 +10,111 @@ class Instance{
     // Constructors
     constructor(dbname, collname) {
         this.dbName = dbname;
-        this.client = new MongoClient(this.uri+`/${this.dbName}`);
+        this.client = new MongoClient(this.uri);
         this.collName = collname;
     }
 
-    // ### DEBUGGING
-    async connect(){
-        try {
-            console.log("Attempting to connect to DB...");
-            if (this.collName === undefined) throw new Error("Error: No collection provided. Cannot connect to MongoDB.");
-            await this.client.connect();
-            console.log(`Connected to DB!`);
-
-            const queryColl = await this.client.db().collection(this.collName); // Connect to Collection to retrieve contents
-            console.log(queryColl.stats());
-        } catch (e) {
-            console.error(`An error occurred.\n${e}`);
-        } finally {
-            this.client.close();
-        }
-    }
-    // #############
-
     // Setters
+    setDB(name) {
+        if (typeof(name) === "string")
+            this.dbName = name;
+        else
+            throw TypeError("Instance: DB name provided unnacceptable.");
+    }
+
+    setColl(name) {
+        if (typeof(name) === "string")
+            this.collName = name;
+        else
+            throw TypeError("Instance: Collection name provided unnacceptable.");
+    }
+
+    reset() {
+        if (this.payload.length > 0)
+            this.payload = [];
+        if (this.errorStack !== null)
+            this.errorStack = null;
+    }
+
+    async connect(){
+        
+        console.log("Instance: Attempting to connect to DB...");
+
+        if ((this.collName === undefined) || (this.dbName === undefined))
+            throw new Error("Instance: No DB or collection provided. Cannot connect to MongoDB.");
+
+        await this.client.connect();
+        console.log(`Instance: Connected to DB!`);
+
+        return await this.client.db(this.dbName).collection(this.collName);
+    }
+
     async pull(params = {}, projs = {}) {
+        this.reset();
         try {
-            console.log("Attempting to connect to DB...");
-
-            if (this.collName === undefined) throw new Error("Error: No collection provided. Cannot connect to MongoDB.");
-
-            await this.client.connect();
-            console.log(`Connected to DB!`);
-
-            const queryColl = await this.client.db().collection(this.collName); // Connect to Collection to retrieve contents
-            const cursor = queryColl.find(params).project(projs); // since cursors reference objects...
-            console.log(`Posts pulled!`);
+            const coll = await this.connect();
+            const cursor = coll.find(params).project(projs); // since cursors reference objects...
+            console.log(`Instance: Posts pulled!`);
             this.payload = await cursor.toArray(); // and we want to make sure we get all objects
         } catch (e) {
             this.errorStack = e;
-            console.error(`An error occured when retrieving posts from DB:\n${e}`);
+            console.error(`Instance: An error occured when retrieving posts from DB:\n${e}`);
         } finally {
             this.client.close();
         }
     }
 
-    async push(data) {
-    // TODO: write to DB
-    return 0;
+    async push(data, concern = {}) {
+        /*
+         * data = array of objects to be inserted
+         * concern = object where we can define "write concern" {w, j, wtimeout}
+         *  w: (int) how many (specified) instances need to confirm their write
+         *  j: (boolean) whether or not write has been written to on-disk journal
+         *  wtimeout: (int) representing timelimit on waiting for prev 2 confirms in ms 
+         */
+        // NOTE: Blindly inserts data. Up to server to sanitize based off route!
+        this.reset();
+        try {
+            if ((typeof(data) !== "object") || (typeof(concern) !== "object"))
+                throw TypeError("Instance: push(): arguments are of incorrect type");
+            
+            if (data.length === 0) throw new Error("Instance: No entries to add.");
+
+            // TODO: handle dirty keys
+
+            console.log("Instance: data received: ");
+            console.log(data);
+
+            const coll = await this.connect();
+            this.payload = [await coll.insertMany(data)]; // Payload contains result object
+            console.log(`Instance: ${this.payload[0].insertedCount} Posts inserted!`);
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured when pushing posts to DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
+    }
+
+        // TODO: use db.collection.deleteMany
+        // TODO: return results in payload
+    async del(params = {}) {
+        this.reset();
+        try {
+            const coll = await this.connect();
+            this.payload = [await coll.deleteMany(params)];
+            console.log(`Instance: ${this.payload[0].deletedCount} Posts deleted!`);
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured trying to remove posts from DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
+    }
+
+    async edit(){
+        // TODO: use db.collection.Modify
+        // TODO: if entry doesn't exist, throw
     }
 
     // Getters
@@ -65,7 +123,7 @@ class Instance{
 }
 
 
-async function receptionist(instance, req, res) {
+async function pullReq(instance, req, res) {
         console.log("Receptionist: GET request for received");
         console.log(`Receptionist: Got the following search parameters: `);
         console.log(req.data);
@@ -101,4 +159,4 @@ async function receptionist(instance, req, res) {
         }
 };
 
-module.exports = {Instance, receptionist};
+module.exports = {Instance, pullReq};
