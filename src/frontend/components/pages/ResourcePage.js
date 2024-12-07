@@ -27,8 +27,11 @@ const ResourcePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [resources, setResources] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  var date = new Date(Date.now());
   const [submission, setSubmission] = useState({
     type: "resource",
+    uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
     title: "New Post",
     uploader: "joemama@urmoms.place",
     description: "lorem ipsum getem prankdum",

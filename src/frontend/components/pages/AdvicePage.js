@@ -18,8 +18,11 @@ export default function Advice() {
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
   const [msg, setMsg] = useState(null);
+
+  var date = new Date(Date.now());
   const [submission, setSubmission] = useState({
     type : "advice",
+    uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
     uploader: "joemama@urmoms.place",
     title: "New Post",
     postAs: "Anonymous",
