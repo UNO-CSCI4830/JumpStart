@@ -123,6 +123,12 @@ class Instance{
     }
 
     async edit(target, edits){
+        // - Like Button Algorithm
+        //   Incraments likes on screen
+        //   Calls function that will POST to ObjectId and likes ++ to server
+        //   Server receives POST
+        //   ...
+        //   Profit!
         this.reset();
         try {
             if (target === undefined || edits === undefined)
@@ -141,22 +147,6 @@ class Instance{
         } finally {
             this.client.close();
         }
-
-        
-        // - Admin Edit Algorithm:
-        //   When "Save Changes" is selected, POST ObjectId and modified fields to server.
-        //   Server calls Instance.edit({_id : ObjectId, edits})
-        //   - TODO: How does indexing by ObjectId Work????
-        //
-        // - Like Button Algorithm
-        //   Incraments likes on screen
-        //   Calls function that will POST to ObjectId and likes ++ to server
-        //   Server receives POST
-        //   ...
-        //   Profit!
-        //
-        // TODO: if entry doesn't exist, throw
-        // TODO: 
     }
 
     async move(target) {
@@ -287,8 +277,8 @@ async function postReq(instance, req, res) {
     } else if (Object.keys(req.body).includes('status')) { /* a post has been accepted or rejected */
         console.log(`postReq: Incoming post ${req.body.post} was ${req.body.status}`);
         if (req.body.status === "rejected") {
-            await instance.del({_id : new ObjectId(req.body.post)});
             console.log(`Deleting object ${req.body.post}`);
+            await instance.del({_id : new ObjectId(req.body.post)});
 
         } else if (req.body.status === "approved") {
             // TODO: instance.move()
