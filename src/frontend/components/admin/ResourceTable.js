@@ -40,14 +40,14 @@ function ResourceTable({ resources, onStatusChange, onEdit }) {
               {/* Action buttons for each resource */}
               <button
                 className="btn btn-outline"
-                onClick={() => onStatusChange(resource.id, "approved")}
+                onClick={() => onStatusChange(resource._id, "approved")}
                 disabled={resource.status === "approved"}
               >
                 Approve
               </button>
               <button
                 className="btn btn-outline"
-                onClick={() => onStatusChange(resource.id, "rejected")}
+                onClick={() => onStatusChange(resource._id, "rejected")}
                 disabled={resource.status === "rejected"}
               >
                 Reject

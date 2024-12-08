@@ -3,18 +3,9 @@ import StatCard from "../admin/StatCard";
 import TabButton from "../admin/TabButton";
 import ResourceTable from "../admin/ResourceTable"; // TODO: Refactor to new obj props!
 import EditAdviceModal from "../admin/EditAdviceModal"; // TODO: Refactor to new props!
+import EditResourceModal from "../admin/EditResourceModal";
 import "../../styles/AdminDashboard.css";
 import {get, post} from 'axios';
-
-/*
- * NOTE:
- * Currently, ResourcesTable is used to display posts.
- * It currently does not fully display all attributes to posts in Limbo.
- * This is intentional, I haven't restructured the data yet. Once that is done,
- * ResourceTable and EditModal should be updated to match.
- * TODO:
- * - axios.post() to push changes made in EditAdviceModal
- */
 
 /* Builds Admin page to be called by App */
 function AdminDashboard() {
@@ -26,8 +17,6 @@ function AdminDashboard() {
   const [msg, setMsg] = useState(null);
     
     useEffect(() => {
-        // TODO: update limbo.category to limbo.tag
-        // TODO: update limbo.type to limbo.category
         let params = {
             type : activeTab
         };
@@ -40,24 +29,53 @@ function AdminDashboard() {
             }).catch(err => {
                 console.log(err.response);
                 setMsg(`Couldn't load data. Status ${err.response.status}`);
-    });
+        });
 
     }, [activeTab]);
 
+    console.log(posts);
+
   /* When a change occurs, update status of resource(if true)/advice with 
      newStatus */
-  const handleStatusChange = (id, newStatus, isResource) => {
-    setPosts(
+  const handleStatusChange = (id, newStatus) => {
+    // TODO: axios.post()
+    console.log(`${id} was ${newStatus}`);
+    post('/api/limbo', {
+            post : id,
+            status : newStatus
+        }).then((res) => 
+            console.log(res)
+        ).catch((err) =>
+            console.log(err.response)
+        );
+
+    setPosts( // Some more graphic updates to visually confirm status change
         posts.map((item) => 
-            item.id === id ? {...item, status: newStatus} : item
+            item._id === id ? {...item, status: newStatus} : item
         ));
   };
 
   const handleSave = (updatedPost) => {
-    setPosts(
+    let edits = {};
+    Object.entries(updatedPost).forEach(([key, val]) => {
+            if (key !== "_id") edits[key] = val;
+        });
+    post('/api/limbo', {
+            post : updatedPost._id,
+            edits : edits
+        }).then((res) => {
+                console.log(res)
+            }).catch((err) =>
+                console.log(err.response)
+            );
+
+    setPosts( // I think this updates the existing posts displayed on screen
+    /* If page pulls from DB, and posts update pretty much every time the 
+     * modal opens/closes, is this necessary? */
       posts.map((item) =>
         item.id === updatedPost.id ? updatedPost : item
       )
+        
     );
     setEditPosts(null);
   };
@@ -99,24 +117,31 @@ function AdminDashboard() {
 
       {msg === null &&
       (<div className="dashboard-content">
-         {/* TODO: Update to new Object setup to handle both types gracefully! */}
-         {/* FIXME: EditModal breakswhen selecting Edit! */}
           <ResourceTable /* calls ResourceTable */
             resources={posts} /* Passes Resources array to ResourceTable */
             onStatusChange={(id, status) =>
-              handleStatusChange(id, status, true)
+              handleStatusChange(id, status)
             }
             onEdit={setEditPosts} /* passes setEditResource as function for 
             onEdit */
           />
       </div>)}
 
-      {editPost && ( /* when true, launch EditAdviceModal */
+      {editPost && (
+        /* when true, launch EditAdviceModal when advice tab is active */
+            (activeTab === "advice" &&
         <EditAdviceModal
           advice={editPost}
           onSave={handleSave}
           onClose={() => setEditPosts(null)}
-        />
+        />)
+        // Or select EditResourceModal if resoruce tab is active
+            || (activeTab === 'resource' &&
+        <EditResourceModal 
+            resource={editPost}
+            onSave={handleSave}
+            onClose={() => setEditPosts(null)}
+            />)
       )}
     </div>
   );

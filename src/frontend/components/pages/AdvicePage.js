@@ -9,6 +9,9 @@ import {get, post} from 'axios';
  * NOTE:
  * OrderBy functionality has currently broke, and I'm not sure why...
  *
+ * FIXME: Throws a runtime error when server shuts down when posts have been loaded!
+ *  - Figure out more!
+ *
  * TODO:
  * - axios.post() to have AdviceShareModal push to LimboDB
  */
@@ -19,9 +22,24 @@ export default function Advice() {
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
   const [msg, setMsg] = useState(null);
 
+  var date = new Date(Date.now());
+  const [submission, setSubmission] = useState({
+    type : "advice",
+    uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+    uploader: "",
+    title: "",
+    postAs: "",
+    tags: [],
+    description: "",
+    likes: 0
+  });
+
   // Pull from DB based on Filter
   useEffect(() => {
     let filter = activeTag === "All" ? {} : {tag: activeTag};
+    filter["sort"] = sortCriteria; // NOTE: I *think* sort works now!
+    // FIXME: BUT liked values STILL DON'T CHANGE
+    filter["process"] = true; // Tell GET handler to process upload date to be nicer
 
     // Query posts from DB
     get("/api/advice", {
@@ -32,42 +50,51 @@ export default function Advice() {
                 console.log(err.response);
                 setMsg(`Couldn't load data. Status ${err.response.status}`);
             });
-  }, [activeTag]); /* Define activeTag and sortCriteria so it can
+  }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
 
-    // Apply sort
-    // FIXME: Great! Now I broke the sort filter!
-    // Apparently, posts are switching up their associated likes/hearts values...
-    useEffect(() => { 
-        let toSort = posts; // pass current set of posts to temp newPosts arr to be sorted
-        console.log("posts to sort:");
+    console.log(posts);
 
-        switch (sortCriteria) { /* default sortCriteria = mostRecent */
-            case "mostRecent":
-                toSort.sort((a, b) => {
-                    console.log(a.title);
-                    console.log(b.title);
-                    const timeA = parseTimeAgo(a.timeAgo);
-                    const timeB = parseTimeAgo(b.timeAgo);
-                    // return timeB - timeA;
-                    return timeA - timeB;
-                });
-                break;
-            case "mostLiked":
-                console.log("B4 sorting...");
-                toSort.sort((a, b) => a.likes - b.likes);
-                console.log("After sorting...");
-                toSort.map((e) => console.log(e.title));
-                break;
-            case "mostHearted":
-                toSort.sort((a, b) => b.hearts - a.hearts);
-                break;
-            default:
-                break;
-        }
-        setPosts(toSort); /* updates posts to the re-sorted 
-    newPosts */
-    }, [posts, sortCriteria]);
+  const handleSubmit = (e) => { /* upon submit event, update resources array 
+  with new entry */
+    e.preventDefault(); /* ??? ensure that an empty form isn't added */
+    // setResources([...resources, { ...submission, _id }]);
+    setIsModalOpen(false); /* Modal state is now false */
+
+    // send submission over POST
+    post('/api/limbo', submission)
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err.response);
+    });
+
+     /* submission is now set, with blank elements */
+    setSubmission({ uploader: "", title: "", description: "", link: "", category: "" });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target; /* Field names for form */
+    /* Determine which data to update */
+    /* I moved conditional from AdviceShareModal out here, mirroring ResourceModal */
+    // FIXME: Tag gets selected and is received by server, but it doesn't register visually
+    // FIXME: Apparently tag gets uploaded as String as opposed to Array of Strings
+    if (type === "checkbox") {
+      /* type "checkbox", so update tags */
+      setSubmission((prev) => ({
+        ...prev,
+        tags: checked
+          ? [...prev.tags, value]
+          : prev.tags.filter((tag) => tag !== value),
+      }));
+    } else {
+      /* They're not updating a tag */
+      setSubmission((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
 
     // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => { /* arrow func with arg timeAgo calculates 
@@ -112,7 +139,12 @@ export default function Advice() {
           />)}
       {isModalOpen && ( /* if True, open submit form. Resets to false when form
       is closed */
-        <AdviceShareModal onClose={() => setIsModalOpen(false)} />
+        <AdviceShareModal 
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleSubmit}
+                    submission={submission}
+                    handleInputChange={handleInputChange}
+                />
       )}
     </div>
   );
