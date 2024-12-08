@@ -27,6 +27,7 @@ router.get('/limbo', async(req, res) => {
 
 router.post('/limbo', async(req, res) => {
     console.log("Receptionist: POST request for received");
+    console.log(req.body);
     postReq(limbo, req, res);
     // TODO: conditional for edit and delete as well!
     // - dunno whether to use session credentials, or header info

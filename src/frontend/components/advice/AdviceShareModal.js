@@ -79,10 +79,12 @@ export default function AdviceShareModal({
             </select>
           </div>
 
+          {/* FIXME: This is the tag field, doesn't append to array or display selections */}
           <div className="form-group">
             {/* Label for the tag selection dropdown */}
             <label htmlFor="tags">Tags:</label>
             <select
+              type="checkbox"
               id="tags"
               name="tags"
               multiple // Enables multiple tag selection

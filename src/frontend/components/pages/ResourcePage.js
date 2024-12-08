@@ -118,7 +118,7 @@ const ResourcePage = () => {
             {/* Passes filteredResources array to ResourceList component */}
       {msg !== null ? (
       <div><h1>{msg}</h1></div>
-      ) :(
+      ) : (
       <ResourceList resources={resources} /> 
       )}
 

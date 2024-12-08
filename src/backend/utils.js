@@ -52,7 +52,7 @@ class Instance{
         return await this.client.db(this.dbName).collection(this.collName);
     }
 
-    async pull(params = {}, projs = [], sort = {}, group) {
+    async read(params = {}, projs = [], sort = {}, group) {
         // NOTE: Blindly finds data
         // NOTE: group doesn't do shit rn!
         this.reset();
@@ -63,13 +63,9 @@ class Instance{
 
         try {
             const coll = await this.connect();
-            // const cursor = coll.find(params).project(projs).sort(sort); // since cursors reference objects...
-            // this.payload = await cursor.toArray(); // and we want to make sure we get all objects
-            // TODO: Try replacing with 
             const cursor = await coll.aggregate(pipeline);
             this.payload = await cursor.toArray();
 
-            // this.payload = await coll.aggregate(pipeline).toArray();
             console.log(`Instance: Posts pulled with aggregate!!`);
 
         } catch (e) {
@@ -80,7 +76,7 @@ class Instance{
         }
     }
 
-    async push(data, concern = {}) {
+    async write(data, concern = {}) {
         /*
          * data = array of objects to be inserted
          * concern = object where we can define "write concern" {w, j, wtimeout}
@@ -126,25 +122,79 @@ class Instance{
         }
     }
 
-    async edit(){
-        // TODO: See how eidtModal works handles data!
-        //  - depending on it, might use db.collection.updateOne(query {<udpate oerator>: {field: value, ...}}) OR db.update.replaceOne(query, object)
+    async edit(target, edits){
+        this.reset();
+        try {
+            if (target === undefined || edits === undefined)
+                throw new Error("Undefined target or edits");
+
+            const coll = await this.connect();
+
+            console.log(`Instance: performing the following edits on ${target}:`);
+            console.log(edits);
+
+            this.payload = [await coll.replaceOne({_id : new ObjectId(target)}, edits)];
+
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured while modifying post in DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
+
+        
+        // - Admin Edit Algorithm:
+        //   When "Save Changes" is selected, POST ObjectId and modified fields to server.
+        //   Server calls Instance.edit({_id : ObjectId, edits})
+        //   - TODO: How does indexing by ObjectId Work????
+        //
+        // - Like Button Algorithm
+        //   Incraments likes on screen
+        //   Calls function that will POST to ObjectId and likes ++ to server
+        //   Server receives POST
+        //   ...
+        //   Profit!
+        //
         // TODO: if entry doesn't exist, throw
         // TODO: 
     }
 
-    async move() {
-        // TODO: Not even sure if this is something I wanna implement, but it might be useful with that aggregate method if items are approved!
+    async move(target) {
+        this.reset();
+        try {
+            if (target === undefined)
+                throw new Error("Undefined target identifier");
 
-        // limbo.aggregate([
-        // {$match : {_id: ObjectId}},
-        // {$merge : {
-        //     into: advice/resources
-        //     on: "_id"
-        //     whenNotMatched: "insert",
-        //     // Maybe an error if the object already exists
-        // }}
-        // ])
+            const coll = await this.connect();
+
+            // pulling post from limbo
+            var cursor = await coll.find({_id : new ObjectId(target)}).project({type : 1});
+            var post = await cursor.toArray();
+            post = post[0]; // I'm so fucking tired
+
+            // Perform the move
+                cursor = await coll.aggregate([
+                    {$match : {_id: post._id}},
+                    {$merge : {
+                        into: post.type === "resource" ? "resources" : post.type,
+                        on : "_id",
+                        whenNotMatched: "insert",
+                        whenMatched: 'fail'
+                        // Maybe an error if the object already exists
+                    }}
+                ]);
+
+                this.payload.push(await cursor.toArray());
+
+                // And now we delete the post from Limbo b/c apparently aggregate doesn't do so?
+                this.payload.push(await coll.deleteOne({_id : post._id}));
+
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured while moving post in DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
     }
 
     // async retryOperation(operation) {
@@ -170,7 +220,7 @@ class Instance{
 }
 
 async function pullReq(instance, req, res) {
-    console.log(`Receptionist: Got the following search parameters: `);
+    console.log(`pullReq: Got the following search parameters: `);
     console.log(req.data);
 
     // Parsing incoming parameters object to construct query parameter
@@ -184,7 +234,7 @@ async function pullReq(instance, req, res) {
         if (key === "search") {
             query['$text'] = {$search:value};
         } else if (key === "process" && value) {
-            console.log('Receiptionist: Request to process');
+            console.log('pullReq: Request to process');
         } else if (key === "sort") {
             // console.log(`Sort by ${value}`);
             switch (value) {
@@ -210,14 +260,14 @@ async function pullReq(instance, req, res) {
     console.log(query);
 
     // Passing query parameter to pull() method
-    await instance.pull(query, projs, sort);
+    await instance.read(query, projs, sort);
 
     if (instance.getErrorMsg() !== null) {
         res.status(500).json({ // Changed to handle other additonal sever errors
             message : "Failed retrieving posts :(",
             errMsg : instance.getErrorMsg()
         });
-        console.log("Receptionist: Error retrieving posts from DB.");
+        console.log("pullReq: Error retrieving posts from DB.");
     } else {
         res.json({
             message: "posts incoming!",
@@ -229,33 +279,50 @@ async function pullReq(instance, req, res) {
 
 async function postReq(instance, req, res) {
 
-    // NOTE: THIS FUNCTION HAS NOT BEEN CONFIRMED TO PERFORM INPUT SANITATION
-    // TODO: SANITIZE!
-    let entry = {};
-    Object.entries(req.body).forEach(([key,value]) => {
-        entry[key] = value;
-    });
+    if (Object.keys(req.body).includes("edits")) { /* Incoming data is an edit */
+        console.log("postReq: Incoming data is edits!");
 
-    entry["status"] = "pending";
+        await instance.edit(req.body.post, req.body.edits);
 
-    console.log("Receptionist: Entry to submit:");
-    console.log(entry);
+    } else if (Object.keys(req.body).includes('status')) { /* a post has been accepted or rejected */
+        console.log(`postReq: Incoming post ${req.body.post} was ${req.body.status}`);
+        if (req.body.status === "rejected") {
+            await instance.del({_id : new ObjectId(req.body.post)});
+            console.log(`Deleting object ${req.body.post}`);
 
-    // Passing data to push to DB
-    await instance.push([entry]);
+        } else if (req.body.status === "approved") {
+            // TODO: instance.move()
+            console.log(`Moving object ${req.body.post}!`);
+            await instance.move(req.body.post);
+        }
 
+    } else { /* Incoming data is a new post */
+        // NOTE: THIS FUNCTION HAS NOT BEEN CONFIRMED TO PERFORM INPUT SANITATION
+        // TODO: SANITIZE!
+        let entry = {};
+        Object.entries(req.body).forEach(([key,value]) => {
+            entry[key] = value;
+        });
+
+        entry["status"] = "pending";
+
+        // Passing data to push to DB
+        await instance.write([entry]);
+    }
+
+    /* constructing response */
     if (instance.getErrorMsg() !== null) {
         res.status(500).json({ // Changed to handle other additonal sever errors
-            message : "Failed inserting posts :(",
+            message : "Failed writing posts :(",
             errMsg : instance.getErrorMsg()
         });
-        console.log("Receptionist: Error inserting posts to Limbo.");
+        console.log("postReq: Error writing posts to Limbo.");
     } else {
         res.json({
-            message: "posts submitted!",
+            message: "posts written!",
             payload: instance.getPayload()
         });
-        console.log(`Server: ${instance.getPayload()[0].insertedCount} posts successfully added to DB.`);
+        console.log(`Server: ${instance.getPayload()[0].insertedCount} posts successfully written to DB.`);
     }
 }
 
