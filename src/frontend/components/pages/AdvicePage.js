@@ -9,6 +9,9 @@ import {get, post} from 'axios';
  * NOTE:
  * OrderBy functionality has currently broke, and I'm not sure why...
  *
+ * FIXME: Throws a runtime error when server shuts down when posts have been loaded!
+ *  - Figure out more!
+ *
  * TODO:
  * - axios.post() to have AdviceShareModal push to LimboDB
  */
@@ -34,7 +37,6 @@ export default function Advice() {
   // Pull from DB based on Filter
   useEffect(() => {
     let filter = activeTag === "All" ? {} : {tag: activeTag};
-        //
     filter["sort"] = sortCriteria; // NOTE: I *think* sort works now!
     // FIXME: BUT liked values STILL DON'T CHANGE
     filter["process"] = true; // Tell GET handler to process upload date to be nicer
@@ -74,7 +76,9 @@ export default function Advice() {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target; /* Field names for form */
     /* Determine which data to update */
+    /* I moved conditional from AdviceShareModal out here, mirroring ResourceModal */
     // FIXME: Tag gets selected and is received by server, but it doesn't register visually
+    // FIXME: Apparently tag gets uploaded as String as opposed to Array of Strings
     if (type === "checkbox") {
       /* type "checkbox", so update tags */
       setSubmission((prev) => ({
