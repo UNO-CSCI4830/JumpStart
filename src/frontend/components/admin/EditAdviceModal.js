@@ -52,7 +52,7 @@ function EditAdviceModal({ advice, onSave, onClose }) {
           <input
             type="text"
             name="tags"
-            value={editedAdvice.tags.join(", ")}
+            value={editedAdvice.tags.join(", ")} // FIXME: runtime error claiming this isn't a function
             onChange={handleTagsChange} /* call handleTagChange arrow func */
             placeholder="Enter tags separated by commas"
           />

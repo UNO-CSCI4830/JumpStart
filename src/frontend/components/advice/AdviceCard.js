@@ -17,7 +17,6 @@ export default function AdviceCard(data, key) {
    */
   /* state tuple */
   const [likes, newLike] = useState(data.likes);
-  const [hearts, newHeart] = useState(data.hearts);
 
   /* This does jack shit rn */
   const handleClick = (e) => {
@@ -49,19 +48,6 @@ export default function AdviceCard(data, key) {
         >
           <i className="icon-thumbs-up"></i>
           {likes}
-        </button>
-        <button
-          className="btn btn-icon"
-          onClick={() =>
-            newHeart((hearts) => hearts + 1)
-          } /* incraments displayed
-      heart value */
-          onChange={
-            handleClick
-          } /* calls handleClick arrow func. Does nothing rn */
-        >
-          <i className="icon-heart"></i>
-          {hearts}
         </button>
       </div>
     </article>

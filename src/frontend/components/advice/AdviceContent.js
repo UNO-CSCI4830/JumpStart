@@ -26,12 +26,6 @@ export default function Content({ posts, onSortChange }) {
           >
             MOST LIKED
           </button>
-          <button
-            className="btn btn-link"
-            onClick={() => onSortChange("mostHearted")}
-          >
-            MOST HEARTED
-          </button>
         </div>
       </div>
 
