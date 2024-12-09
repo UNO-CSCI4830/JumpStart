@@ -9,24 +9,29 @@ const router = Router();
 
 const advice = new Instance("Posts", "advice");
 router.get('/advice', async(req, res) => {
-    console.log("Receptionist: GET request for received");
+    console.log("Receptionist: GET request for advice");
     pullReq(advice, req, res);
+});
+
+router.post('/advice', async(req, res) => {
+    console.log("Receptionist: POST request for advice");
+    postReq(advice, req, res);
 });
 
 const resources = new Instance("Posts", "resources");
 router.get('/resources', async(req, res) => {
-    console.log("Receptionist: GET request for received");
+    console.log("Receptionist: GET request for resources");
     pullReq(resources, req, res);
 });
 
 const limbo = new Instance("Posts", "limbo");
 router.get('/limbo', async(req, res) => {
-    console.log("Receptionist: GET request for received");
+    console.log("Receptionist: GET request for limbo");
     pullReq(limbo, req, res);
 });
 
 router.post('/limbo', async(req, res) => {
-    console.log("Receptionist: POST request for received");
+    console.log("Receptionist: POST request for limbo");
     console.log(req.body);
     postReq(limbo, req, res);
 });

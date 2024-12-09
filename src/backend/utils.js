@@ -123,12 +123,6 @@ class Instance{
     }
 
     async edit(target, edits){
-        // - Like Button Algorithm
-        //   Incraments likes on screen
-        //   Calls function that will POST to ObjectId and likes ++ to server
-        //   Server receives POST
-        //   ...
-        //   Profit!
         this.reset();
         try {
             if (target === undefined || edits === undefined)
@@ -139,7 +133,7 @@ class Instance{
             console.log(`Instance: performing the following edits on ${target}:`);
             console.log(edits);
 
-            this.payload = [await coll.replaceOne({_id : new ObjectId(target)}, edits)];
+            this.payload = [await coll.updateOne({_id : new ObjectId(target)}, {$set: edits})];
 
         } catch (e) {
             this.errorStack = e;
@@ -158,26 +152,41 @@ class Instance{
             const coll = await this.connect();
 
             // pulling post from limbo
-            var cursor = await coll.find({_id : new ObjectId(target)}).project({type : 1});
+            var cursor = await coll.find({_id : new ObjectId(target)});
             var post = await cursor.toArray();
             post = post[0]; // I'm so fucking tired
 
+            // Constructing your average migration pipeline
+            let pipeline = [
+                {$match : {_id: post._id}},
+                {$project : {
+                    type : 0,
+                    status : 0 
+                }},
+                {$merge : {
+                    into: post.type === "resource" ? "resources" : post.type,
+                    on : "_id",
+                    whenNotMatched: "insert",
+                    whenMatched: 'fail'
+                }}
+            ];
+             /* if advice is being migrated, do a whole bunch of field mapping 
+              * because I can't be fucked to refactor all documents in a collection rn  */
+            if (post.type === 'advice') {
+                pipeline.splice(1, 0, {$set : {
+                    author : post.anon === "anon" ? "Anonymous" : post.uploader,
+                    content : post.description,                        
+                    timeAgo : post.uploadDate,
+                    tag : post.tags
+                }});
+            }
             // Perform the move
-                cursor = await coll.aggregate([
-                    {$match : {_id: post._id}},
-                    {$merge : {
-                        into: post.type === "resource" ? "resources" : post.type,
-                        on : "_id",
-                        whenNotMatched: "insert",
-                        whenMatched: 'fail'
-                        // Maybe an error if the object already exists
-                    }}
-                ]);
+            cursor = await coll.aggregate(pipeline);
 
-                this.payload.push(await cursor.toArray());
+            this.payload.push(await cursor.toArray());
 
-                // And now we delete the post from Limbo b/c apparently aggregate doesn't do so?
-                this.payload.push(await coll.deleteOne({_id : post._id}));
+            // And now we delete the post from Limbo b/c apparently aggregate doesn't do so?
+            this.payload.push(await coll.deleteOne({_id : post._id}));
 
         } catch (e) {
             this.errorStack = e;
@@ -210,44 +219,38 @@ class Instance{
 }
 
 async function pullReq(instance, req, res) {
-    console.log(`pullReq: Got the following search parameters: `);
-    console.log(req.data);
-
     // Parsing incoming parameters object to construct query parameter
     const query = {}; // Defines parameters in which to pull data
     const projs = []; // Defines fields that will be sent to client
     const sort = {}; // Defines order in which to send to client
 
     // TODO: SANITIZE
-    // TODO: Enable filtering of projs and sort! Only sorts for potential text indexing!!
     for (const[key, value] of Object.entries(req.query)) {
         if (key === "search") {
             query['$text'] = {$search:value};
         } else if (key === "process" && value) {
-            console.log('pullReq: Request to process');
         } else if (key === "sort") {
             // console.log(`Sort by ${value}`);
             switch (value) {
               case "mostRecent":
-                console.log("Sorting by upload date!");
                 sort["timeAgo"] = 1;
                 break;
 
               case "mostLiked":
-                console.log("Sorting by liked values");
                 sort["likes"] =  -1;
                 break;
 
               default:
-                console.log("sort criteria unrecognized.");
+                    // Respond back to client that sort criteria wasn't recognized
+                    res.json({
+                        message : "Failed to display posts :(",
+                        errorMsg : "Error: sort criteria unrecognized.",
+                    });
                 break;
             }
 
         }else query[key] = value;
     }
-
-    console.log("Constructed query:");
-    console.log(query);
 
     // Passing query parameter to pull() method
     await instance.read(query, projs, sort);
@@ -270,8 +273,7 @@ async function pullReq(instance, req, res) {
 async function postReq(instance, req, res) {
 
     if (Object.keys(req.body).includes("edits")) { /* Incoming data is an edit */
-        console.log("postReq: Incoming data is edits!");
-
+        console.log(`Edit reqeuest on ${req.body}`);
         await instance.edit(req.body.post, req.body.edits);
 
     } else if (Object.keys(req.body).includes('status')) { /* a post has been accepted or rejected */
