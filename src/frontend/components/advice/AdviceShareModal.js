@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const tags = [
   "Study tips",
   "Professors",
@@ -20,11 +19,11 @@ const tags = [
 ];
 
 /* Launches submit form for the user to create a new entry */
-export default function AdviceShareModal({ 
+export default function AdviceShareModal({
   onClose,
   onSubmit,
   submission,
-  handleInputChange
+  handleInputChange,
 }) {
   /*
    * @ properties
@@ -35,6 +34,24 @@ export default function AdviceShareModal({
    * handleInputChange: function determining form behavior when form inputs change
    */
   /* Starting state of fields in form */
+
+  const handleTagChange = (e) => {
+    // NOTE:
+    // This function handles changes to the tag selection dropdown.
+    // It retrieves the selected options from the dropdown, converts
+    // them into an array of values, and then calls handleInputChange
+    // to update the submission state with the selected tags.
+
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (option) => option.value
+    );
+    handleInputChange({
+      target: {
+        name: "tags",
+        value: selectedOptions,
+      },
+    });
+  };
 
   return (
     /* HTML */
@@ -84,12 +101,15 @@ export default function AdviceShareModal({
             {/* Label for the tag selection dropdown */}
             <label htmlFor="tags">Tags:</label>
             <select
-              type="checkbox"
+              // type="checkbox" // NOTE: This was considered for tag selection but is not used.
+
               id="tags"
               name="tags"
               multiple // Enables multiple tag selection
               value={submission.tags} // Controlled component - reflects current selected tags
-              onChange={handleInputChange}
+              // onChange={handleInputChange} // NOTE: This was the previous handler for input changes but is replaced by handleTagChange.
+
+              onChange={handleTagChange} // Handle tag selection
               className="tag-select"
             >
               {/* Map each tag in our tags array to an option element */}
