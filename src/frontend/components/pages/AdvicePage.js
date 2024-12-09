@@ -28,8 +28,8 @@ export default function Advice() {
     uploadDate: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
     uploader: "",
     title: "",
-    postAs: "",
-    tags: [],
+    anon : "anon",
+    tags : [],
     description: "",
     likes: 0,
   });
@@ -77,8 +77,8 @@ export default function Advice() {
     setSubmission({
       uploader: "",
       title: "",
+      anon : true,
       description: "",
-      link: "",
       category: "",
     });
   };
@@ -132,11 +132,25 @@ export default function Advice() {
 
   const handleLike = (id) => {
     // Increment the likes for the post with the given id
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post._id === id ? { ...post, likes: post.likes + 1 } : post
-      )
-    );
+
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === id ? { ...post, likes: post.likes + 1 } : post
+          )
+        );
+
+        let likes = 0;
+        posts.forEach((post) => {
+            if (post._id === id) likes += post.likes
+        });
+
+        post('/api/advice', {
+            post : id,
+            edits : { likes : likes + 1}
+        }).then((res) => console.log(res)
+        ).catch((err) => console.log(err.response));
+
+        
   };
 
   return (

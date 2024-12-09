@@ -84,15 +84,15 @@ export default function AdviceShareModal({
           </div>
 
           <div className="form-group">
-            <label htmlFor="postAs">Post as:</label>
+            <label htmlFor="anon">Post as:</label>
             <select
-              id="postAs"
-              name="postAs"
-              value={submission.postAs}
+              id="anon"
+              name="anon"
+              value={submission.anon}
               onChange={handleInputChange}
             >
-              <option value="Anonymous">Anonymous</option>
-              <option value="Name">Name</option>
+              <option value="anon">Anonymous</option>
+              <option value="name">Name</option>
             </select>
           </div>
 
