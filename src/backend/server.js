@@ -1,6 +1,8 @@
+// Import required packages
 const express = require('express');
 const cors = require("cors");
 
+// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -20,4 +22,4 @@ app.use(function(req, res, next) {
     console.log(`Server: User attempted to access ${req.url}`);
 });
 
-module.exports = {server,app};
+module.exports = {app};

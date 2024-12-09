@@ -4,12 +4,14 @@ import "../styles/AuthenticationModal.css";
 export default function AuthenticationModal({ onClose, onVerification }) {
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
-  const [step, setStep] = useState("email");
+  const [step, setStep] = useState("email"); // Step 1: email input
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handleVerificationCodeChange = (e) => setVerificationCode(e.target.value);
 
+  // Handle email submit (send verification code)
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
     if (!email.endsWith("@unomaha.edu")) {
@@ -17,49 +19,59 @@ export default function AuthenticationModal({ onClose, onVerification }) {
       return;
     }
     setLoading(true);
+<<<<<<< HEAD
     try { // TODO: Conver to Axios POST
       const response = await fetch("/api/send-verification-code", {
+=======
+    setErrorMessage(""); // Reset error message
+    try { // TODO: Convert to Axios POST
+      const response = await fetch("/api/register", {
+>>>>>>> Yolvin
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send verification code");
-      }
-      alert("Verification code sent successfully. Please check your email.");
-      setStep("verification");
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
+
+      alert(result.message); // Success message
+      setStep("verification"); // Move to verification step
     } catch (error) {
       console.error("Error:", error);
-      alert("Error sending verification code. Please try again.");
+      setErrorMessage(error.message); // Set error message
     } finally {
       setLoading(false);
     }
   };
 
+  // Handle verification code submit
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+<<<<<<< HEAD
     try { // TODO: Convert to Axios POST
+=======
+    setErrorMessage(""); // Reset error message
+    try {
+>>>>>>> Yolvin
       const response = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, verificationCode }),
       });
 
-      if (!response.ok) {
-        throw new Error("Invalid verification code");
-      }
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
 
-      const username = email.split("@")[0];
-      alert("Verification successful!");
-      onVerification(username);
+      alert(result.message);
+      onVerification(email.split("@")[0]); // Pass the username to the parent component
       if (onClose) {
-        onClose();
+        onClose(); // Close the modal after successful verification
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Invalid verification code. Please try again.");
+      setErrorMessage(error.message); // Set error message
     } finally {
       setLoading(false);
     }
@@ -70,6 +82,7 @@ export default function AuthenticationModal({ onClose, onVerification }) {
       <div className="modal-content">
         <h2 className="modal-title">UNO Student Access</h2>
         {loading && <p className="loading-message">Processing...</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
         {step === "email" ? (
           <>
