@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail'); // Import SendGrid
 // const User = require('./models/User'); // Ensure you have the User model
 const router = Router();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // BUG: Switching tabs fast enough can result in crashing instance.
 

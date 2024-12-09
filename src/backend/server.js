@@ -1,6 +1,11 @@
+// Import required packages
 const express = require('express');
 const cors = require("cors");
 
+const User = require('./models/User'); // Import your User model
+
+
+// Initialize Express
 const app = express();
 const PORT = process.env.PORT || 3001;
 
