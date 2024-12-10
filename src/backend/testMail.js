@@ -1,6 +1,6 @@
 // Load environment variables from .env file
-require('dotenv').config()
-
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 // Import SendGrid's Node.js mail package
 const sgMail = require('@sendgrid/mail')
 
