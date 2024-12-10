@@ -2,23 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 /* The list on the left of the page
- * enables posts filtering based off the posts's tags
+ * enables posts filtering based off the post's tags
  */
 export default function AdviceSidebar({
-  onShareClick,
-  onFilterChange,
-  activeTag,
+  onFilterChange, // Function to handle tag filter changes
+  activeTag, // Current active filter tag
+  isVerified, // Prop to check if the user is verified
+  userRole, // Prop to check the user's role
 }) {
-  /*
-   * @ properties
-   * onShareClick: guessing this is the function that launches the
-   * AdviceShareModal
-   * onFilterChange: guessing this function updates what posts are displayed based
-   * on what is selected
-   * activeTag: string that helps decide which filter to be set with active CSS
-   */
   const tags = [
-    /* array of tags */ "All",
+    "All",
     "Study tips",
     "Professors",
     "Housing & Dorm Life",
@@ -52,9 +45,6 @@ export default function AdviceSidebar({
           </li>
         ))}
       </ul>
-      <button className="btn btn-primary btn-block" onClick={onShareClick}>
-        Share Advice
-      </button>
     </aside>
   );
 }

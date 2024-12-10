@@ -1,28 +1,69 @@
 import "../styles/Layout.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../images/uno_O.png";
 import AuthenticationModal from "./AuthenticationModal";
+import AdviceShareModal from "./advice/AdviceShareModal";
 
 export default function Header() {
-  /* state tuple, false */
   const [isModalOpen, setModalOpen] = useState(false);
   const [username, setUsername] = useState(null);
+  const [userRole, setUserRole] = useState(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
+  const [submission, setSubmission] = useState({
+    uploader: "",
+    title: "",
+    anon: "anon",
+    tags: [],
+    description: "",
+  });
 
-  const handleOpenModal = () => {
-    /* when modal event occurs, set modal state 
-  to true*/
-    setModalOpen(true);
-  };
+  useEffect(() => {
+    console.log("Rendering Header - State:", { username, userRole, isVerified });
+    if (username) {
+      if (username === "yaguirre-duran") {
+        setUserRole("admin");
+        setIsVerified(true);
+      } else {
+        setUserRole("user");
+        setIsVerified(true);
+      }
+    }
+  }, [username]);
 
-  const handleCloseModal = () => {
-    /* when modal event occurs, set modal state 
-  to false */
-    setModalOpen(false);
-  };
-
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
   const handleVerification = (username) => {
     setUsername(username);
+    setIsVerified(true);
+  };
+
+  const handleOpenAdviceModal = () => {
+    setIsAdviceModalOpen(true);
+  };
+
+  const handleCloseAdviceModal = () => {
+    setIsAdviceModalOpen(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Submitting advice:", submission);
+    setSubmission({
+      uploader: "",
+      title: "",
+      anon: "anon",
+      tags: [],
+      description: "",
+    });
+    setIsAdviceModalOpen(false);
+  };
+
+  const handleLogout = () => {
+    setUsername(null);
+    setUserRole(null);
+    setIsVerified(false);
   };
 
   return (
@@ -35,26 +76,61 @@ export default function Header() {
           <Link to="/advice">Advice</Link>
           <Link to="/events">Events</Link>
           <Link to="/connect">Connect</Link>
-          <Link to="/admin">Admin</Link>
+
+          {userRole === "admin" && isVerified && (
+            <>
+              {console.log(`This is the user role that is currently running: ${userRole}`)}
+              <Link to="/admin">Admin</Link>
+            </>
+          )}
+
+
+
+
         </div>
-        {/* Sign in button, and AuthenticationModal */}
+
         <div className="nav-right">
           {username ? (
-            // If user is authenticated, show welcome message with their username
-            <span className="welcome-text">Hi, {username}!</span>
+            <>
+              <span className="welcome-text">Hi, {username}!</span>
+              <button className="btn btn-secondary" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
           ) : (
-            // If user is not authenticated, show sign in button
             <button className="btn btn-primary" onClick={handleOpenModal}>
               Sign in
             </button>
           )}
+          {/* Share Advice button visibility based on verification */}
+          {(userRole === "user" || userRole === "admin") && isVerified && (
+            <button className="btn btn-primary" onClick={handleOpenAdviceModal}>
+              Share Advice
+            </button>
+          )}
         </div>
       </nav>
-      {/* pass handleCloseModal arrow func to onClose behavior */}
+
       {isModalOpen && (
         <AuthenticationModal
           onClose={handleCloseModal}
           onVerification={handleVerification}
+        />
+      )}
+
+      {isAdviceModalOpen && (
+        <AdviceShareModal
+          onClose={handleCloseAdviceModal}
+          onSubmit={handleSubmit}
+          submission={submission}
+          handleInputChange={(e) =>
+            setSubmission({
+              ...submission,
+              [e.target.name]: e.target.value,
+            })
+          }
+          isVerified={isVerified}
+          role={userRole}
         />
       )}
     </header>
