@@ -9,8 +9,16 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const router = Router();
 
-// BUG: Switching tabs fast enough can result in crashing instance.
+const ADMIN_EMAILS = [
+  'yaguirre-duran@unomaha.edu',
+  'elijahgnuse@unomaha.edu',
+  'fmerino@unomaha.edu',
+  'jocelynhorn@unomaha.edu',
+  'sjohnson154@unomaha.edu',
+  'ojimenez-gonzalez@unomaha.edu',
+];
 
+// Routes for handling advice and resources
 const advice = new Instance("Posts", "advice");
 router.get('/advice', async (req, res) => {
     console.log("Receptionist: GET request for advice");
@@ -67,15 +75,14 @@ router.post('/register', async (req, res) => {
         if (!user) { // User doesn't exist, save!
             console.log("Receptionist: No user found. Creating new entry in Users.users");
 
-            // Set user role based on email
-            const role = email === 'yaguirre-duran@unomaha.edu' ? 'admin' : 'user';
+            const role = ADMIN_EMAILS.includes(email) ? 'admin' : 'user';
 
             await users.write([{
                 email: email,
                 verificationCode: verificationCode,
                 verificationCodeExpiry: expiry,
-                role: role,  // Assign the role during registration
-                isVerified: false,  // Set isVerified to false initially
+                role: role, 
+                isVerified: false, 
             }]);
         } else {
             let edits = { // Set user verification credentials to pending
@@ -129,10 +136,10 @@ router.post('/verify-code', async (req, res) => {
 
         // Mark the user as verified and assign the 'user' or 'admin' role
         let edits = {
-            isVerified: true, // Mark the user as verified
-            verificationCode: null, // Clear the verification code
-            verificationCodeExpiry: null, // Clear the expiry time
-            role: email === 'yaguirre-duran@unomaha.edu' ? 'admin' : 'user', // Assign role based on email
+            isVerified: true,
+            verificationCode: null,
+            verificationCodeExpiry: null,
+            role: ADMIN_EMAILS.includes(email) ? 'admin' : 'user', // Assign role based on email
         };
 
         await users.edit(user._id, edits); // Update user entry in database via users.edit()
@@ -143,7 +150,5 @@ router.post('/verify-code', async (req, res) => {
         res.status(500).json({ message: 'Error verifying user.' });
     }
 });
-
-
 
 module.exports = router;

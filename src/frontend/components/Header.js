@@ -19,10 +19,20 @@ export default function Header() {
     description: "",
   });
 
+  const adminEmails = [
+    'yaguirre-duran',
+    'elijahgnuse',
+    'sjohnson154',
+    'fmerino',
+    'jocelynhorn',
+    'ojimenez-gonzalez',
+  ];
+
   useEffect(() => {
     console.log("Rendering Header - State:", { username, userRole, isVerified });
     if (username) {
-      if (username === "yaguirre-duran") {
+      // Check if the logged-in username is in the adminEmails list
+      if (adminEmails.includes(username)) {
         setUserRole("admin");
         setIsVerified(true);
       } else {
@@ -77,16 +87,12 @@ export default function Header() {
           <Link to="/events">Events</Link>
           <Link to="/connect">Connect</Link>
 
+          {/* Admin tab visibility based on user role */}
           {userRole === "admin" && isVerified && (
             <>
-              {console.log(`This is the user role that is currently running: ${userRole}`)}
               <Link to="/admin">Admin</Link>
             </>
           )}
-
-
-
-
         </div>
 
         <div className="nav-right">

@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 export default function AdviceSidebar({
   onFilterChange, // Function to handle tag filter changes
   activeTag, // Current active filter tag
-  isVerified, // Prop to check if the user is verified
-  userRole, // Prop to check the user's role
 }) {
   const tags = [
     "All",
