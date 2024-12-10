@@ -52,7 +52,7 @@ Project JumpStart is a website to assist current and incoming UNO students conne
       $ brew services start mongodb
       ```
 
-   REHL:
+   RHEL:
    1. Prep `yum` with MongoDB repository
       ```bash
       $ touch /etc/yum.repos.d/mongodb-org-8.0.repo
