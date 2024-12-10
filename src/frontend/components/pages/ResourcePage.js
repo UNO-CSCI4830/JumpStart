@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Resource.css";
 import ResourceModal from "../../components/resources/ResourceModal";
 import SearchBar from "../../components/resources/SearchBar";
 import ResourceList from "../../components/resources/ResourceList";
 import CategoryButton from "../../components/resources/CategoryButton";
-import initialResources from "../../utils/initialResources";
+
+import {get, post} from 'axios';
+
+/*
+ * TODO:
+ * -axios.post() for ResourceModal to push to LimboDB
+ */
 
 const categories = [ /* array for categories */
   "Academic",
@@ -17,42 +23,66 @@ const categories = [ /* array for categories */
 
 const ResourcePage = () => {
   /* Use state and state-changer duo */
-  const [activeCategory, setActiveCategory] = useState("Academic");
-  /* Here's searchTerm and setSearchTerm that are updated with ResrouceSearch component */
+  const [activeTag, setActiveTag] = useState("Academic");
   const [searchTerm, setSearchTerm] = useState("");
-  const [resources, setResources] = useState(initialResources);
-  const [isModalOpen, setIsModalOpen] = useState(false); /* State of ResourceSubmitModal component, initially False */
-  const [newResource, setNewResource] = useState({
+  const [resources, setResources] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  var date = new Date(Date.now());
+  const [submission, setSubmission] = useState({
+    type: "resource",
+    uploadDate : `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
     title: "",
+    uploader: "",
     description: "",
-    link: "",
-    category: "",
+    link : "",
+    category : "",
   });
 
-  /* Arrow function updating resources displayed based on searchTerm value */
-    const filteredResources = resources.filter(
-        (resource) => /* resource as an argument */
-            /* if category matches activeCategory, and title/description matches 
-               searchTerm, add to filteredResources array */
-            resource.category === activeCategory && 
-                (resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    resource.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+  // Ubuquitous msg
+  const [msg, setMsg] = useState(null);
+    
+    useEffect(() => {
+        let params = {
+            category : activeTag,
+        };
+
+        // add search term to params if characters are found
+        if (searchTerm.length !== 0) params.search = searchTerm;
+
+        get("/api/resources", {
+            headers: {'Content-Type': 'application/json'},
+            params: params
+        }).then((res) => {
+                setResources([...res.data.payload]);
+            }).catch(err => {
+                console.log(err.response);
+                setMsg(`Couldn't load data. Status ${err.response.status}`);
+    });
+    }, [searchTerm, activeTag]);
 
   const handleSubmit = (e) => { /* upon submit event, update resources array 
   with new entry */
     e.preventDefault(); /* ??? ensure that an empty form isn't added */
-    const id = resources.length + 1;
-    setResources([...resources, { ...newResource, id }]);
+    // setResources([...resources, { ...submission, _id }]);
     setIsModalOpen(false); /* Modal state is now false */
-     /* new resource is now set, with blank elements */
-    setNewResource({ title: "", description: "", link: "", category: "" });
+
+    // send submission over POST
+    post('/api/limbo', submission)
+        .then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log(err.response);
+    });
+
+     /* submission is now set, with blank elements */
+    setSubmission({ uploader: "", title: "", description: "", link: "", category: "" });
   };
 
   const handleInputChange = (e) => { /* when a change event occurs, update the 
-  newResource with new name : value */
+  submission with new name : value */
     const { name, value } = e.target;
-    setNewResource({ ...newResource, [name]: value });
+    setSubmission({ ...submission, [name]: value });
   };
 
   return (
@@ -64,7 +94,8 @@ const ResourcePage = () => {
         to achieve your academic and personal goals.
       </p>
 
-      <SearchBar
+      <SearchBar 
+        // NOTE: Might be good to turn into a form, or at least reduce server calls FE state change
         searchTerm={searchTerm} /* searchTerm state variable */
         onSearchChange={(e) => setSearchTerm(e.target.value)} /* state changer 
         to update searchTerm to entered string, given an event that occurs */
@@ -76,15 +107,20 @@ const ResourcePage = () => {
           <CategoryButton
             key={category} /* passes category as key */
             category={category} /* ...and category again as category */
-            isActive={activeCategory === category} /* truthy boolean determining 
+            isActive={activeTag === category} /* truthy boolean determining 
             if the category is active */
-            onClick={() => setActiveCategory(category)} /* state changer to 
+            // TODO: So this is how you can pass in specific state-changers to a generic function
+            onClick={() => setActiveTag(category)} /* state changer to 
             assign new category if button is clicked */
           />
         ))}
       </div>
             {/* Passes filteredResources array to ResourceList component */}
-      <ResourceList resources={filteredResources} /> 
+      {msg !== null ? (
+      <div><h1>{msg}</h1></div>
+      ) : (
+      <ResourceList resources={resources} /> 
+      )}
 
       {/* Button that, if clicked toggles ResourceSubmitModal state between T
       or F */}
@@ -111,7 +147,7 @@ const ResourcePage = () => {
         the modal state boolean to false when form closes */
         onSubmit={handleSubmit} /* Passing arrow func to onSubmit behavior, so 
         when submit button is clicked, data entered into the form is saved */
-        newResource={newResource} /* passing empty new resource object to be 
+        submission={submission} /* passing empty new resource object to be 
         filled in with formData */
         handleInputChange={handleInputChange} /* passing arrow func to Modal to
         update data with new inputs */

@@ -1,8 +1,12 @@
 // Import required packages
 const express = require('express');
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 const sgMail = require('@sendgrid/mail');
 require('dotenv').config(); // Load environment variables from .env file
+=======
+const cors = require("cors");
+>>>>>>> seth
 
 const User = require('./models/User'); // Import your User model
 
@@ -10,8 +14,18 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // Initialize Express
 const app = express();
-app.use(express.json());
+<<<<<<< HEAD
+=======
+const PORT = process.env.PORT || 3001;
 
+const queries = require('./queries');
+
+app.use(cors());
+>>>>>>> seth
+app.use(express.json());
+app.use('/api', queries)
+
+<<<<<<< HEAD
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/Jumpstart', {
   useNewUrlParser: true,
@@ -97,4 +111,16 @@ app.post('/api/verify-code', async (req, res) => {
 // Start the server
 app.listen(3001, () => {
   console.log('Server started on http://localhost:3001');
+=======
+const server = app.listen(PORT, () => {
+    console.log(`Server: Server started on ${PORT}`)
 });
+
+// middleware to catch non-existing routes
+app.use(function(req, res, next) {
+    res.status(404).json({message: "Error 404: Not found"});
+    console.log(`Server: User attempted to access ${req.url}`);
+>>>>>>> seth
+});
+
+module.exports = {server,app};

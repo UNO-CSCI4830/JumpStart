@@ -5,6 +5,7 @@
 const resourcePosts = require("./data/resourcePosts.js").resourcePosts;
 const advicePosts = require("./data/advicePosts.js").advicePosts;
 const pendingPosts = require("./data/AdminData.js").pendingPosts;
+
 module.exports = { addEntries, getEntries, deleteEntries, lookEntries };
 
 const { MongoClient } = require('mongodb');
@@ -70,41 +71,76 @@ async function configurePostsDB() {
         await client.connect(); // wait for DB to respond with "promise" object of our connection
         console.log(`Connected to ${uri}\n`);
 
-        const postsDB = client.db("Posts");
+        console.log("Constructing Posts database...");
+        const postsDB = client.db("Posts")
 
         // Listing databases (NOTE: Updated to correct function for MongoDB 4+)
         console.log(`DBs on ${uri}:`);
 
-        // Correct method to list databases
-        const dbList = await client.db().command({ listDatabases: 1 });
-        console.log('DBs on mongodb://localhost:27017/:', dbList.databases);
+        /* ### Building Resources collection in posts DB ### */
+        // Defining Resources collection
+        console.log("Constructing resources...");
+        const resources = postsDB.collection("resources");
 
-        // ### Building Limbo collection in posts DB ###
+        // adding entries
+        console.log("\nAdding documents to resource collection...");
+        await addEntries(resources, resourcePosts);
+        const resourceColl = await getEntries(resources);
+
+        // Verify creating resource collection
+        if (resourceColl.length === resourcePosts.length) {
+            console.log("All resource posts were added to \"Resource\" collection");
+        } else if (resourceColl.length > resourcePosts.length) {
+            console.log("There might be dupicate items from `resourcePosts` in \"Resource\" collection");
+        }  else if (resourceColl.length < resourcePosts.length) {
+            console.log("Some items from `resourcePosts` were not added to \"Resource\" collection");
+        }
+
+        // Creating text-searchable indexes
+        resources.createIndex({title: "text", description: "text", link: "text"});
+
+        /* ### Building Advice collection in posts DB ### */
+        // Defining Advice collection
+        console.log("Constructing advice...");
+        const advice = postsDB.collection("advice");
+
+        // adding entries
+        console.log("\nAdding documents to advice collection...");
+        await addEntries(advice, advicePosts);
+        const adviceColl = await getEntries(advice);
+
+        // Verify creating advice collection
+        if (adviceColl.length === advicePosts.length) {
+            console.log("All advice posts were added to \"Advice\" collection");
+        } else if (adviceColl.length > advicePosts.length) {
+            console.log("There might be dupicate items from `advicePosts` in \"Advice\" collection");
+        }  else if (adviceColl.length < advicePosts.length) {
+            console.log("Some items from `advicePosts` were not added to \"Advice\" collection");
+        }
+        // Creating text-searchable indexes
+        advice.createIndex({title: "text", author: "text", content: "text", tag: "text"});
+
+        /* ### Building Limbo collection in posts DB ### */
+        // Defining Limbo collection
+        console.log("Constructing limbo...");
         const limbo = postsDB.collection("limbo");
 
-        // Adding entries to the limbo collection
-        console.log("\nAdding documents to limbo collection...");
+        // adding entries
+        console.log("\nAdding documents to limbo...");
         await addEntries(limbo, pendingPosts);
         const limboColl = await getEntries(limbo);
 
         // Verify creating limbo collection
         if (limboColl.length === pendingPosts.length) {
-            console.log("All pending posts were added to \"Limbo\" collection");
+            console.log("All advice posts were added to \"Limbo\" collection");
         } else if (limboColl.length > pendingPosts.length) {
-            console.log("There might be duplicate items from `pendingPosts` in \"Limbo\" collection");
-        } else if (limboColl.length < pendingPosts.length) {
-            console.log("Some items from `pendingPosts` were not added to \"Limbo\" collection");
+            console.log("There might be dupicate items from `pendingPosts` in \"limbo\"");
+        }  else if (limboColl.length < pendingPosts.length) {
+            console.log("Some items from `pendingPosts` were not added to \"limbo\"");
         }
 
-        // Example: Deleting entries from limbo collection with a query
-        console.log("\nDeleting documents from limbo collection where status is 'pending'...");
-        const deleteResult = await deleteEntries(limbo, { status: "pending" });
-        console.log(`${deleteResult.deletedCount} documents were deleted from limbo collection`);
-
-        // Example: Looking for entries in the limbo collection
-        console.log("\nLooking for documents in limbo collection with 'status' as 'approved'...");
-        const lookResult = await lookEntries(limbo, { status: "approved" });
-        console.log(`Found ${lookResult.length} documents with 'approved' status in limbo collection`);
+        // Creating text-searchable indexes
+        limbo.createIndex({title: "text", description: "text", link: "text", category: "text", uploader: "text", type: "text", status: "text"});
 
     } catch (e) { // If something went wrong, say so
         console.error(e);
@@ -112,3 +148,4 @@ async function configurePostsDB() {
         await client.close();
     }
 }
+configurePostsDB();

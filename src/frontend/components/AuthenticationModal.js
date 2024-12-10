@@ -19,9 +19,14 @@ export default function AuthenticationModal({ onClose, onVerification }) {
       return;
     }
     setLoading(true);
+<<<<<<< HEAD
     setErrorMessage(""); // Reset error message
     try {
       const response = await fetch("/api/register", {
+=======
+    try { // TODO: Conver to Axios POST
+      const response = await fetch("/api/send-verification-code", {
+>>>>>>> seth
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -44,8 +49,12 @@ export default function AuthenticationModal({ onClose, onVerification }) {
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+<<<<<<< HEAD
     setErrorMessage(""); // Reset error message
     try {
+=======
+    try { // TODO: Convert to Axios POST
+>>>>>>> seth
       const response = await fetch("/api/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

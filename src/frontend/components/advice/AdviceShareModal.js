@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const tags = [
   "Study tips",
@@ -19,51 +19,38 @@ const tags = [
 ];
 
 /* Launches submit form for the user to create a new entry */
-export default function AdviceShareModal({ onClose }) {
+export default function AdviceShareModal({
+  onClose,
+  onSubmit,
+  submission,
+  handleInputChange,
+}) {
   /*
    * @ properties
-   * onClose: function to handle data when form closes
+   * isOpen: boolean determining form state
+   * onClose: function determining form behavior when closed
+   * onSubmit: function determining form behavior when submit button is clicked
+   * submission: resource object to be updated with contents of form
+   * handleInputChange: function determining form behavior when form inputs change
    */
   /* Starting state of fields in form */
-  const [formData, setFormData] = useState({
-    email: "",
-    name: "",
-    postAs: "Anonymous",
-    tags: [],
-    advice: "",
-  });
 
-  /* Guessing handleChange stores the data provided by a user? */
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target; /* Field names for form */
-    /* Determine which data to update */
-    if (type === "checkbox") {
-      /* type "checkbox", so update tags */
-      setFormData((prev) => ({
-        ...prev,
-        tags: checked
-          ? [...prev.tags, value]
-          : prev.tags.filter((tag) => tag !== value),
-      }));
-    } else {
-      /* They're not updating a tag */
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
+  const handleTagChange = (e) => {
+    // NOTE:
+    // This function handles changes to the tag selection dropdown.
+    // It retrieves the selected options from the dropdown, converts
+    // them into an array of values, and then calls handleInputChange
+    // to update the submission state with the selected tags.
 
-  /* Upon form submission, handle data */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData); /* !! Here we handle our new data !! */
-    /* formData is an object! No need to create a new one!! */
-    /* TODO: append submission time */
-    /* TODO: SUBMIT NEW DATA TO DB */
-    if (onClose) {
-      onClose();
-    }
+    const selectedOptions = Array.from(e.target.selectedOptions).map(
+      (option) => option.value
+    );
+    handleInputChange({
+      target: {
+        name: "tags",
+        value: selectedOptions,
+      },
+    });
   };
 
   return (
@@ -71,65 +58,58 @@ export default function AdviceShareModal({ onClose }) {
     <div className="modal">
       <div className="modal-content">
         <h2>Share Your Advice</h2>
-        <form id="shareAdviceForm" onSubmit={handleSubmit}>
+        <form id="shareAdviceForm" onSubmit={onSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="uploader">Email:</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              type="uploader"
+              id="uploader"
+              name="uploader"
+              value={submission.uploader}
+              onChange={handleInputChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="title">Name:</label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
+              id="title"
+              name="title"
+              value={submission.title}
+              onChange={handleInputChange}
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="postAs">Post as:</label>
+            <label htmlFor="anon">Post as:</label>
             <select
-              id="postAs"
-              name="postAs"
-              value={formData.postAs}
-              onChange={handleChange}
+              id="anon"
+              name="anon"
+              value={submission.anon}
+              onChange={handleInputChange}
             >
-              <option value="Anonymous">Anonymous</option>
-              <option value="Name">Name</option>
+              <option value="anon">Anonymous</option>
+              <option value="name">Name</option>
             </select>
           </div>
 
+          {/* FIXME: This is the tag field, doesn't append to array or display selections */}
           <div className="form-group">
             {/* Label for the tag selection dropdown */}
             <label htmlFor="tags">Tags:</label>
             <select
+              // type="checkbox" // NOTE: This was considered for tag selection but is not used.
+
               id="tags"
               name="tags"
               multiple // Enables multiple tag selection
-              value={formData.tags} // Controlled component - reflects current selected tags
-              onChange={(e) => {
-                // Convert HTMLOptionsCollection to array of selected tag values
-                const selectedTags = Array.from(
-                  e.target.selectedOptions, // Get all selected options
-                  (option) => option.value // Extract just the value from each option
-                );
+              value={submission.tags} // Controlled component - reflects current selected tags
+              // onChange={handleInputChange} // NOTE: This was the previous handler for input changes but is replaced by handleTagChange.
 
-                // Update form state with new array of selected tags
-                setFormData((prev) => ({
-                  ...prev, // Keep all other form data
-                  tags: selectedTags, // Update only the tags array
-                }));
-              }}
+              onChange={handleTagChange} // Handle tag selection
               className="tag-select"
             >
               {/* Map each tag in our tags array to an option element */}
@@ -146,12 +126,12 @@ export default function AdviceShareModal({ onClose }) {
             </small>
           </div>
           <div className="form-group">
-            <label htmlFor="advice">Your Advice:</label>
+            <label htmlFor="description">Your Advice:</label>
             <textarea
-              id="advice"
-              name="advice"
-              value={formData.advice}
-              onChange={handleChange}
+              id="description"
+              name="description"
+              value={submission.description}
+              onChange={handleInputChange}
               rows="6"
               required
             />

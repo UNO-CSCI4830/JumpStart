@@ -1,81 +1,110 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StatCard from "../admin/StatCard";
 import TabButton from "../admin/TabButton";
-import ResourceTable from "../admin/ResourceTable";
-import AdviceTable from "../admin/AdviceTable";
+import ResourceTable from "../admin/ResourceTable"; // TODO: Refactor to new obj props!
+import EditAdviceModal from "../admin/EditAdviceModal"; // TODO: Refactor to new props!
 import EditResourceModal from "../admin/EditResourceModal";
-import EditAdviceModal from "../admin/EditAdviceModal";
-import { initialResources, initialAdvice } from "../../utils/AdminData";
 import "../../styles/AdminDashboard.css";
+import {get, post} from 'axios';
 
 /* Builds Admin page to be called by App */
 function AdminDashboard() {
-    /* State tuples for activeTab, resources, advice, editResource, and
-     * editAdvice 
-     */
-  const [activeTab, setActiveTab] = useState("resources");
-  const [resources, setResources] = useState(initialResources);
-  const [advice, setAdvice] = useState(initialAdvice);
-  const [editResource, setEditResource] = useState(null);
-  const [editAdvice, setEditAdvice] = useState(null);
+  const [activeTab, setActiveTab] = useState("resource");
+  const [posts, setPosts] = useState([]); // generic posts values
+  const [editPost, setEditPosts] = useState(null); // generic editor values
+
+  // Ubuquitous msg
+  const [msg, setMsg] = useState(null);
+    
+    useEffect(() => {
+        let params = {
+            type : activeTab
+        };
+
+        get("/api/limbo", {
+            headers: {'Content-Type': 'application/json'},
+            params: params
+        }).then((res) => {
+                setPosts([...res.data.payload]);
+            }).catch(err => {
+                console.log(err.response);
+                setMsg(`Couldn't load data. Status ${err.response.status}`);
+        });
+
+    }, [activeTab]);
+
+    console.log(posts);
 
   /* When a change occurs, update status of resource(if true)/advice with 
      newStatus */
-  const handleStatusChange = (id, newStatus, isResource) => {
-    if (isResource) {
-      setResources(
-        resources.map((item) =>
-          item.id === id ? { ...item, status: newStatus } : item
-        )
-      );
-    } else {
-      setAdvice(
-        advice.map((item) =>
-          item.id === id ? { ...item, status: newStatus } : item
-        )
-      );
-    }
+  const handleStatusChange = (id, newStatus) => {
+    // TODO: axios.post()
+    console.log(`${id} was ${newStatus}`);
+    post('/api/limbo', {
+            post : id,
+            status : newStatus
+        }).then((res) => 
+            console.log(res)
+        ).catch((err) =>
+            console.log(err.response)
+        );
+
+    setPosts( // Some more graphic updates to visually confirm status change
+        posts.map((item) => 
+            item._id === id ? {...item, status: newStatus} : item
+        ));
   };
 
-    /* Saves updated item as new resource */
-  const handleSaveResource = (updatedResource) => {
-    setResources(
-      resources.map((item) =>
-        item.id === updatedResource.id ? updatedResource : item
-      )
-    );
-    setEditResource(null); /* clears state of modifier function in tuple. 
-    ??? Only here to reset editResource to null? */
-  };
+  const handleSave = (updatedPost) => {
+    let edits = {};
+    Object.entries(updatedPost).forEach(([key, val]) => {
+            if (key !== "_id") edits[key] = val;
+        });
+    post('/api/limbo', {
+            post : updatedPost._id,
+            edits : edits
+        }).then((res) => {
+                console.log(res)
+            }).catch((err) =>
+                console.log(err.response)
+            );
 
-    /* Saves updated item as new advice */
-  const handleSaveAdvice = (updatedAdvice) => {
-    setAdvice(
-      advice.map((item) =>
-        item.id === updatedAdvice.id ? updatedAdvice : item
+    setPosts( // I think this updates the existing posts displayed on screen
+    /* If page pulls from DB, and posts update pretty much every time the 
+     * modal opens/closes, is this necessary? */
+      posts.map((item) =>
+        item.id === updatedPost.id ? updatedPost : item
       )
+        
     );
-    setEditAdvice(null);
+    setEditPosts(null);
   };
 
   return (
     <div className="admin-dashboard">
       <h1 className="dashboard-title">Admin Dashboard</h1>
 
-      <div className="dashboard-stats">
+      {msg !== null ?
+        (<div><h1>{msg}</h1></div>) : 
+      (<div className="dashboard-stats">
         {/* Calls stat card for both Resources and Advice to show pending 
         entries */}
-        <StatCard title="Total Resources" value={resources.length} />
-        <StatCard title="Total Advice Posts" value={advice.length} />
-      </div>
+        {/* NOTE: Is a reasonable alternative to displaying pending psots */}
+        { activeTab === "resource" && (
+        <StatCard title="Pending posts:" value={posts.length} /> )}
+        { activeTab === "advice" && (
+        <StatCard title="Pending posts:" value={posts.length} /> )}
+      </div>)}
 
-      <div className="dashboard-tabs">
+      {msg === null &&
+      (<div className="dashboard-tabs">
         {/* Calls TabButton to distingish showing resources/advice based on 
         what a user picks */}
+
         <TabButton
           label="Resources"
-          isActive={activeTab === "resources"}
-          onClick={() => setActiveTab("resources")} /* calls setActiveTab to 
+          isActive={activeTab === "resource"}
+          onClick={() => setActiveTab("resource")} /* calls setActiveTab to 
           show resources posts to set as active */
         />
         <TabButton
@@ -84,56 +113,35 @@ function AdminDashboard() {
           onClick={() => setActiveTab("advice")} /* Sets advice as activeTab to
           show advice posts */
         />
-      </div>
+      </div>)}
 
-      <div className="dashboard-content">
-        {activeTab === "resources" && (
+      {msg === null &&
+      (<div className="dashboard-content">
           <ResourceTable /* calls ResourceTable */
-            resources={resources} /* Passes Resources array to ResourceTable */
-            /* ???
-             * So, by using the state modifier function as well as the id and 
-             * status of a post, we can define the function behavior that can 
-             * be then passed to ResourceTable */
+            resources={posts} /* Passes Resources array to ResourceTable */
             onStatusChange={(id, status) =>
-              handleStatusChange(id, status, true) /* passes handleStatusChange 
-              as function with args entry id, entry status, and confirming that
-              its a resource */
+              handleStatusChange(id, status)
             }
-            /* guessing the same as above goes for onEdit here too */
-            onEdit={setEditResource} /* passes setEditResource as function for 
+            onEdit={setEditPosts} /* passes setEditResource as function for 
             onEdit */
           />
-        )}
-        {activeTab === "advice" && (
-          <AdviceTable
-            advice={advice} /* Passes advice array to AdviceTable */
-            onStatusChange={(id, status) =>
-              handleStatusChange(id, status, false) /* like assignment on 
-              ResourceTable, but with false to say its not a resource */
-            }
-            onEdit={setEditAdvice} /* Passes setEditAdvice as function for
-            onEdit */
-          />
-        )}
-      </div>
+      </div>)}
 
-      {editResource && ( /* when true, launch editResourceModal */
-        <EditResourceModal
-          resource={editResource} /* Passing editResource state variable here 
-          as resource to modify */
-          onSave={handleSaveResource} /* passing defined arrow func as behavior
-          for onSave */
-          onClose={() => setEditResource(null)} /* passing setEditResource 
-          state modifier with null arg as onClose behavior */
-        />
-      )}
-
-      {editAdvice && ( /* when true, launch EditAdviceModal */
+      {editPost && (
+        /* when true, launch EditAdviceModal when advice tab is active */
+            (activeTab === "advice" &&
         <EditAdviceModal
-          advice={editAdvice}
-          onSave={handleSaveAdvice}
-          onClose={() => setEditAdvice(null)}
-        />
+          advice={editPost}
+          onSave={handleSave}
+          onClose={() => setEditPosts(null)}
+        />)
+        // Or select EditResourceModal if resoruce tab is active
+            || (activeTab === 'resource' &&
+        <EditResourceModal 
+            resource={editPost}
+            onSave={handleSave}
+            onClose={() => setEditPosts(null)}
+            />)
       )}
     </div>
   );

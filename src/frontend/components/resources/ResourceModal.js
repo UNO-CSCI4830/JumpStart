@@ -7,7 +7,7 @@ const ResourceModal = ({
   isOpen,
   onClose,
   onSubmit,
-  newResource,
+  submission,
   handleInputChange,
   categories = [],
 }) => {
@@ -16,7 +16,7 @@ const ResourceModal = ({
    * isOpen: boolean determining form state
    * onClose: function determining form behavior when closed
    * onSubmit: function determining form behavior when submit button is clicked
-   * newResource: resource object to be updated with contents of form
+   * submission: resource object to be updated with contents of form
    * handleInputChange: function determining form behavior when form inputs change
    * categories: Array of categories for user to choose from
    */
@@ -36,13 +36,13 @@ const ResourceModal = ({
           {" "}
           {/* calls onSubmit */}
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="uploader">Email:</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={newResource.email} /* assigns value to a property of 
-              newResource */
+              type="uploader"
+              id="uploader"
+              name="uploader"
+              value={submission.uploader} /* assigns value to a property of 
+              submission */
               onChange={handleInputChange} /* calls handleInputChange */
               required
             />
@@ -54,7 +54,7 @@ const ResourceModal = ({
               type="text"
               id="title"
               name="title"
-              value={newResource.title}
+              value={submission.title}
               onChange={handleInputChange}
               required
             />
@@ -65,7 +65,7 @@ const ResourceModal = ({
             <textarea
               id="description"
               name="description"
-              value={newResource.description}
+              value={submission.description}
               onChange={handleInputChange}
               required
             />
@@ -77,7 +77,7 @@ const ResourceModal = ({
               type="url"
               id="link"
               name="link"
-              value={newResource.link}
+              value={submission.link}
               onChange={handleInputChange}
               required
             />
@@ -88,7 +88,7 @@ const ResourceModal = ({
             <select
               id="category"
               name="category"
-              value={newResource.category}
+              value={submission.category}
               onChange={handleInputChange}
               required
             >

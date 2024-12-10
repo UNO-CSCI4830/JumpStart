@@ -2,51 +2,109 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/advice/AdviceSidebar";
 import Content from "../advice/AdviceContent";
 import AdviceShareModal from "../advice/AdviceShareModal";
-import { advicePosts } from "../../utils/advicePosts";
 import "../../styles/Content.css";
+import { get, post } from "axios";
 
-/* Builds page for displaying advice */
+/*
+ * NOTE:
+ * OrderBy functionality has currently broke, and I'm not sure why...
+ *
+ * FIXME: Throws a runtime error when server shuts down when posts have been loaded!
+ *  - Figure out more!
+ *
+ * TODO:
+ * - axios.post() to have AdviceShareModal push to LimboDB
+ */
 export default function Advice() {
-  /* state tuples */
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filteredPosts, setFilteredPosts] = useState(advicePosts);
+  const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
+  const [msg, setMsg] = useState(null);
 
+  var date = new Date(Date.now());
+  const [submission, setSubmission] = useState({
+    type: "advice",
+    uploadDate: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+    uploader: "",
+    title: "",
+    anon : "anon",
+    tags : [],
+    description: "",
+    likes: 0,
+  });
+
+  // Pull from DB based on Filter
   useEffect(() => {
-    /* ??? No variable to handle arrow func off of, but I'm
-    guessing this sorts posts on page based off "order" bar */
-    let newPosts = [...advicePosts]; /* ??? re-assig arr of doc objects to 
-    newPosts */
+    let filter = activeTag === "All" ? {} : { tag: activeTag };
+    filter["sort"] = sortCriteria; // NOTE: I *think* sort works now!
+    // FIXME: BUT liked values STILL DON'T CHANGE
+    filter["process"] = true; // Tell GET handler to process upload date to be nicer
 
-    // Apply filter
-    if (activeTag !== "All") {
-      newPosts = newPosts.filter((post) => post.tag === activeTag);
-    }
-
-    // Apply sort
-    switch (sortCriteria /* default sortCriteria = mostRecent */) {
-      case "mostRecent":
-        newPosts.sort((a, b) => {
-          const timeA = parseTimeAgo(a.timeAgo);
-          const timeB = parseTimeAgo(b.timeAgo);
-          return timeB - timeA;
-        });
-        break;
-      case "mostLiked":
-        newPosts.sort((a, b) => b.likes - a.likes);
-        break;
-      case "mostHearted":
-        newPosts.sort((a, b) => b.hearts - a.hearts);
-        break;
-      default:
-        break;
-    }
-
-    setFilteredPosts(newPosts); /* updates filteredPosts to the re-sorted 
-    newPosts */
+    // Query posts from DB
+    get("/api/advice", {
+      params: filter,
+    })
+      .then((res) => {
+        setPosts([...res.data.payload]);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        setMsg(`Couldn't load data. Status ${err.response.status}`);
+      });
   }, [activeTag, sortCriteria]); /* Define activeTag and sortCriteria so it can
   be used in the arrow func */
+
+  console.log(posts);
+
+  const handleSubmit = (e) => {
+    /* upon submit event, update resources array 
+  with new entry */
+    e.preventDefault(); /* ??? ensure that an empty form isn't added */
+    // setResources([...resources, { ...submission, _id }]);
+    setIsModalOpen(false); /* Modal state is now false */
+
+    // send submission over POST
+    post("/api/limbo", submission)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+
+    /* submission is now set, with blank elements */
+    setSubmission({
+      uploader: "",
+      title: "",
+      anon : true,
+      description: "",
+      category: "",
+    });
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target; /* Field names for form */
+    /* Determine which data to update */
+    /* I moved conditional from AdviceShareModal out here, mirroring ResourceModal */
+    // FIXME: Tag gets selected and is received by server, but it doesn't register visually
+    // FIXME: Apparently tag gets uploaded as String as opposed to Array of Strings
+    if (type === "checkbox") {
+      /* type "checkbox", so update tags */
+      setSubmission((prev) => ({
+        ...prev,
+        tags: checked
+          ? [...prev.tags, value]
+          : prev.tags.filter((tag) => tag !== value),
+      }));
+    } else {
+      /* They're not updating a tag */
+      setSubmission((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
 
   // TODO: Add to db pipeline
   const parseTimeAgo = (timeAgo) => {
@@ -72,6 +130,29 @@ export default function Advice() {
     }
   };
 
+  const handleLike = (id) => {
+    // Increment the likes for the post with the given id
+
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === id ? { ...post, likes: post.likes + 1 } : post
+          )
+        );
+
+        let likes = 0;
+        posts.forEach((post) => {
+            if (post._id === id) likes += post.likes
+        });
+
+        post('/api/advice', {
+            post : id,
+            edits : { likes : likes + 1}
+        }).then((res) => console.log(res)
+        ).catch((err) => console.log(err.response));
+
+        
+  };
+
   return (
     <div className="advice-container">
       <Sidebar /* Call Sidebar */
@@ -81,16 +162,37 @@ export default function Advice() {
         tag */
         activeTag={activeTag} /* Pass in current active tag */
       />
-      <Content /* Call Content */
-        posts={filteredPosts} /* pass in filteredPsts to Content to display 
-        using AdviceCard */
-        onSortChange={setSortCriteria} /* pass in state changer for 
-        sortCriteria  */
-        currentSort={sortCriteria} /* Pass in current sortCriteria */
-      />
+      {msg !== null ? (
+        <div>
+          <h1>{msg}</h1>
+        </div>
+      ) : (
+        <Content /* Call Content */
+          posts={posts} /* pass in filteredPsts to Content to display 
+            using AdviceCard */
+          onSortChange={setSortCriteria} /* pass in state changer for 
+            sortCriteria  */
+          currentSort={sortCriteria} /* Pass in current sortCriteria */
+          // NOTE:
+          // Changes made in the AdviceContent component:
+          // 1. The 'onLike' function is now passed down to each AdviceCard,
+          //    allowing for the likes to be incremented directly from the card.
+          // 2. The mapping of posts to AdviceCard components now includes
+          //    all necessary props, ensuring that the UI reflects the current state.
+          // 3. Removed any local state management for likes in AdviceCard,
+          //    relying on the parent component to manage the state.
+
+          onLike={handleLike} // Pass the handleLike function
+        />
+      )}
       {isModalOpen /* if True, open submit form. Resets to false when form
       is closed */ && (
-        <AdviceShareModal onClose={() => setIsModalOpen(false)} />
+        <AdviceShareModal
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          submission={submission}
+          handleInputChange={handleInputChange}
+        />
       )}
     </div>
   );
