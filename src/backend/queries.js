@@ -1,7 +1,7 @@
 const Router = require('express');
 const {Instance, pullReq, postReq} = require ('./utils');
 const bcrypt = require('bcrypt');
-const sgMail = require('@sendgrid/mail'); // Import SendGrid
+const sgMail = require('@sendgrid/mail');
 
 require('dotenv').config(); // for sendgrid API key in .env file
 
