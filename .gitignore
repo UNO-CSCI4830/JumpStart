@@ -4,3 +4,4 @@ TODO.txt
 node_modules/
 *.json
 WorkNotes*.txt
+*/.env
