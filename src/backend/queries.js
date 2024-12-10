@@ -62,9 +62,6 @@ router.post('/register', async (req, res) => {
 
     await new Promise(r => setTimeout(r, 50));
 
-    console.log(`Receptionist: Result from searching existing Users DB`);
-    console.log(user);
-
     // Save or update the user in the database
     if (!user) { // User doesn't exist, save!
             console.log("Receptionist: No user found. Creating new entry in Users.users");
@@ -74,7 +71,6 @@ router.post('/register', async (req, res) => {
                 verificationCodeExpiry : expiry
             }]);
     } else {
-        console.log("Receptionist: User located, expecting pending verification.");
       let edits = { // set user verification credentials to pending
           verificationCode : verificationCode,
           verificationCodeExpiry : expiry,
@@ -102,7 +98,6 @@ router.post('/register', async (req, res) => {
 
 // Verify Code Route (for verifying the email using the code)
 router.post('/verify-code', async (req, res) => {
-    console.log("Receptionist: POST request recieved for verify-code");
   const { email, verificationCode } = req.body;
 
   if (!email || !verificationCode) {
@@ -121,7 +116,7 @@ router.post('/verify-code', async (req, res) => {
     }
 
     // Check if verification code matches and is not expired
-    if (user.verificationCode !== verificationCode || Date.now() > user.verificationCodeExpiry) {
+    if (user.verificationCode !== parseInt(verificationCode) || Date.now() > user.verificationCodeExpiry) {
       return res.status(400).json({ message: 'Invalid or expired verification code.' });
     }
 

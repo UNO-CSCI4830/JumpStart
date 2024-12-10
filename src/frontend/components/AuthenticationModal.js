@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "../styles/AuthenticationModal.css";
-import {post} from 'axios';
 
 export default function AuthenticationModal({ onClose, onVerification }) {
   const [email, setEmail] = useState("");
@@ -22,7 +21,11 @@ export default function AuthenticationModal({ onClose, onVerification }) {
     setLoading(true);
     setErrorMessage(""); // Reset error message
     try {
-      const response = await post("/api/register", { email });
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
@@ -43,12 +46,11 @@ export default function AuthenticationModal({ onClose, onVerification }) {
     setLoading(true);
     setErrorMessage(""); // Reset error message
     try {
-      const response = await post("/api/verify-code", {
-        email,
-        verificationCode
+      const response = await fetch("/api/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, verificationCode }),
       });
-
-      console.log(response);
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
