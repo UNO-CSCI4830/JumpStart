@@ -2,6 +2,9 @@ const Router = require('express');
 const {Instance, pullReq, postReq} = require ('./utils');
 const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail'); // Import SendGrid
+
+require('dotenv').config(); // for sendgrid API key in .env file
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // const User = require('./models/User'); // Ensure you have the User model
 const router = Router();
@@ -39,8 +42,10 @@ router.post('/limbo', async(req, res) => {
 
 /* ========== # User verification and registry # ========== */
 
+const users = new Instance("Users", "users");
 // Register Route (for sending verification code)
-router.post('/api/register', async (req, res) => {
+router.post('/register', async (req, res) => {
+    console.log("Receptionist: POST request received for register");
   const { email } = req.body;
 
   if (!email || !email.endsWith('@unomaha.edu')) {
@@ -51,15 +56,31 @@ router.post('/api/register', async (req, res) => {
     const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit code
     const expiry = Date.now() + 3600000; // Set expiry to 1 hour from now
 
+    let user;
+    await users.read({email : email});
+    if (users.getPayload().length === 1) user = users.getPayload()[0];
+
+    await new Promise(r => setTimeout(r, 50));
+
+    console.log(`Receptionist: Result from searching existing Users DB`);
+    console.log(user);
+
     // Save or update the user in the database
-    let user = await User.findOne({ email });
-    if (!user) {
-      user = new User({ email, verificationCode, verificationCodeExpiry: expiry });
+    if (!user) { // User doesn't exist, save!
+            console.log("Receptionist: No user found. Creating new entry in Users.users");
+            await users.write([{ 
+                email : email,
+                verificationCode : verificationCode,
+                verificationCodeExpiry : expiry
+            }]);
     } else {
-      user.verificationCode = verificationCode;
-      user.verificationCodeExpiry = expiry;
+        console.log("Receptionist: User located, expecting pending verification.");
+      let edits = { // set user verification credentials to pending
+          verificationCode : verificationCode,
+          verificationCodeExpiry : expiry,
+      }
+      await users.edit(user._id, edits); // Edit user DB entry to reflect
     }
-    await user.save();  // Make sure the user is saved successfully
 
     // Send the email with the verification code
     const msg = {
@@ -80,7 +101,8 @@ router.post('/api/register', async (req, res) => {
 });
 
 // Verify Code Route (for verifying the email using the code)
-router.post('/api/verify-code', async (req, res) => {
+router.post('/verify-code', async (req, res) => {
+    console.log("Receptionist: POST request recieved for verify-code");
   const { email, verificationCode } = req.body;
 
   if (!email || !verificationCode) {
@@ -88,7 +110,12 @@ router.post('/api/verify-code', async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email });
+    let user;
+    await users.read({email : email});
+    if (users.getPayload().length === 1) user = users.getPayload()[0];
+
+    await new Promise(r => setTimeout(r, 50));
+
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
@@ -99,10 +126,13 @@ router.post('/api/verify-code', async (req, res) => {
     }
 
     // Mark the user as verified
-    user.isVerified = true;
-    user.verificationCode = undefined; // Clear the verification code
-    user.verificationCodeExpiry = undefined; // Clear the expiry time
-    await user.save();
+    let edits = { // Set user verification values to confirmed
+        isVerified : true,
+        verificationCode : null, // Clear the verification code
+        verificationCodeExpiry : null, // Clear the expiry time
+    }
+
+    await users.edit(user._id, edits); // Update user entry in database via users.edit()
 
     res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
   } catch (error) {

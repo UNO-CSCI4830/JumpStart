@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/AuthenticationModal.css";
+import {post} from 'axios';
 
 export default function AuthenticationModal({ onClose, onVerification }) {
   const [email, setEmail] = useState("");
@@ -19,18 +20,9 @@ export default function AuthenticationModal({ onClose, onVerification }) {
       return;
     }
     setLoading(true);
-<<<<<<< HEAD
-    try { // TODO: Conver to Axios POST
-      const response = await fetch("/api/send-verification-code", {
-=======
     setErrorMessage(""); // Reset error message
-    try { // TODO: Convert to Axios POST
-      const response = await fetch("/api/register", {
->>>>>>> Yolvin
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+    try {
+      const response = await post("/api/register", { email });
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
@@ -49,17 +41,14 @@ export default function AuthenticationModal({ onClose, onVerification }) {
   const handleVerificationSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-<<<<<<< HEAD
-    try { // TODO: Convert to Axios POST
-=======
     setErrorMessage(""); // Reset error message
     try {
->>>>>>> Yolvin
-      const response = await fetch("/api/verify-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, verificationCode }),
+      const response = await post("/api/verify-code", {
+        email,
+        verificationCode
       });
+
+      console.log(response);
 
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);

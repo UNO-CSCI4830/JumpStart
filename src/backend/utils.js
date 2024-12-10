@@ -54,7 +54,7 @@ class Instance{
 
     async read(params = {}, projs = [], sort = {}, group) {
         // NOTE: Blindly finds data
-        // NOTE: group doesn't do shit rn!
+        // NOTE: group is functionally worthless
         this.reset();
         let pipeline = [{$match : params}];
         if (projs.length > 0) pipeline.push({$unset : projs});
@@ -65,8 +65,6 @@ class Instance{
             const coll = await this.connect();
             const cursor = await coll.aggregate(pipeline);
             this.payload = await cursor.toArray();
-
-            console.log(`Instance: Posts pulled with aggregate!!`);
 
         } catch (e) {
             this.errorStack = e;
@@ -85,6 +83,7 @@ class Instance{
          *  wtimeout: (int) representing timelimit on waiting for prev 2 confirms in ms 
          */
         // NOTE: Blindly inserts data
+        // NOTE: concern is functionally worthless
         if (Object.entries(concern).length > 0) console.log("Get rekt");
         this.reset();
 
@@ -102,7 +101,8 @@ class Instance{
             console.log(`Instance: ${this.payload[0].insertedCount} Posts inserted!`);
         } catch (e) {
             this.errorStack = e;
-            console.error(`Instance: An error occured when pushing posts to DB:\n${e}`);
+            console.log(e);
+            console.error(`Instance: An error occured when pushing posts to DB`);
         } finally {
             this.client.close();
         }

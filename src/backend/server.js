@@ -1,6 +1,8 @@
 // Import required packages
 const express = require('express');
 const cors = require("cors");
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize Express
 const app = express();
@@ -22,4 +24,4 @@ app.use(function(req, res, next) {
     console.log(`Server: User attempted to access ${req.url}`);
 });
 
-module.exports = {app};
+module.exports = {server, app};
