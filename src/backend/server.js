@@ -25,7 +25,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/api', queries)
 
-<<<<<<< HEAD
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/Jumpstart', {
   useNewUrlParser: true,
@@ -111,16 +110,6 @@ app.post('/api/verify-code', async (req, res) => {
 // Start the server
 app.listen(3001, () => {
   console.log('Server started on http://localhost:3001');
-=======
-const server = app.listen(PORT, () => {
-    console.log(`Server: Server started on ${PORT}`)
-});
-
-// middleware to catch non-existing routes
-app.use(function(req, res, next) {
-    res.status(404).json({message: "Error 404: Not found"});
-    console.log(`Server: User attempted to access ${req.url}`);
->>>>>>> seth
 });
 
 module.exports = {server,app};
