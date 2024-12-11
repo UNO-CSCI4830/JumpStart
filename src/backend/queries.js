@@ -29,7 +29,12 @@ router.post("/limbo", async (req, res) => {
   console.log("Receptionist: POST request for received");
   postReq(limbo, req, res);
   // TODO: conditional for edit and delete as well!
-  // - dunno whether to use session credentials, or header info
+});
+// - dunno whether to use session credentials, or header info
+router.post("/limbo", async (req, res) => {
+  console.log("Receptionist: POST request for received");
+  console.log(req.body);
+  postReq(limbo, req, res);
 });
 
 /* ========== # User verification and registry # ========== */
@@ -74,21 +79,17 @@ router.post("/register", async (instance, req, res) => {
     // Send email and handle errors
     await sgMail.send(msg).then(
       () => {
-        res
-          .status(200)
-          .json({
-            message:
-              "Verification code sent successfully. Please check your email.",
-          });
+        res.status(200).json({
+          message:
+            "Verification code sent successfully. Please check your email.",
+        });
       },
       (error) => {
         console.error("Error sending email:", error);
-        res
-          .status(500)
-          .json({
-            message: "Error sending verification code",
-            error: error.response.body,
-          });
+        res.status(500).json({
+          message: "Error sending verification code",
+          error: error.response.body,
+        });
       }
     );
   } catch (error) {

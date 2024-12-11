@@ -52,14 +52,21 @@ class Instance{
         return await this.client.db(this.dbName).collection(this.collName);
     }
 
-    async pull(params = {}, projs = {}, sort = {}) {
-        // NOTE: Blindly searches data
+    async read(params = {}, projs = [], sort = {}, group) {
+        // NOTE: Blindly finds data
+        // NOTE: group doesn't do shit rn!
         this.reset();
+        let pipeline = [{$match : params}];
+        if (projs.length > 0) pipeline.push({$unset : projs});
+        if (Object.entries(sort).length > 0) pipeline.push({$sort : sort});
+        if (group !== undefined) console.log("Get Prankd!"); 
+
         try {
             const coll = await this.connect();
-            const cursor = coll.find(params).project(projs).sort(sort); // since cursors reference objects...
-            console.log(`Instance: Posts pulled!`);
-            this.payload = await cursor.toArray(); // and we want to make sure we get all objects
+            const cursor = await coll.aggregate(pipeline);
+            this.payload = await cursor.toArray();
+
+            console.log(`Instance: Posts pulled with aggregate!!`);
 
         } catch (e) {
             this.errorStack = e;
@@ -69,7 +76,7 @@ class Instance{
         }
     }
 
-    async push(data, concern = {}) {
+    async write(data, concern = {}) {
         /*
          * data = array of objects to be inserted
          * concern = object where we can define "write concern" {w, j, wtimeout}
@@ -78,7 +85,9 @@ class Instance{
          *  wtimeout: (int) representing timelimit on waiting for prev 2 confirms in ms 
          */
         // NOTE: Blindly inserts data
+        if (Object.entries(concern).length > 0) console.log("Get rekt");
         this.reset();
+
         try {
             if ((typeof(data) !== "object") || (typeof(concern) !== "object"))
                 throw TypeError("Instance: push(): arguments are of incorrect type");
@@ -113,10 +122,69 @@ class Instance{
         }
     }
 
-    async edit(){
-        // TODO: use db.collection.Modify
-        // TODO: if entry doesn't exist, throw
-        // TODO: 
+    async edit(target, edits){
+        // - Like Button Algorithm
+        //   Incraments likes on screen
+        //   Calls function that will POST to ObjectId and likes ++ to server
+        //   Server receives POST
+        //   ...
+        //   Profit!
+        this.reset();
+        try {
+            if (target === undefined || edits === undefined)
+                throw new Error("Undefined target or edits");
+
+            const coll = await this.connect();
+
+            console.log(`Instance: performing the following edits on ${target}:`);
+            console.log(edits);
+
+            this.payload = [await coll.replaceOne({_id : new ObjectId(target)}, edits)];
+
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured while modifying post in DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
+    }
+
+    async move(target) {
+        this.reset();
+        try {
+            if (target === undefined)
+                throw new Error("Undefined target identifier");
+
+            const coll = await this.connect();
+
+            // pulling post from limbo
+            var cursor = await coll.find({_id : new ObjectId(target)}).project({type : 1});
+            var post = await cursor.toArray();
+            post = post[0]; // I'm so fucking tired
+
+            // Perform the move
+                cursor = await coll.aggregate([
+                    {$match : {_id: post._id}},
+                    {$merge : {
+                        into: post.type === "resource" ? "resources" : post.type,
+                        on : "_id",
+                        whenNotMatched: "insert",
+                        whenMatched: 'fail'
+                        // Maybe an error if the object already exists
+                    }}
+                ]);
+
+                this.payload.push(await cursor.toArray());
+
+                // And now we delete the post from Limbo b/c apparently aggregate doesn't do so?
+                this.payload.push(await coll.deleteOne({_id : post._id}));
+
+        } catch (e) {
+            this.errorStack = e;
+            console.error(`Instance: An error occured while moving post in DB:\n${e}`);
+        } finally {
+            this.client.close();
+        }
     }
 
     // async retryOperation(operation) {
@@ -127,7 +195,7 @@ class Instance{
     //             attempt++;
     //             console.error(`Attempt ${attempt} failed: ${error.message}`);
     //             if (attemtp >= retries){
-    //                 throw new Error(`Operation failed after ${retries} attempts: ${error.message}`);
+    //                 throw new Error(`Operation failed aftedr ${retries} attempts: ${error.message}`);
     //             }
     //             console.log(`Retrying in ${delay}ms...`);
     //             await new Promise(res => setTimeout(res, delay)); //wait befor trying again
@@ -142,35 +210,54 @@ class Instance{
 }
 
 async function pullReq(instance, req, res) {
-    console.log(`Receptionist: Got the following search parameters: `);
+    console.log(`pullReq: Got the following search parameters: `);
     console.log(req.data);
 
     // Parsing incoming parameters object to construct query parameter
     const query = {}; // Defines parameters in which to pull data
-    const projs = {}; // Defines fields that will be sent to client
+    const projs = []; // Defines fields that will be sent to client
     const sort = {}; // Defines order in which to send to client
 
     // TODO: SANITIZE
     // TODO: Enable filtering of projs and sort! Only sorts for potential text indexing!!
     for (const[key, value] of Object.entries(req.query)) {
-        console.log(`\t${key}: ${value}`);
         if (key === "search") {
             query['$text'] = {$search:value};
-        } else query[key] = value;
+        } else if (key === "process" && value) {
+            console.log('pullReq: Request to process');
+        } else if (key === "sort") {
+            // console.log(`Sort by ${value}`);
+            switch (value) {
+              case "mostRecent":
+                console.log("Sorting by upload date!");
+                sort["timeAgo"] = 1;
+                break;
+
+              case "mostLiked":
+                console.log("Sorting by liked values");
+                sort["likes"] =  -1;
+                break;
+
+              default:
+                console.log("sort criteria unrecognized.");
+                break;
+            }
+
+        }else query[key] = value;
     }
 
     console.log("Constructed query:");
     console.log(query);
 
     // Passing query parameter to pull() method
-    await instance.pull(query, projs, sort);
+    await instance.read(query, projs, sort);
 
     if (instance.getErrorMsg() !== null) {
         res.status(500).json({ // Changed to handle other additonal sever errors
             message : "Failed retrieving posts :(",
             errMsg : instance.getErrorMsg()
         });
-        console.log("Receptionist: Error retrieving posts from DB.");
+        console.log("pullReq: Error retrieving posts from DB.");
     } else {
         res.json({
             message: "posts incoming!",
@@ -180,31 +267,52 @@ async function pullReq(instance, req, res) {
     }
 };
 
-// TODO: UNDER CONSTRUCTION
 async function postReq(instance, req, res) {
-    console.log(`Receptionist: Data received to add/modify: `);
-    console.log(req.data);
 
-    // TODO: Sanitize!!
-    res.json({message: "Data received!"});
+    if (Object.keys(req.body).includes("edits")) { /* Incoming data is an edit */
+        console.log("postReq: Incoming data is edits!");
 
-    return 0;
+        await instance.edit(req.body.post, req.body.edits);
 
-    // Passing data to push to DB
-    await instance.push(req.data);
+    } else if (Object.keys(req.body).includes('status')) { /* a post has been accepted or rejected */
+        console.log(`postReq: Incoming post ${req.body.post} was ${req.body.status}`);
+        if (req.body.status === "rejected") {
+            console.log(`Deleting object ${req.body.post}`);
+            await instance.del({_id : new ObjectId(req.body.post)});
 
+        } else if (req.body.status === "approved") {
+            // TODO: instance.move()
+            console.log(`Moving object ${req.body.post}!`);
+            await instance.move(req.body.post);
+        }
+
+    } else { /* Incoming data is a new post */
+        // NOTE: THIS FUNCTION HAS NOT BEEN CONFIRMED TO PERFORM INPUT SANITATION
+        // TODO: SANITIZE!
+        let entry = {};
+        Object.entries(req.body).forEach(([key,value]) => {
+            entry[key] = value;
+        });
+
+        entry["status"] = "pending";
+
+        // Passing data to push to DB
+        await instance.write([entry]);
+    }
+
+    /* constructing response */
     if (instance.getErrorMsg() !== null) {
         res.status(500).json({ // Changed to handle other additonal sever errors
-            message : "Failed retrieving posts :(",
+            message : "Failed writing posts :(",
             errMsg : instance.getErrorMsg()
         });
-        console.log("Receptionist: Error retrieving posts from DB.");
+        console.log("postReq: Error writing posts to Limbo.");
     } else {
         res.json({
-            message: "posts incoming!",
+            message: "posts written!",
             payload: instance.getPayload()
         });
-        console.log(`Server: ${instance.getPayload().length} posts successfully sent to client.`);
+        console.log(`Server: ${instance.getPayload()[0].insertedCount} posts successfully written to DB.`);
     }
 }
 
