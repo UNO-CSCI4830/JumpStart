@@ -6,12 +6,6 @@ import ResourceList from "../../components/resources/ResourceList";
 import CategoryButton from "../../components/resources/CategoryButton";
 
 import {get, post} from 'axios';
-
-/*
- * TODO:
- * -axios.post() for ResourceModal to push to LimboDB
- */
-
 const categories = [ /* array for categories */
   "Academic",
   "Financial Aid",
@@ -63,8 +57,7 @@ const ResourcePage = () => {
 
   const handleSubmit = (e) => { /* upon submit event, update resources array 
   with new entry */
-    e.preventDefault(); /* ??? ensure that an empty form isn't added */
-    // setResources([...resources, { ...submission, _id }]);
+    e.preventDefault();
     setIsModalOpen(false); /* Modal state is now false */
 
     // send submission over POST
@@ -95,7 +88,6 @@ const ResourcePage = () => {
       </p>
 
       <SearchBar 
-        // NOTE: Might be good to turn into a form, or at least reduce server calls FE state change
         searchTerm={searchTerm} /* searchTerm state variable */
         onSearchChange={(e) => setSearchTerm(e.target.value)} /* state changer 
         to update searchTerm to entered string, given an event that occurs */
@@ -109,7 +101,6 @@ const ResourcePage = () => {
             category={category} /* ...and category again as category */
             isActive={activeTag === category} /* truthy boolean determining 
             if the category is active */
-            // TODO: So this is how you can pass in specific state-changers to a generic function
             onClick={() => setActiveTag(category)} /* state changer to 
             assign new category if button is clicked */
           />

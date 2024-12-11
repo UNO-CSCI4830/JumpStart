@@ -1,10 +1,9 @@
 const Router = require('express');
 const { Instance, pullReq, postReq } = require('./utils');
 const bcrypt = require('bcrypt');
-const sgMail = require('@sendgrid/mail'); // Import SendGrid
+const sgMail = require('@sendgrid/mail');
 
-require('dotenv').config(); // for SendGrid API key in .env file
-
+require('dotenv').config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const router = Router();
@@ -63,7 +62,7 @@ router.post('/register', async (req, res) => {
 
     try {
         const verificationCode = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit code
-        const expiry = Date.now() + 3600000; // Set expiry to 1 hour from now
+        const expiry = Date.now() + 600000; // Set expiry to 10 mins from now
 
         let user;
         await users.read({ email: email });

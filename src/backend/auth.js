@@ -1,4 +1,4 @@
-const users = new Instance("Users", "users");  // Assuming you're using the 'Instance' from your `queries.js`
+const users = new Instance("Users", "users");
 
 // Middleware to check if the user is authenticated (i.e., verified)
 function isAuthenticated(req, res, next) {

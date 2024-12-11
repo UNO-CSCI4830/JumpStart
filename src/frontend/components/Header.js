@@ -1,17 +1,17 @@
 import "../styles/Layout.css";
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import logoImage from "../images/uno_O.png";
 import AuthenticationModal from "./AuthenticationModal";
 import AdviceShareModal from "./advice/AdviceShareModal";
+import { useAuth } from "../context/AuthContext"; 
 
 export default function Header() {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [username, setUsername] = useState(null);
-  const [userRole, setUserRole] = useState(null);
-  const [isVerified, setIsVerified] = useState(false);
-  const [isAdviceModalOpen, setIsAdviceModalOpen] = useState(false);
-  const [submission, setSubmission] = useState({
+  const { isVerified, setIsVerified, username, setUsername } = useAuth();
+  const [isModalOpen, setModalOpen] = React.useState(false);
+  const [userRole, setUserRole] = React.useState(null);
+  const [isAdviceModalOpen, setIsAdviceModalOpen] = React.useState(false);
+  const [submission, setSubmission] = React.useState({
     uploader: "",
     title: "",
     anon: "anon",
@@ -20,30 +20,27 @@ export default function Header() {
   });
 
   const adminEmails = [
-    'yaguirre-duran',
-    'elijahgnuse',
-    'sjohnson154',
-    'fmerino',
-    'jocelynhorn',
-    'ojimenez-gonzalez',
+    "yaguirre-duran",
+    "elijahgnuse",
+    "sjohnson154",
+    "fmerino",
+    "jocelynhorn",
+    "ojimenez-gonzalez",
   ];
 
-  useEffect(() => {
-    console.log("Rendering Header - State:", { username, userRole, isVerified });
+  React.useEffect(() => {
     if (username) {
-      // Check if the logged-in username is in the adminEmails list
       if (adminEmails.includes(username)) {
         setUserRole("admin");
-        setIsVerified(true);
       } else {
         setUserRole("user");
-        setIsVerified(true);
       }
     }
   }, [username]);
 
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
+
   const handleVerification = (username) => {
     setUsername(username);
     setIsVerified(true);
@@ -59,7 +56,6 @@ export default function Header() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting advice:", submission);
     setSubmission({
       uploader: "",
       title: "",
@@ -72,8 +68,8 @@ export default function Header() {
 
   const handleLogout = () => {
     setUsername(null);
-    setUserRole(null);
     setIsVerified(false);
+    setUserRole(null);
   };
 
   return (
@@ -87,12 +83,7 @@ export default function Header() {
           <Link to="/events">Events</Link>
           <Link to="/connect">Connect</Link>
 
-          {/* Admin tab visibility based on user role */}
-          {userRole === "admin" && isVerified && (
-            <>
-              <Link to="/admin">Admin</Link>
-            </>
-          )}
+          {userRole === "admin" && isVerified && <Link to="/admin">Admin</Link>}
         </div>
 
         <div className="nav-right">
@@ -106,12 +97,6 @@ export default function Header() {
           ) : (
             <button className="btn btn-primary" onClick={handleOpenModal}>
               Sign in
-            </button>
-          )}
-          {/* Share Advice button visibility based on verification */}
-          {(userRole === "user" || userRole === "admin") && isVerified && (
-            <button className="btn btn-primary" onClick={handleOpenAdviceModal}>
-              Share Advice
             </button>
           )}
         </div>

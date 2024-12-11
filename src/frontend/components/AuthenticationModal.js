@@ -4,7 +4,7 @@ import "../styles/AuthenticationModal.css";
 export default function AuthenticationModal({ onClose, onVerification }) {
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
-  const [step, setStep] = useState("email"); // Step 1: email input
+  const [step, setStep] = useState("email");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 

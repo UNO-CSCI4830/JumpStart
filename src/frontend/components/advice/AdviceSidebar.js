@@ -1,13 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-/* The list on the left of the page
- * enables posts filtering based off the post's tags
- */
-export default function AdviceSidebar({
-  onFilterChange, // Function to handle tag filter changes
-  activeTag, // Current active filter tag
-}) {
+export default function AdviceSidebar({ onShareClick, onFilterChange, activeTag }) {
+  const { isVerified } = useAuth();
+
   const tags = [
     "All",
     "Study tips",
@@ -27,6 +24,8 @@ export default function AdviceSidebar({
     "Networking",
   ];
 
+  console.log({ isVerified });
+
   return (
     <aside>
       <h2>Filter</h2>
@@ -43,6 +42,13 @@ export default function AdviceSidebar({
           </li>
         ))}
       </ul>
+
+      {/* Conditionally render the Share Advice button based on isVerified */}
+      {isVerified && (
+        <button className="btn btn-primary btn-block" onClick={onShareClick}>
+          Share Advice
+        </button>
+      )}
     </aside>
   );
 }
