@@ -7,12 +7,13 @@ import { get, post } from "axios";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Advice() {
-  const { isVerified } = useAuth();
+  const { isVerified, username } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [activeTag, setActiveTag] = useState("All");
   const [sortCriteria, setSortCriteria] = useState("mostRecent");
   const [msg, setMsg] = useState(null);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   var date = new Date(Date.now());
   const [submission, setSubmission] = useState({
@@ -26,7 +27,7 @@ export default function Advice() {
     likes: 0,
   });
 
-  // Fetch posts based on active tag and sort criteria
+  // Fetch posts from the backend
   useEffect(() => {
     let filter = activeTag === "All" ? {} : { tag: activeTag };
     filter["sort"] = sortCriteria;
@@ -35,6 +36,26 @@ export default function Advice() {
       .then((res) => setPosts(res.data.payload))
       .catch((err) => setMsg(`Couldn't load data. Status ${err.response.status}`));
   }, [activeTag, sortCriteria]);
+
+  // Handle like functionality
+  const handleLike = (id) => {
+    if (!likedPosts.includes(id)) {  // If the post hasn't been liked by this user
+      setLikedPosts([...likedPosts, id]);  // Add post id to the likedPosts array
+
+      // Increment the likes for the post with the given id
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === id ? { ...post, likes: post.likes + 1 } : post
+        )
+      );
+
+      // Update likes on the server
+      post("/api/advice", {
+        post: id,
+        edits: { likes: posts.find((post) => post._id === id).likes + 1 },
+      }).then((res) => console.log(res)).catch((err) => console.log(err.response));
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +82,19 @@ export default function Advice() {
         activeTag={activeTag}
         isVerified={isVerified}
       />
-      {msg ? <h1>{msg}</h1> : <Content posts={posts} onSortChange={setSortCriteria} currentSort={sortCriteria} />}
+      {msg ? (
+        <div>
+          <h1>{msg}</h1>
+        </div>
+      ) : (
+        <Content
+          posts={posts}
+          onSortChange={setSortCriteria}
+          currentSort={sortCriteria}
+          onLike={handleLike}
+          likedPosts={likedPosts} 
+        />
+      )}
       {isModalOpen && (
         <AdviceShareModal
           onClose={() => setIsModalOpen(false)}

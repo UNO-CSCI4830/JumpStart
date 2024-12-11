@@ -1,7 +1,8 @@
 // Import required packages
 const express = require('express');
 const cors = require("cors");
-require('dotenv').config(); // Ensure environment variables are loaded
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 // Initialize Express
 const app = express();
