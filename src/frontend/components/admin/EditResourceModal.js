@@ -71,11 +71,11 @@ function EditResourceModal({ resource, onSave, onClose }) {
             ))}
           </select>
         </label>
-        <div class="form-actions">
-          <button class="btn-save" onClick={() => onSave(editedResource)}>
+        <div className="form-actions">
+          <button className="btn-save" onClick={() => onSave(editedResource)}>
             Save Changes
           </button>
-          <button class="btn-cancel" onClick={onClose}>
+          <button className="btn-cancel" onClick={onClose}>
             Cancel
           </button>
         </div>

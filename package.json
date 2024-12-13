@@ -5,7 +5,6 @@
   "dependencies": {
     "@sendgrid/mail": "^8.1.4",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
@@ -45,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/react": "^16.1.0",
     "@types/jest": "^29.5.14",
     "assert": "^2.1.0",
     "buffer": "^6.0.3",
@@ -60,9 +60,8 @@
     "url": "^0.11.4"
   },
   "proxy": "http://localhost:3001",
-
-  "jest":{
-    "moduleNameMapper":{
+  "jest": {
+    "moduleNameMapper": {
       "\\.css$": "identity-obj-proxy"
     },
     "testEnvironment": "jsdom"

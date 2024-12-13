@@ -58,13 +58,13 @@ function EditAdviceModal({ advice, onSave, onClose }) {
           />
         </label>
         {/* Action buttons */}
-        <div class="form-actions">
-          <button class="btn-save" onClick={() => onSave(editedAdvice)}>
+        <div className="form-actions">
+          <button className="btn-save" onClick={() => onSave(editedAdvice)}>
             {/* button event calls onSave function with edited data arg */}
             {/* TODO: update existing entry data */}
             Save Changes
           </button>
-          <button class="btn-cancel" onClick={onClose}>
+          <button className="btn-cancel" onClick={onClose}>
             Cancel
           </button>
         </div>
